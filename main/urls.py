@@ -13,4 +13,6 @@ urlpatterns = [
     # path('restaurant/<int:pk>/menu/', views.MenuList.as_view(), name='menu_list'),    
     path('menu/create/<int:pk>/', views.MenuCreate.as_view(), name='menu_create'),  
     path('menu/<int:pk>/', views.MenuDetail.as_view(), name="menu_detail"),
+    path('menu/<int:pk>/update', views.MenuUpdate.as_view(), name="menu_update")
+    
 ]

@@ -25,11 +25,12 @@
       <button><a href="{% url 'menu_create' restaurant.id %}">Add A Menu</a></button>
       {% endif %}
     </div>
-
-{% for menu in restaurant.menu_set.all %}
-<a href="{% url 'menu_detail' menu.id %}" class="links">
-  <div class="card">
-    <div class="card-content">
+    
+    {% for menu in restaurant.menu_set.all %}
+    <a href="{% url 'menu_detail' menu.id %}" class="links">
+      <div class="card">
+        <div class="card-content">
+            <button><a href="{% url 'menu_update' menu.id %}">Edit Menu</a></button>
       <span class="card-title">menu: {{ menu.name }} </span>
       
 

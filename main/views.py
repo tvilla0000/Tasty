@@ -109,3 +109,18 @@ class MenuDetail(LoginRequiredMixin, DetailView):
     model = Menu
     context_object_name = 'menu'
     template_name = 'menu/menu_detail.html'
+
+
+class MenuUpdate(LoginRequiredMixin, UpdateView):
+    model = Menu
+    context_object_name = 'menu'
+    template_name = 'menu/menu_form.html'
+    fields = ['name', 'description']
+
+    def get_success_url(self):
+        menu = Menu.objects.get(pk=self.kwargs['pk'])
+        restaurant = Menu.restaurant 
+        user = restaurant.user
+        return reverse('profile', kwargs={'pk': user.id})
+
+
