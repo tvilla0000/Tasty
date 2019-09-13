@@ -104,3 +104,8 @@ class MenuCreate(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         restaurant = Restaurant.objects.get(pk=self.kwargs['pk'])
         return reverse('restaurant_detail', kwargs={'pk': restaurant.id})
+
+class MenuDetail(LoginRequiredMixin, DetailView):
+    model = Menu
+    context_object_name = 'menu'
+    template_name = 'menu/menu_detail.html'

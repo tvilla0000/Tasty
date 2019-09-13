@@ -27,12 +27,17 @@
     </div>
 
 {% for menu in restaurant.menu_set.all %}
+<a href="{% url 'menu_detail' menu.id %}" class="links">
   <div class="card">
     <div class="card-content">
-      <span class="card-title">menu: {{ menu.name }}</span>
+      <span class="card-title">menu: {{ menu.name }} </span>
+      
+
+
+      
     </div>
-  </a>
-</div>
+  </div>
+</a>
 {% endfor %}
 
 
