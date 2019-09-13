@@ -8,7 +8,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse
 import uuid
 import boto3
-from .models import Restaurant, Menu, Photo
+from .models import Restaurant, Menu, Category, Photo
 
 S3_BASE_URL = 'https://s3-us-west-1.amazonaws.com/'
 BUCKET = 'navbar2121'
@@ -108,6 +108,57 @@ class MenuCreate(LoginRequiredMixin, CreateView):
         restaurant = Restaurant.objects.get(pk=self.kwargs['pk'])
         return reverse('restaurant_detail', kwargs={'pk': restaurant.id})
 
+
+class MenuDetail(DetailView):
+    model = Menu
+    context_object_name = 'menu'
+    template_name = 'menu/menu_detail.html'
+
+
+class MenuUpdate(LoginRequiredMixin, UpdateView):
+    model = Menu
+    context_object_name = 'menu'
+    template_name = 'menu/menu_form.html'
+    fields = ['name', 'description']
+
+    def get_success_url(self):
+        menu = Menu.objects.get(pk=self.kwargs['pk'])
+        restaurant = menu.restaurant
+        return reverse('restaurant_detail', kwargs={'pk': restaurant.id})
+
+
+class MenuDelete(LoginRequiredMixin, DeleteView):
+    model = Menu
+    context_object_name = 'menu'
+    template_name = "menu/menu_confirm_delete.html"
+
+    def get_success_url(self):
+        menu = Menu.objects.get(pk=self.kwargs['pk'])
+        restaurant = menu.restaurant
+        return reverse('restaurant_detail', kwargs={'pk': restaurant.id})
+
+    def get_context_data(self, **kwargs):
+        menu = Menu.objects.get(pk=self.kwargs['pk'])
+        restaurant = menu.restaurant
+        context = super().get_context_data(**kwargs)
+        context['restaurant'] = restaurant
+        return context
+
+class CategoryCreate(CreateView):
+    model = Category 
+    fields = ['name']
+    template_name = 'categories/category_form.html'
+
+    def form_valid(self, form):
+        Menu = Menu.objects.get(pk=self.kwargs['pk'])        
+        form.instance.Menu = menu 
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+        menu = Menu.objects.get(pk=self.kwargs['pk'])
+        return reverse('menu_detail', kwargs={'pk': menu.id})
+
+
 def add_photo(request, food_id):
     photo_file = request.FILES.get('photo-file', None)
     if photo_file:
@@ -120,5 +171,4 @@ def add_photo(request, food_id):
           photo.save()
         except:
           print('An error occurred uploading file to S3')
-    return redirect('MENU DETAIL?', food_id=food_id)
-
+    return redirect('menu_detail', food_id=food_id)

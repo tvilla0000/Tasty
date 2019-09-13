@@ -1,0 +1,15 @@
+{% extends 'main/base.html' %}
+{% block content %}
+<h1>{{ menu.name }}</h1>  
+{% if user.is_authenticated %}
+<a href=" {% url 'category_create' menu.id %}">Add Category</a>
+{% endif %}
+
+{% for photo in food.photo_set.all %}
+  <img class="responsive-img card-panel" src="{{photo.url}}">
+{% empty %}
+  <div class="card-panel teal-text center-align">No Photos Uploaded</div>
+{% endfor %}
+
+
+{% endblock %}

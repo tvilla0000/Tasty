@@ -10,7 +10,10 @@ urlpatterns = [
     path('restaurant/create/', views.RestaurantCreate.as_view(), name='restaurant_create'),
     path('restaurant/<int:pk>/update/', views.RestaurantUpdate.as_view(), name='restaurant_update'),
     path('restaurant/<int:pk>/delete/', views.RestaurantDelete.as_view(), name='restaurant_delete'),
-    # path('restaurant/<int:pk>/menu/', views.MenuList.as_view(), name='menu_list'),    
-    path('menu/create/<int:pk>/', views.MenuCreate.as_view(), name='menu_create'),    
-    path('NEED PATH/add_photo/', views.add_photo, name='add_photo'),
+    path('menu/create/<int:pk>/', views.MenuCreate.as_view(), name='menu_create'),  
+    path('menu/<int:pk>/', views.MenuDetail.as_view(), name="menu_detail"),
+    path('menu/<int:pk>/update', views.MenuUpdate.as_view(), name="menu_update"),
+    path('menu/<int:pk>/delete', views.MenuDelete.as_view(), name="menu_delete"),
+    path('category/create/<int:pk>/', views.CategoryCreate.as_view(), name="category_create")
+    # path('food/<int:food_id>/add_photo/', views.add_photo, name='add_photo'),
 ]

@@ -25,20 +25,24 @@
       <button><a href="{% url 'menu_create' restaurant.id %}">Add A Menu</a></button>
       {% endif %}
     </div>
+    
+    {% for menu in restaurant.menu_set.all %}
+    <a href="{% url 'menu_detail' menu.id %}" class="links">
+      <div class="card">
+        <div class="card-content">
+          <span class="card-title"> {{ menu.name }} </span>
+          {% if user.is_authenticated %}
+          <button><a href="{% url 'menu_update' menu.id %}">Edit Menu</a></button>
+          <button><a href="{% url 'menu_delete' menu.id %}">Delete Menu</a></button>
+          {% endif %}
 
-{% for menu in restaurant.menu_set.all %}
-  <div class="card">
-    <div class="card-content">
-      <span class="card-title">menu: {{ menu.name }}</span>
+      
+
+
+      
     </div>
-  </a>
-</div>
-{% endfor %}
-
-{% for photo in food.photo_set.all %}
-  <img class="responsive-img card-panel" src="{{photo.url}}">
-{% empty %}
-  <div class="card-panel teal-text center-align">No Photos Uploaded</div>
+  </div>
+</a>
 {% endfor %}
 
 {% endblock %}
