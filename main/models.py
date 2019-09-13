@@ -40,3 +40,11 @@ class Food(models.Model):
     
     def __str__(self):
         return f'food name - {self.name}'
+    
+class Photo(models.Model):
+    name = models.CharField(max_length=200, blank=False)    
+    url = models.CharField(max_length=200)
+    food = models.ForeignKey(Food, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return f"Photo for food_id: {self.food_id} @{self.url}"
