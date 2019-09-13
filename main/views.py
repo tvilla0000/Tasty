@@ -5,6 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
+from django.urls import reverse
 from .models import Restaurant
 
 
@@ -71,3 +72,11 @@ class RestaurantUpdate(LoginRequiredMixin, UpdateView):
     fields = ['name', 'address', 'phone', 'zipcode', 'description']
     template_name = 'restaurant/restaurant_form.html'
     
+class RestaurantDelete(LoginRequiredMixin, DeleteView):
+    model = Restaurant
+    template_name = 'restaurant/restaurant_confirm_delete.html'
+    
+    def get_success_url(self):
+        restaurant = Restaurant.objects.get(pk=self.kwargs['pk'])
+        user = restaurant.user
+        return reverse('profile', kwargs={'pk': user.id})

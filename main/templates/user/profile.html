@@ -16,6 +16,7 @@
     <a href="{% url 'restaurant_detail' r.id %}">
         {{ r.name }} 
         <button><a href="{% url 'restaurant_update' r.id %}">Edit</a></button>
+        <button><a href="{% url 'restaurant_delete' r.id %}">Delete</a></button>
         <br>
     </a>
     {% empty %}
