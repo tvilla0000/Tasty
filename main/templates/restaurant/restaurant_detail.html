@@ -15,9 +15,25 @@
           <button><a href="{% url 'restaurant_update' restaurant.id %}">Edit</a></button>
           {% endif %}
         </div>
-      </a>
   </div>
 
+  <br>
+  <hr>
+
+    <div class="card-content">
+      {% if user.is_authenticated %}
+      <button><a href="{% url 'menu_create' restaurant.id %}">Add A Menu</a></button>
+      {% endif %}
+    </div>
+
+{% for menu in restaurant.menu_set.all %}
+  <div class="card">
+    <div class="card-content">
+      <span class="card-title">menu: {{ menu.name }}</span>
+    </div>
+  </a>
+</div>
+{% endfor %}
 
 
 {% endblock %}

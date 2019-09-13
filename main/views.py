@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse
-from .models import Restaurant
+from .models import Restaurant, Menu
 
 
 
@@ -85,3 +85,22 @@ class RestaurantDelete(LoginRequiredMixin, DeleteView):
         restaurant = Restaurant.objects.get(pk=self.kwargs['pk'])
         user = restaurant.user
         return reverse('profile', kwargs={'pk': user.id})
+    
+# class MenuList(ListView):
+#     model = Restaurant
+#     template_name = 'restaurant/restaurant_list.html'
+#     context_object_name = 'restaurants'
+    
+class MenuCreate(LoginRequiredMixin, CreateView):
+    model = Menu
+    fields = ['name', 'description']
+    template_name = 'menu/menu_form.html'
+
+    def form_valid(self, form):
+        restaurant = Restaurant.objects.get(pk=self.kwargs['pk'])        
+        form.instance.restaurant = restaurant
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+        restaurant = Restaurant.objects.get(pk=self.kwargs['pk'])
+        return reverse('restaurant_detail', kwargs={'pk': restaurant.id})
