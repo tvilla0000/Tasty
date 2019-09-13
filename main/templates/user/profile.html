@@ -1,26 +1,32 @@
 {% extends 'main/base.html' %}
 {% block content %}
 
-<h1>Profile</h1>
+<h1>My Profile</h1>
 
 <!-- user info -->
 <div>
-    {{ user.username }}
+    <h2 style="color: teal">#{{ user.username }}</h2>
 </div>
 
 <!-- user restaurants list -->
-<button><a href="{% url 'restaurant_create' %}">Add A Restaurant</a></button>
 
-<div>
-    {% for r in restaurants %}
-    <a href="{% url 'restaurant_detail' r.id %}">
-        {{ r.name }} 
-        <button><a href="{% url 'restaurant_update' r.id %}">Edit</a></button>
-        <button><a href="{% url 'restaurant_delete' r.id %}">Delete</a></button>
+
+{% for r in restaurants %}
+<div class="card" style="background-color: gray">
+    <div class="card-content">
+      
+      <a href="{% url 'restaurant_detail' r.id %}">
+        <h4 style="color: rgb(255, 255, 255)">{{ r.name }} </h4>
+        <button ><a href="{% url 'restaurant_update' r.id %}" style="color: black">Edit</a></button>
+        <button><a href="{% url 'restaurant_delete' r.id %}" style="color: black">Delete</a></button>
         <br>
-    </a>
-    {% empty %}
-        <span>No Restaurants yet!!</span>
-    {% endfor %}
-</div>
+      </a>
+      
+    </div>
+  </div>
+  {% empty %}
+  <span>No Restaurants yet!!</span>
+  {% endfor %}
+  
+  
 {% endblock %}

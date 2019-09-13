@@ -2,7 +2,7 @@
 {% block content %}
 <h1>{{ menu.name }}</h1>  
 {% if user.is_authenticated %}
-<a href=" {% url 'category_create' menu.id %}">Add Category</a>
+<h5><a href=" {% url 'category_create' menu.id %}">Add Category</a></h5>
 {% endif %}
 
 
