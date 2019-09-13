@@ -48,3 +48,4 @@ class Photo(models.Model):
     
     def __str__(self):
         return f"Photo for food_id: {self.food_id} @{self.url}"
+
