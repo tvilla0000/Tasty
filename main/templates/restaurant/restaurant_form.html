@@ -14,4 +14,19 @@
     </table>
     <input type="submit" value="Submit!" class="btn">
   </form>
+  <!-- waiting for category food page to be set up so I can add submit photo button -->
+  <form action="{% url 'add_photo' food.id %}" enctype="multipart/form-data" method="POST" class="card-panel">
+    {% csrf_token %}
+    <input type="file" name="photo-file">
+    <br><br>
+    <input type="submit" class="btn" value="Upload Photo">
+  </form>
+
+  
+
+
+
+
+
+  
 {% endblock %}
