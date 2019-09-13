@@ -5,5 +5,17 @@
 <h5><a href=" {% url 'category_create' menu.id %}">Add Category</a></h5>
 {% endif %}
 
-
+{% for category in menu.category_set.all %}
+  
+      <div class="card">
+        <div class="card-content">
+          <span class="card-title"> {{ category.name }} </span>
+          {% if user.is_authenticated %}
+          <button><a href="{% url 'menu_update' category.id %}">Edit Menu</a></button>
+          <button><a href="{% url 'menu_delete' category.id %}">Delete Menu</a></button>
+          {% endif %}
+    </div>
+  </div>
+</a>
+{% endfor %}
 {% endblock %}

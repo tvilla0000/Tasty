@@ -28,7 +28,7 @@
     </div><br>
     
     {% for menu in restaurant.menu_set.all %}
-    <a href="{% url 'menu_detail' menu.id %}" class="links">
+    <a href="{% url 'menu_detail' menu.id %}">
       <div class="card">
         <div class="card-content">
           <span class="card-title"> {{ menu.name }} </span>
@@ -36,11 +36,6 @@
           <button><a href="{% url 'menu_update' menu.id %}">Edit Menu</a></button>
           <button><a href="{% url 'menu_delete' menu.id %}">Delete Menu</a></button>
           {% endif %}
-
-      
-
-
-      
     </div>
   </div>
 </a>
