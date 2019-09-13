@@ -8,7 +8,7 @@ class Restaurant(models.Model):
     address = models.TextField(blank=False)
     phone = models.TextField(blank=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    description = models.TextField(blank=True, default='')
+    description = models.TextField(max_length=500, blank=True, default='')
     zipcode = models.IntegerField(blank=False)
     
     def __str__(self):
@@ -17,5 +17,10 @@ class Restaurant(models.Model):
     def get_absolute_url(self):
         return reverse('restaurant_detail', kwargs={'pk':self.id})
 
+class Menu(models.Model):
+    name = models.CharField(max_length=200, blank=False)
+    description = models.TextField(max_length=500, blank=True, default='')
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
 
-    
+    def __str__(self):
+        return f'menu name - {self.name}'
