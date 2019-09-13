@@ -11,8 +11,8 @@
         <div class="card-content">
           <span class="card-title"> {{ category.name }} </span>
           {% if user.is_authenticated %}
-          <button><a href="{% url 'menu_update' category.id %}">Edit Menu</a></button>
-          <button><a href="{% url 'menu_delete' category.id %}">Delete Menu</a></button>
+          <button><a href="{% url 'category_update' category.id menu.id %}">Edit Category</a></button>
+          <button><a href="{% url 'category_delete' category.id menu.id %}">Delete Category</a></button>
           {% endif %}
     </div>
   </div>

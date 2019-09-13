@@ -157,9 +157,24 @@ class CategoryCreate(CreateView):
 class CategoryUpdate(UpdateView):
     model = Category
     context_object_name = 'category'
-    template_name = 'categories/category_update.html'
+    template_name = 'categories/category_form.html'
     fields = ['name']
 
     def get_success_url(self):
-        menu = Menu.objects.get(pk=self.kwargs['pk'])
+        menu = Menu.objects.get(pk=self.kwargs['fk'])
         return reverse('menu_detail', kwargs={'pk': menu.id})
+
+class CategoryDelete(DeleteView):
+    model = Category
+    context_object_name = 'category'
+    template_name = 'categories/category_confirm_delete.html'
+
+    def get_success_url(self):
+        menu = Menu.objects.get(pk=self.kwargs['fk'])
+        return reverse('menu_detail', kwargs={'pk': menu.id})
+
+    def get_context_data(self, **kwargs):
+        menu = Menu.objects.get(pk=self.kwargs['fk'])
+        context = super().get_context_data(**kwargs)
+        context['menu'] = menu
+        return context
