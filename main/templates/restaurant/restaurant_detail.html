@@ -30,8 +30,12 @@
     <a href="{% url 'menu_detail' menu.id %}" class="links">
       <div class="card">
         <div class="card-content">
-            <button><a href="{% url 'menu_update' menu.id %}">Edit Menu</a></button>
-      <span class="card-title">menu: {{ menu.name }} </span>
+          <span class="card-title">menu: {{ menu.name }} </span>
+          {% if user.is_authenticated %}
+          <button><a href="{% url 'menu_update' menu.id %}">Edit Menu</a></button>
+          <button><a href="{% url 'menu_delete' menu.id %}">Delete Menu</a></button>
+          {% endif %}
+
       
 
 

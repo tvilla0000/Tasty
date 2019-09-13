@@ -105,7 +105,7 @@ class MenuCreate(LoginRequiredMixin, CreateView):
         restaurant = Restaurant.objects.get(pk=self.kwargs['pk'])
         return reverse('restaurant_detail', kwargs={'pk': restaurant.id})
 
-class MenuDetail(LoginRequiredMixin, DetailView):
+class MenuDetail(DetailView):
     model = Menu
     context_object_name = 'menu'
     template_name = 'menu/menu_detail.html'
@@ -121,4 +121,22 @@ class MenuUpdate(LoginRequiredMixin, UpdateView):
         menu = Menu.objects.get(pk=self.kwargs['pk'])
         restaurant = menu.restaurant
         return reverse('restaurant_detail', kwargs={'pk': restaurant.id})
+
+
+class MenuDelete(LoginRequiredMixin, DeleteView):
+    model = Menu
+    context_object_name = 'menu'
+    template_name = "menu/menu_confirm_delete.html"
+
+    def get_success_url(self):
+        menu = Menu.objects.get(pk=self.kwargs['pk'])
+        restaurant = menu.restaurant
+        return reverse('restaurant_detail', kwargs={'pk': restaurant.id})
+
+    def get_context_data(self, **kwargs):
+        menu = Menu.objects.get(pk=self.kwargs['pk'])
+        restaurant = menu.restaurant
+        context = super().get_context_data(**kwargs)
+        context['restaurant'] = restaurant
+        return context
 
