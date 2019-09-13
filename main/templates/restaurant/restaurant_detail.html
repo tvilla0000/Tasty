@@ -11,8 +11,13 @@
           <span class="card-title">description: {{ restaurant.description }}</span>
           <span class="card-title">zip code: {{ restaurant.zipcode }}</span>
           <span class="card-title">owner: {{ restaurant.user.username }}</span>
+          {% if user.is_authenticated %}
+          <button><a href="{% url 'restaurant_update' restaurant.id %}">Edit</a></button>
+          {% endif %}
         </div>
       </a>
   </div>
+
+
 
 {% endblock %}
