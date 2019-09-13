@@ -72,6 +72,11 @@ class RestaurantUpdate(LoginRequiredMixin, UpdateView):
     fields = ['name', 'address', 'phone', 'zipcode', 'description']
     template_name = 'restaurant/restaurant_form.html'
     
+    def get_success_url(self):
+        restaurant = Restaurant.objects.get(pk=self.kwargs['pk'])
+        user = restaurant.user
+        return reverse('profile', kwargs={'pk': user.id})
+    
 class RestaurantDelete(LoginRequiredMixin, DeleteView):
     model = Restaurant
     template_name = 'restaurant/restaurant_confirm_delete.html'
