@@ -31,3 +31,12 @@ class Category(models.Model):
     
     def __str__(self):
         return f'category name - {self.name}'
+
+class Food(models.Model):
+    name = models.CharField(max_length=200, blank=False)
+    price = models.FloatField(blank=False)
+    description = models.TextField(max_length=500, blank=True, default='')    
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return f'food name - {self.name}'
