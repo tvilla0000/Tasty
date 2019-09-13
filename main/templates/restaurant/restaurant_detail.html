@@ -21,10 +21,11 @@
   <hr>
 
     <div class="card-content">
+      <h1>Menus</h1>
       {% if user.is_authenticated %}
       <button><a href="{% url 'menu_create' restaurant.id %}">Add A Menu</a></button>
       {% endif %}
-    </div>
+    </div><br>
     
     {% for menu in restaurant.menu_set.all %}
     <a href="{% url 'menu_detail' menu.id %}" class="links">

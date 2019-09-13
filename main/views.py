@@ -146,10 +146,20 @@ class CategoryCreate(CreateView):
     template_name = 'categories/category_form.html'
 
     def form_valid(self, form):
-        Menu = Menu.objects.get(pk=self.kwargs['pk'])        
-        form.instance.Menu = menu 
+        menu = Menu.objects.get(pk=self.kwargs['pk'])        
+        form.instance.menu = menu 
         return super().form_valid(form)
     
+    def get_success_url(self):
+        menu = Menu.objects.get(pk=self.kwargs['pk'])
+        return reverse('menu_detail', kwargs={'pk': menu.id})
+
+class CategoryUpdate(UpdateView):
+    model = Category
+    context_object_name = 'category'
+    template_name = 'categories/category_update.html'
+    fields = ['name']
+
     def get_success_url(self):
         menu = Menu.objects.get(pk=self.kwargs['pk'])
         return reverse('menu_detail', kwargs={'pk': menu.id})

@@ -1,11 +1,11 @@
 {% extends 'main/base.html' %}
 {% block content %}
 
-<h1>My Profile</h1>
+<h1> My Profile</h1>
 
 <!-- user info -->
 <div>
-    <h2 style="color: teal">#{{ user.username }}</h2>
+    <h2 style="color: teal">@{{ user.username }}</h2>
 </div>
 
 <!-- user restaurants list -->
@@ -28,5 +28,5 @@
   <span>No Restaurants yet!!</span>
   {% endfor %}
   
-  
+  <button><a href="{% url 'restaurant_create' %}">Add A Restaurant</a></button>
 {% endblock %}
