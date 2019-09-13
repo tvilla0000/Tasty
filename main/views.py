@@ -120,5 +120,5 @@ def add_photo(request, food_id):
           photo.save()
         except:
           print('An error occurred uploading file to S3')
-    return redirect('restaurant_detail', food_id=food_id)
+    return redirect('MENU DETAIL?', food_id=food_id)
 
