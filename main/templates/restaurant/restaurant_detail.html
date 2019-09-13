@@ -1,0 +1,39 @@
+{% extends 'main/base.html' %}
+{% block content %}
+
+<h1>Restaurant Detail</h1>
+
+  <div class="card">
+        <div class="card-content">
+          <span class="card-title">name: {{ restaurant.name }}</span>
+          <span class="card-title">address: {{ restaurant.address }}</span>
+          <span class="card-title">phone: {{ restaurant.phone }}</span>
+          <span class="card-title">description: {{ restaurant.description }}</span>
+          <span class="card-title">zip code: {{ restaurant.zipcode }}</span>
+          <span class="card-title">owner: {{ restaurant.user.username }}</span>
+          {% if user.is_authenticated %}
+          <button><a href="{% url 'restaurant_update' restaurant.id %}">Edit</a></button>
+          {% endif %}
+        </div>
+  </div>
+
+  <br>
+  <hr>
+
+    <div class="card-content">
+      {% if user.is_authenticated %}
+      <button><a href="{% url 'menu_create' restaurant.id %}">Add A Menu</a></button>
+      {% endif %}
+    </div>
+
+{% for menu in restaurant.menu_set.all %}
+  <div class="card">
+    <div class="card-content">
+      <span class="card-title">menu: {{ menu.name }}</span>
+    </div>
+  </a>
+</div>
+{% endfor %}
+
+
+{% endblock %}
