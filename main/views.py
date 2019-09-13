@@ -66,3 +66,8 @@ class RestaurantCreate(LoginRequiredMixin, CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
+class RestaurantUpdate(LoginRequiredMixin, UpdateView):
+    model = Restaurant
+    fields = ['name', 'address', 'phone', 'zipcode', 'description']
+    template_name = 'restaurant/restaurant_form.html'
+    
