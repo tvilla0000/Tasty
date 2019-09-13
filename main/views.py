@@ -119,8 +119,6 @@ class MenuUpdate(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         menu = Menu.objects.get(pk=self.kwargs['pk'])
-        restaurant = Menu.restaurant 
-        user = restaurant.user
-        return reverse('profile', kwargs={'pk': user.id})
-
+        restaurant = menu.restaurant
+        return reverse('restaurant_detail', kwargs={'pk': restaurant.id})
 
