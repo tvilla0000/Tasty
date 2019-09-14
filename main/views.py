@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse
-from .models import Restaurant, Menu, Category
+from .models import Restaurant, Menu, Category, Food
 
 
 
@@ -108,6 +108,7 @@ class MenuDetail(DetailView):
     def get_context_data(self, **kwargs):
         menu = Menu.objects.get(pk=self.kwargs['pk'])
         restaurant = menu.restaurant
+        category = menu.category_set.all()
         context = super().get_context_data(**kwargs)
         context['restaurant'] = restaurant
         return context
@@ -180,3 +181,27 @@ class CategoryDelete(LoginRequiredMixin, DeleteView):
         context = super().get_context_data(**kwargs)
         context['menu'] = menu
         return context
+
+class FoodCreate(LoginRequiredMixin, CreateView):
+    model = Food 
+    fields = ['name', 'price', 'description']
+    template_name = 'food/food_form.html'
+
+    def form_valid(self, form):
+        category = Category.objects.get(pk=self.kwargs['pk'])        
+        form.instance.category = category 
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+        menu = Menu.objects.get(pk=self.kwargs['fk'])
+        return reverse('menu_detail', kwargs={'pk': menu.id})
+    
+class FoodUpdate(LoginRequiredMixin, UpdateView):
+    model = Food
+    context_object_name = 'food'
+    template_name = 'food/food_form.html'
+    fields = ['name', 'price', 'description']
+
+    def get_success_url(self):
+        menu = Menu.objects.get(pk=self.kwargs['fk'])
+        return reverse('menu_detail', kwargs={'pk': menu.id})
