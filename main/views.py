@@ -104,6 +104,13 @@ class MenuDetail(DetailView):
     model = Menu
     context_object_name = 'menu'
     template_name = 'menu/menu_detail.html'
+    
+    def get_context_data(self, **kwargs):
+        menu = Menu.objects.get(pk=self.kwargs['pk'])
+        restaurant = menu.restaurant
+        context = super().get_context_data(**kwargs)
+        context['restaurant'] = restaurant
+        return context
 
 
 class MenuUpdate(LoginRequiredMixin, UpdateView):
