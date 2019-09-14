@@ -1,6 +1,20 @@
 {% extends 'main/base.html' %}
 {% block content %}
+
+
+
+
+
+<div>
+  we also have these menus available:
+  {% for menu in menus %}
+    <a href="{% url 'menu_detail' menu.id %}">{{ menu.name }}</a>|
+  {% endfor %}
+</div>
+
 <h1>{{ menu.name }}</h1>  
+
+
 {% if request.user == restaurant.user %}
 <h5><a href=" {% url 'category_create' menu.id %}">Add Category</a></h5>
 {% endif %}
