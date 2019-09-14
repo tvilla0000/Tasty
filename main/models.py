@@ -10,6 +10,7 @@ class Restaurant(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     description = models.TextField(max_length=500, blank=True, default='')
     zipcode = models.IntegerField(blank=False)
+
     
     def __str__(self):
         return f'restaurant name - {self.name}'
