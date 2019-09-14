@@ -108,7 +108,6 @@ class MenuDetail(DetailView):
     def get_context_data(self, **kwargs):
         menu = Menu.objects.get(pk=self.kwargs['pk'])
         restaurant = menu.restaurant
-        category = menu.category_set.all()
         context = super().get_context_data(**kwargs)
         context['restaurant'] = restaurant
         return context
@@ -205,3 +204,18 @@ class FoodUpdate(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         menu = Menu.objects.get(pk=self.kwargs['fk'])
         return reverse('menu_detail', kwargs={'pk': menu.id})
+    
+class FoodDelete(LoginRequiredMixin, DeleteView):
+    model = Food
+    context_object_name = 'food'
+    template_name = 'food/food_confirm_delete.html'
+
+    def get_success_url(self):
+        menu = Menu.objects.get(pk=self.kwargs['fk'])
+        return reverse('menu_detail', kwargs={'pk': menu.id})
+
+    def get_context_data(self, **kwargs):
+        menu = Menu.objects.get(pk=self.kwargs['fk'])
+        context = super().get_context_data(**kwargs)
+        context['menu'] = menu
+        return context

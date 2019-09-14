@@ -23,6 +23,7 @@
               <span class="card-title" style="display: inline-block"><h3>food description: {{ f.description }}</h3></span>
               {% if request.user == restaurant.user %}
               <button><a href="{% url 'food_update' f.id menu.id %}">Edit Food</a></button>              
+              <button><a href="{% url 'food_delete' f.id menu.id %}">Delete Food</a></button>              
               {% endif %}
         </div>
       </div>
