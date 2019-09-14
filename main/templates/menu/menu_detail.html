@@ -5,14 +5,23 @@
 <h5><a href=" {% url 'category_create' menu.id %}">Add Category</a></h5>
 {% endif %}
 
+{% for category in menu.category_set.all %}
+  
+      <div class="card">
+        <div class="card-content">
+          <span class="card-title" style="display: inline-block"><h3>{{ category.name }}</h3></span>
+            
+          {% if user.is_authenticated %}
+          <button><a href="{% url 'category_update' category.id menu.id %}">Edit Category</a></button>
+          <button><a href="{% url 'category_delete' category.id menu.id %}">Delete Category</a></button>
+          {% endif %}
+    </div>
+  </div>
+</a>
+{% endfor %}
 {% for photo in food.photo_set.all %}
   <img class="responsive-img card-panel" src="{{photo.url}}">
 {% empty %}
   <div class="card-panel teal-text center-align">No Photos Uploaded</div>
 {% endfor %}
-
-
-
-
-
 {% endblock %}

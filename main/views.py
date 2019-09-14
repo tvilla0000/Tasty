@@ -150,14 +150,13 @@ class CategoryCreate(CreateView):
     template_name = 'categories/category_form.html'
 
     def form_valid(self, form):
-        Menu = Menu.objects.get(pk=self.kwargs['pk'])        
-        form.instance.Menu = menu 
+        menu = Menu.objects.get(pk=self.kwargs['pk'])        
+        form.instance.menu = menu 
         return super().form_valid(form)
     
     def get_success_url(self):
         menu = Menu.objects.get(pk=self.kwargs['pk'])
         return reverse('menu_detail', kwargs={'pk': menu.id})
-
 
 def add_photo(request, food_id):
     photo_file = request.FILES.get('photo-file', None)
@@ -172,3 +171,27 @@ def add_photo(request, food_id):
         except:
           print('An error occurred uploading file to S3')
     return redirect('menu_detail', food_id=food_id)
+class CategoryUpdate(UpdateView):
+    model = Category
+    context_object_name = 'category'
+    template_name = 'categories/category_form.html'
+    fields = ['name']
+
+    def get_success_url(self):
+        menu = Menu.objects.get(pk=self.kwargs['fk'])
+        return reverse('menu_detail', kwargs={'pk': menu.id})
+
+class CategoryDelete(DeleteView):
+    model = Category
+    context_object_name = 'category'
+    template_name = 'categories/category_confirm_delete.html'
+
+    def get_success_url(self):
+        menu = Menu.objects.get(pk=self.kwargs['fk'])
+        return reverse('menu_detail', kwargs={'pk': menu.id})
+
+    def get_context_data(self, **kwargs):
+        menu = Menu.objects.get(pk=self.kwargs['fk'])
+        context = super().get_context_data(**kwargs)
+        context['menu'] = menu
+        return context

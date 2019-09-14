@@ -14,6 +14,7 @@ urlpatterns = [
     path('menu/<int:pk>/', views.MenuDetail.as_view(), name="menu_detail"),
     path('menu/<int:pk>/update', views.MenuUpdate.as_view(), name="menu_update"),
     path('menu/<int:pk>/delete', views.MenuDelete.as_view(), name="menu_delete"),
-    path('category/create/<int:pk>/', views.CategoryCreate.as_view(), name="category_create")
-    # path('food/<int:food_id>/add_photo/', views.add_photo, name='add_photo'),
+    path('category/create/<int:pk>/', views.CategoryCreate.as_view(), name="category_create"),
+    path('category/<int:pk>/update/<int:fk>/', views.CategoryUpdate.as_view(), name="category_update"),
+    path('category/<int:pk>/delete/<int:fk>/', views.CategoryDelete.as_view(), name="category_delete")
 ]
