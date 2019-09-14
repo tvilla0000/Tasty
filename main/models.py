@@ -25,6 +25,9 @@ class Menu(models.Model):
     def __str__(self):
         return f'menu name - {self.name}'
     
+    def get_absolute_url(self):
+        return reverse('menu_detail', kwargs={'pk':self.id})
+
 class Category(models.Model):
     name = models.CharField(max_length=200, blank=False)
     menu = models.ForeignKey(Menu, on_delete=models.CASCADE)

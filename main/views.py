@@ -6,9 +6,12 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse
-from .models import Restaurant, Menu, Category, Food
+from .models import Restaurant, Menu, Category, Food, Photo
+import uuid
+import boto3
 
-
+S3_BASE_URL = 'https://s3-us-west-1.amazonaws.com/'
+BUCKET = 'fishcollector'
 
 # Create your views here.
 def home(request):
@@ -221,3 +224,20 @@ class FoodDelete(LoginRequiredMixin, DeleteView):
         context = super().get_context_data(**kwargs)
         context['menu'] = menu
         return context
+    
+def add_photo(request,f_id, menu_id):
+    photo_file = request.FILES.get('photo-file', None)
+    food = Food.objects.get(id=f_id)
+    menu = Menu.objects.get(id=menu_id)    
+    if photo_file:
+        s3 = boto3.client('s3')
+        key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+        try:
+            s3.upload_fileobj(photo_file, BUCKET, key)
+            url = f"{S3_BASE_URL}{BUCKET}/{key}"
+            name = food.name
+            photo = Photo(name=name, url=url, food_id=f_id)
+            photo.save()
+        except:
+            print('An error')
+    return redirect(menu)
