@@ -86,11 +86,6 @@ class RestaurantDelete(LoginRequiredMixin, DeleteView):
         user = restaurant.user
         return reverse('profile', kwargs={'pk': user.id})
     
-# class MenuList(ListView):
-#     model = Restaurant
-#     template_name = 'restaurant/restaurant_list.html'
-#     context_object_name = 'restaurants'
-    
 class MenuCreate(LoginRequiredMixin, CreateView):
     model = Menu
     fields = ['name', 'description']
@@ -140,7 +135,7 @@ class MenuDelete(LoginRequiredMixin, DeleteView):
         context['restaurant'] = restaurant
         return context
 
-class CategoryCreate(CreateView):
+class CategoryCreate(LoginRequiredMixin, CreateView):
     model = Category 
     fields = ['name']
     template_name = 'categories/category_form.html'
@@ -154,7 +149,7 @@ class CategoryCreate(CreateView):
         menu = Menu.objects.get(pk=self.kwargs['pk'])
         return reverse('menu_detail', kwargs={'pk': menu.id})
 
-class CategoryUpdate(UpdateView):
+class CategoryUpdate(LoginRequiredMixin, UpdateView):
     model = Category
     context_object_name = 'category'
     template_name = 'categories/category_form.html'
@@ -164,7 +159,7 @@ class CategoryUpdate(UpdateView):
         menu = Menu.objects.get(pk=self.kwargs['fk'])
         return reverse('menu_detail', kwargs={'pk': menu.id})
 
-class CategoryDelete(DeleteView):
+class CategoryDelete(LoginRequiredMixin, DeleteView):
     model = Category
     context_object_name = 'category'
     template_name = 'categories/category_confirm_delete.html'

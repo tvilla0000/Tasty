@@ -1,7 +1,7 @@
 {% extends 'main/base.html' %}
 {% block content %}
 <h1>{{ menu.name }}</h1>  
-{% if user.is_authenticated %}
+{% if request.user == restaurant.user %}
 <h5><a href=" {% url 'category_create' menu.id %}">Add Category</a></h5>
 {% endif %}
 
@@ -11,7 +11,7 @@
         <div class="card-content">
           <span class="card-title" style="display: inline-block"><h3>{{ category.name }}</h3></span>
             
-          {% if user.is_authenticated %}
+          {% if request.user == restaurant.user %}
           <button><a href="{% url 'category_update' category.id menu.id %}">Edit Category</a></button>
           <button><a href="{% url 'category_delete' category.id menu.id %}">Delete Category</a></button>
           {% endif %}
