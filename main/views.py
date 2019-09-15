@@ -241,3 +241,17 @@ def add_photo(request,f_id, menu_id):
         except:
             print('An error')
     return redirect(menu)
+
+def search(request):
+    content = request.GET.get('content')
+    option = request.GET.get('option')
+    error_msg = ''
+    if not content:
+        error_msg = 'Please type in search content'
+        return render(request, 'main/home.html', {'error_msg': error_msg})
+    if option == 'name':
+        restaurants = Restaurant.objects.filter(name__icontains=content)
+    elif option == 'zipcode':
+        restaurants = Restaurant.objects.filter(zipcode__icontains=content)
+    return render(request, 'restaurant/restaurant_list.html', {'error_msg': error_msg,
+                                               'restaurants': restaurants})
