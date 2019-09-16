@@ -34,12 +34,11 @@
             <div class="card-content">
               <span class="card-title" style="display: inline-block"><h2> {{ f.name }}</h2></span> 
               <span class="card-title" style="display: inline-block"><h3>${{ f.price }}</h3></span><br>
-              <span class="card-title" style="display: inline-block"><h3>food description: {{ f.description }}</h3></span>
               {% for photo in f.photo_set.all %}
-    <img class="responsive-img card-panel" src="{{photo.url}}">
-    {% empty %}
-    <div class="card-panel teal-text center-align">No Photos Uploaded</div>
+    <span style="display: inline-block"><img src="{{photo.url}}" style="border: 4px solid black; border-radius: 5px;max-width: 350px;max-height: 350px;"></span><br>
+    
     {% endfor %}
+              <span class="card-title" style="display: inline-block"><h3> {{ f.description }}</h3></span><br>
               {% if request.user == restaurant.user %}
               <button><a href="{% url 'food_update' f.id menu.id %}">Edit Food</a></button>              
               <button><a href="{% url 'food_delete' f.id menu.id %}">Delete Food</a></button>    
