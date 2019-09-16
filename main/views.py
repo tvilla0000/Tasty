@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse
-from .models import Restaurant, Menu, Category, Food, Photo
+from .models import Restaurant, Menu, Category, Food
 import uuid
 import boto3
 
@@ -225,7 +225,23 @@ class FoodDelete(LoginRequiredMixin, DeleteView):
         context['menu'] = menu
         return context
     
-def add_photo(request,f_id, menu_id):
+def add_menu_photo(request, menu_id, restaurant_id):
+    photo_file = request.FILES.get('photo-file', None)
+    menu = Menu.objects.get(id=menu_id)    
+    restaurant = Restaurant.objects.get(id=restaurant_id)    
+    if photo_file:
+        s3 = boto3.client('s3')
+        key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+        try:
+            s3.upload_fileobj(photo_file, BUCKET, key)
+            url = f"{S3_BASE_URL}{BUCKET}/{key}"
+            menu.menu_photo = url
+            menu.save()
+        except:
+            print('An error')
+    return redirect(restaurant)
+
+def add_food_photo(request,f_id, menu_id):
     photo_file = request.FILES.get('photo-file', None)
     food = Food.objects.get(id=f_id)
     menu = Menu.objects.get(id=menu_id)    
@@ -235,11 +251,24 @@ def add_photo(request,f_id, menu_id):
         try:
             s3.upload_fileobj(photo_file, BUCKET, key)
             url = f"{S3_BASE_URL}{BUCKET}/{key}"
-            name = food.name
-            photo = Photo(name=name, url=url, food_id=f_id)
-            photo.save()
+            food.food_photo = url
+            food.save()
         except:
             print('An error')
+    return redirect(menu)
+
+def delete_menu_photo(request, menu_id, restaurant_id):
+    menu = Menu.objects.get(id=menu_id)
+    restaurant = Restaurant.objects.get(id=restaurant_id)
+    menu.menu_photo ='https://s3-us-west-1.amazonaws.com/fishcollector/e5abd9.jpg'
+    menu.save()
+    return redirect(restaurant)
+
+def delete_food_photo(request, food_id, menu_id):
+    menu = Menu.objects.get(id=menu_id)
+    food = Food.objects.get(id=food_id)
+    food.food_photo ='https://s3-us-west-1.amazonaws.com/fishcollector/e5abd9.jpg'
+    food.save()
     return redirect(menu)
 
 def search(request):
@@ -252,6 +281,6 @@ def search(request):
     if option == 'name':
         restaurants = Restaurant.objects.filter(name__icontains=content)
     elif option == 'zipcode':
-        restaurants = Restaurant.objects.filter(zipcode__icontains=content)
+        restaurants = Restaurant.objects.filter(zipcode__exact=content)
     return render(request, 'restaurant/restaurant_list.html', {'error_msg': error_msg,
                                                'restaurants': restaurants})
