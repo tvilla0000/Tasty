@@ -29,10 +29,10 @@
     
     {% for menu in restaurant.menu_set.all %}
     <a href="{% url 'menu_detail' menu.id %}">
-      <div class="card">
-        <div class="card-content">
+      <div class="card" style="border: 4px solid black">
+        <div class="card-content" style="background-color: gray">
           <img class="responsive-img card-panel" style="max-height: 450px; max-width: 450px;" src="{{menu.menu_photo}}"><br>
-          <span class="card-title" style="display: inline-block"> <h2 style="color: black">{{ menu.name }}</h2> </span><br>
+          <span class="dropdown" style="display: inline-block"> <h2 style="color: white">{{ menu.name }}</h2> </span><br>
           {% if request.user == restaurant.user %}
           <button><a href="{% url 'menu_update' menu.id %}" style="color: black">Edit Menu</a></button>
           <button><a href="{% url 'menu_delete' menu.id %}" style="color: black">Delete Menu</a></button>
@@ -46,6 +46,8 @@
             </form>
         </div>     
           {% endif %}
+              
+            
   </div>
   </div>
 </a>

@@ -1,19 +1,19 @@
 {% extends 'main/base.html' %}
+{% load static %}
 
 {% block content %}
-<h1>Home Page</h1>
 
+<h1 style="display: inline-block">Home Page</h1>
+  <span><form method="get" action="{% url 'search' %}" id="search-form" style="float: right;margin: 50px -170px 0 0;background-color: rgba(88, 88, 88, 0.863); border: 2px solid white;padding: 10px;">
+      {% csrf_token %}
+      <input type="search" name="content" placeholder="Search by..." required>
+      <select name="option" form="search-form" required>
+          <option value="name" >name</option>
+          <option value="zipcode">zipcode</option>
+      </select>
+      <button type="submit">🔍 search</button>
+  </form></span>
 
-<h3>By name</h3>
-<form method="get" action="{% url 'search' %}" id="search-form">
-    {% csrf_token %}
-    <input type="search" name="content" placeholder="Search by..." required>
-    <select name="option" form="search-form" required>
-        <option value="name" selected>name</option>
-        <option value="zipcode">zipcode</option>
-    </select>
-    <button type="submit">button</button>
-</form>
-
+  
 
 {% endblock %}
