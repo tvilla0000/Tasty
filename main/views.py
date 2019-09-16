@@ -257,6 +257,20 @@ def add_food_photo(request,f_id, menu_id):
             print('An error')
     return redirect(menu)
 
+def delete_menu_photo(request, menu_id, restaurant_id):
+    menu = Menu.objects.get(id=menu_id)
+    restaurant = Restaurant.objects.get(id=restaurant_id)
+    menu.menu_photo ='https://s3-us-west-1.amazonaws.com/fishcollector/e5abd9.jpg'
+    menu.save()
+    return redirect(restaurant)
+
+def delete_food_photo(request, food_id, menu_id):
+    menu = Menu.objects.get(id=menu_id)
+    food = Food.objects.get(id=food_id)
+    food.food_photo ='https://s3-us-west-1.amazonaws.com/fishcollector/e5abd9.jpg'
+    food.save()
+    return redirect(menu)
+
 def search(request):
     content = request.GET.get('content')
     option = request.GET.get('option')

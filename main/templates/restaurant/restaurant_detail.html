@@ -36,6 +36,7 @@
           {% if request.user == restaurant.user %}
           <button><a href="{% url 'menu_update' menu.id %}">Edit Menu</a></button>
           <button><a href="{% url 'menu_delete' menu.id %}">Delete Menu</a></button>
+          <button><a href="{% url 'delete_menu_photo' menu.id restaurant.id %}">Delete picture</a></button>      
           <div>
             <form action="{% url 'add_menu_photo' menu.id restaurant.id %}" enctype="multipart/form-data" method="POST" class="card-panel">
               {% csrf_token %}
