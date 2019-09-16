@@ -12,6 +12,8 @@ import boto3
 
 S3_BASE_URL = 'https://s3-us-west-1.amazonaws.com/'
 BUCKET = 'namecollector'
+MAP_BASE_URL='https://www.google.com/maps/embed/v1/place?key=AIzaSyA5PFcm4YZ1KnBSQDyq-Eon2znBNuul95Q&'
+
 
 # Create your views here.
 def home(request):
@@ -60,6 +62,11 @@ class RestaurantDetail(DetailView):
     model = Restaurant
     context_object_name = 'restaurant'
     template_name = 'restaurant/restaurant_detail.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['map'] = MAP_BASE_URL
+        return context
     
 class RestaurantCreate(LoginRequiredMixin, CreateView):
     model = Restaurant
