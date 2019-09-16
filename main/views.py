@@ -252,6 +252,6 @@ def search(request):
     if option == 'name':
         restaurants = Restaurant.objects.filter(name__icontains=content)
     elif option == 'zipcode':
-        restaurants = Restaurant.objects.filter(zipcode__icontains=content)
+        restaurants = Restaurant.objects.filter(zipcode__exact=content)
     return render(request, 'restaurant/restaurant_list.html', {'error_msg': error_msg,
                                                'restaurants': restaurants})
