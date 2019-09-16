@@ -25,7 +25,8 @@ urlpatterns = [
     path('food/<int:pk>/update/<int:fk>/', views.FoodUpdate.as_view(), name='food_update'),          
     path('food/<int:pk>/delete/<int:fk>/', views.FoodDelete.as_view(), name='food_delete'),      
     
-    path('food/<int:f_id>/add_photo/<int:menu_id>/', views.add_photo, name='add_photo'),
+    path('menu/<int:menu_id>/add_menu_photo/<int:restaurant_id>/', views.add_menu_photo, name='add_menu_photo'),
+    path('food/<int:f_id>/add_food_photo/<int:menu_id>/', views.add_food_photo, name='add_food_photo'),
     
     path('search/', views.search, name='search'),
 ]

@@ -35,16 +35,12 @@
               <span class="card-title" style="display: inline-block"><h3>food name: {{ f.name }}</h3></span>
               <span class="card-title" style="display: inline-block"><h3>food price: {{ f.price }}</h3></span>
               <span class="card-title" style="display: inline-block"><h3>food description: {{ f.description }}</h3></span>
-              {% for photo in f.photo_set.all %}
-    <img class="responsive-img card-panel" src="{{photo.url}}">
-    {% empty %}
-    <div class="card-panel teal-text center-align">No Photos Uploaded</div>
-    {% endfor %}
+    <img class="responsive-img card-panel" src="{{f.food_photo}}">
               {% if request.user == restaurant.user %}
               <button><a href="{% url 'food_update' f.id menu.id %}">Edit Food</a></button>              
               <button><a href="{% url 'food_delete' f.id menu.id %}">Delete Food</a></button>    
               <div>
-                  <form action="{% url 'add_photo' f.id menu.id %}" enctype="multipart/form-data" method="POST" class="card-panel">
+                  <form action="{% url 'add_food_photo' f.id menu.id %}" enctype="multipart/form-data" method="POST" class="card-panel">
                     {% csrf_token %}
                     <input type="file" name="photo-file">
                     <br><br>
