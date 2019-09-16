@@ -16,8 +16,6 @@ BUCKET = 'namecollector'
 API_KEY = 'AIzaSyA5PFcm4YZ1KnBSQDyq-Eon2znBNuul95Q&'
 MAP_BASE_URL='https://www.google.com/maps/embed/v1/place?key='+API_KEY
 
-
-# Create your views here.
 def home(request):
     return render(
         request,
@@ -54,7 +52,6 @@ def signup(request):
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
     
-
 class RestaurantList(ListView):
     model = Restaurant
     template_name = 'restaurant/restaurant_list.html'
