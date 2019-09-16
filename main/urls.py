@@ -27,4 +27,5 @@ urlpatterns = [
     
     path('food/<int:f_id>/add_photo/<int:menu_id>/', views.add_photo, name='add_photo'),
     
+    path('search/', views.search, name='search'),
 ]
