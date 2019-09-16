@@ -11,6 +11,13 @@
 		<span class="card-title">description: {{ restaurant.description }}</span>
 		<span class="card-title">zip code: {{ restaurant.zipcode }}</span>
 		<span class="card-title">owner: {{ restaurant.user.username }}</span>
+		<div>
+			<!-- google map -->
+			<iframe width="300" height="225" frameborder="0" style="border:0" 
+			src="{{map}}q={{restaurant.address}}" 
+			allowfullscreen>
+			</iframe>
+		</div>
 		{% if request.user == restaurant.user %}
 		<button><a href="{% url 'restaurant_update' restaurant.id %}">Edit</a></button>
 		{% endif %}
@@ -35,13 +42,6 @@
 		<div class="card-content">
 			<img class="responsive-img card-panel" style="max-height: 450px; max-width: 450px;"
 				src="{{menu.menu_photo}}"><br>
-			<div>
-				<!-- google map -->
-				<iframe width="600" height="450" frameborder="0" style="border:0" 
-				src="{{map}}q=Space+Needle,Seattle+WA" 
-				allowfullscreen>
-				</iframe>
-			</div>
 			<span class="card-title" style="display: inline-block">
 				<h2 style="color: black">{{ menu.name }}</h2>
 			</span><br>
