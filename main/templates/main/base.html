@@ -40,35 +40,10 @@
         {% block content %}
         {% endblock %}
     </main>
-    <footer class="page-footer">
-        <div class="container">
-          <div class="row">
-            <div class="col l6 s12">
-              <h5 class="white-text">Say Hello to Tasty Foods</h5>
-              <p class="grey-text text-lighten-4">Tasty helps you find great places to eat fast.   
-                  See everything from restaurant information to menus, prices and photos.  Find a good place to eat today!</p>
-              <p class="white-text"><a href="https://sfbay.craigslist.org/search/jjj">We are Hiring - Join Us!</a></p>
-            </div>
-            <div class="col l4 offset-l2 s12">
-              <h5 class="white-text">Links</h5>
-              <ul>
-                <li><a href="{% url 'restaurant_list' %}">Restaurant List</a></li>
-                {% if user.is_authenticated %}
-                <li><a href="{% url 'profile' user.id %}">Profile</a></li>
-                <li><a href="{% url 'logout' %}">Log Out</a></li>
-                {% else %}
-                <li><a href="{% url 'signup' %}">Sign Up</a></li>
-                <li><a href="{% url 'login' %}">Log In</a></li>
-                {% endif %}
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="footer-copyright">
-          <div class="container">
-            &nbsp;All Rights Reserved, &copy; 2019 Tasty &nbsp;
-          </div>
-        </div>
+    <footer class="page-footer" style="padding: 2px">
+        <h4>&nbsp;All Rights Reserved, &copy; 2019 Tasty &nbsp;</h4> 
+        
     </footer>
 </body>
+
 </html>
