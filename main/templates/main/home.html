@@ -1,10 +1,19 @@
 {% extends 'main/base.html' %}
 
 {% block content %}
-<body style="background: url()">  
+<h1>Home Page</h1>
 
-    <h1>Welcome To Tasty! </h1>
 
-    
-</body>
+<h3>By name</h3>
+<form method="get" action="{% url 'search' %}" id="search-form">
+    {% csrf_token %}
+    <input type="search" name="content" placeholder="Search by..." required>
+    <select name="option" form="search-form" required>
+        <option value="name" selected>name</option>
+        <option value="zipcode">zipcode</option>
+    </select>
+    <button type="submit">button</button>
+</form>
+
+
 {% endblock %}
