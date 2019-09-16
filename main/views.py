@@ -95,12 +95,6 @@ class RestaurantUpdate(LoginRequiredMixin, UpdateView):
         user = restaurant.user
         return reverse('profile', kwargs={'pk': user.id})
     
-    # def get_context_data(self, **kwargs):
-    #     restaurant_form = RestaurantForm()
-    #     context = super().get_context_data(**kwargs)
-    #     context['form'] = restaurant_form
-    #     return context
-    
 class RestaurantDelete(LoginRequiredMixin, DeleteView):
     model = Restaurant
     template_name = 'restaurant/restaurant_confirm_delete.html'
