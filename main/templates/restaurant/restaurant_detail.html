@@ -31,15 +31,12 @@
     <a href="{% url 'menu_detail' menu.id %}">
       <div class="card">
         <div class="card-content">
-          <span class="card-title" style="display: inline-block"> {{ menu.name }} </span>
-<<<<<<< HEAD
-=======
-    <img class="responsive-img card-panel" src="{{menu.menu_photo}}">
->>>>>>> 503a065eed2f7e1343ee70fbca77f171c4f54033
+          <img class="responsive-img card-panel" style="max-height: 450px; max-width: 450px;" src="{{menu.menu_photo}}"><br>
+          <span class="card-title" style="display: inline-block"> <h2 style="color: black">{{ menu.name }}</h2> </span><br>
           {% if request.user == restaurant.user %}
-          <button><a href="{% url 'menu_update' menu.id %}">Edit Menu</a></button>
-          <button><a href="{% url 'menu_delete' menu.id %}">Delete Menu</a></button>
-          <button><a href="{% url 'delete_menu_photo' menu.id restaurant.id %}">Delete picture</a></button>      
+          <button><a href="{% url 'menu_update' menu.id %}" style="color: black">Edit Menu</a></button>
+          <button><a href="{% url 'menu_delete' menu.id %}" style="color: black">Delete Menu</a></button>
+          <button><a href="{% url 'delete_menu_photo' menu.id restaurant.id %}" style="color: black">Delete picture</a></button>      
           <div>
             <form action="{% url 'add_menu_photo' menu.id restaurant.id %}" enctype="multipart/form-data" method="POST" class="card-panel">
               {% csrf_token %}

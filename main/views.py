@@ -6,20 +6,12 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse
-<<<<<<< HEAD
-from .models import Restaurant, Menu, Category, Food, Photo
-=======
 from .models import Restaurant, Menu, Category, Food
->>>>>>> 503a065eed2f7e1343ee70fbca77f171c4f54033
 import uuid
 import boto3
 
 S3_BASE_URL = 'https://s3-us-west-1.amazonaws.com/'
-<<<<<<< HEAD
 BUCKET = 'namecollector'
-=======
-BUCKET = 'fishcollector'
->>>>>>> 503a065eed2f7e1343ee70fbca77f171c4f54033
 
 # Create your views here.
 def home(request):
