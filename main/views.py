@@ -7,6 +7,7 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse
 from .models import Restaurant, Menu, Category, Food
+from .forms import RestaurantForm
 import uuid
 import boto3
 
@@ -71,12 +72,18 @@ class RestaurantDetail(DetailView):
     
 class RestaurantCreate(LoginRequiredMixin, CreateView):
     model = Restaurant
-    fields = ['name', 'address', 'phone', 'description', 'zipcode']
+    fields = ['name', 'address', 'phone', 'zipcode', 'description']
     template_name = 'restaurant/restaurant_form.html'
 
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        restaurant_form = RestaurantForm()
+        context = super().get_context_data(**kwargs)
+        context['form'] = restaurant_form
+        return context
 
 class RestaurantUpdate(LoginRequiredMixin, UpdateView):
     model = Restaurant
@@ -87,6 +94,12 @@ class RestaurantUpdate(LoginRequiredMixin, UpdateView):
         restaurant = Restaurant.objects.get(pk=self.kwargs['pk'])
         user = restaurant.user
         return reverse('profile', kwargs={'pk': user.id})
+    
+    # def get_context_data(self, **kwargs):
+    #     restaurant_form = RestaurantForm()
+    #     context = super().get_context_data(**kwargs)
+    #     context['form'] = restaurant_form
+    #     return context
     
 class RestaurantDelete(LoginRequiredMixin, DeleteView):
     model = Restaurant
