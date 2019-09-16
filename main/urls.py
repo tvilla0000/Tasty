@@ -16,6 +16,8 @@ urlpatterns = [
     path('menu/<int:pk>/create/', views.MenuCreate.as_view(), name='menu_create'),      
     path('menu/<int:pk>/update', views.MenuUpdate.as_view(), name="menu_update"),
     path('menu/<int:pk>/delete', views.MenuDelete.as_view(), name="menu_delete"),
+    path('menu/<int:menu_id>/add_menu_photo/<int:restaurant_id>/', views.add_menu_photo, name='add_menu_photo'),
+    path('menu/<int:menu_id>/delete_menu_photo/<int:restaurant_id>/', views.delete_menu_photo, name='delete_menu_photo'),
     
     path('category/<int:pk>/create/', views.CategoryCreate.as_view(), name="category_create"),
     path('category/<int:pk>/update/<int:fk>/', views.CategoryUpdate.as_view(), name="category_update"),
@@ -24,9 +26,6 @@ urlpatterns = [
     path('food/<int:pk>/create/<int:fk>/', views.FoodCreate.as_view(), name='food_create'),          
     path('food/<int:pk>/update/<int:fk>/', views.FoodUpdate.as_view(), name='food_update'),          
     path('food/<int:pk>/delete/<int:fk>/', views.FoodDelete.as_view(), name='food_delete'),      
-    
-    path('menu/<int:menu_id>/add_menu_photo/<int:restaurant_id>/', views.add_menu_photo, name='add_menu_photo'),
-    path('menu/<int:menu_id>/delete_menu_photo/<int:restaurant_id>/', views.delete_menu_photo, name='delete_menu_photo'),
     path('food/<int:food_id>/add_food_photo/<int:menu_id>/', views.add_food_photo, name='add_food_photo'),
     path('food/<int:food_id>/delete_food_photo/<int:menu_id>/', views.delete_food_photo, name='delete_food_photo'),
     
