@@ -11,7 +11,7 @@
           <span class="card-title">description: {{ restaurant.description }}</span>
           <span class="card-title">zip code: {{ restaurant.zipcode }}</span>
           <span class="card-title">owner: {{ restaurant.user.username }}</span>
-          {% if request.user == restaurant.user %}          
+          {% if request.user == restaurant.user %}
           <button><a href="{% url 'restaurant_update' restaurant.id %}">Edit</a></button>
           {% endif %}
         </div>
@@ -21,18 +21,24 @@
   <hr>
 
     <div class="card-content">
+      <span class="card-title" style="display: inline-block"><h1>Menus</h1></span>
       {% if request.user == restaurant.user %}
-      <button><a href="{% url 'menu_create' restaurant.id %}">Add A Menu</a></button>
+      <button style="margin: 0px 10px"><a href="{% url 'menu_create' restaurant.id %}">Add A Menu</a></button>
       {% endif %}
-    </div>
-
-{% for menu in restaurant.menu_set.all %}
-  <div class="card">
-    <div class="card-content">
-      <span class="card-title">menu: {{ menu.name }}</span>
-    </div>
-  </a>
-</div>
+    </div><br>
+    
+    {% for menu in restaurant.menu_set.all %}
+    <a href="{% url 'menu_detail' menu.id %}">
+      <div class="card">
+        <div class="card-content">
+          <span class="card-title" style="display: inline-block"> {{ menu.name }} </span>
+          {% if request.user == restaurant.user %}
+          <button><a href="{% url 'menu_update' menu.id %}">Edit Menu</a></button>
+          <button><a href="{% url 'menu_delete' menu.id %}">Delete Menu</a></button>
+          {% endif %}
+  </div>
+  </div>
+</a>
 {% endfor %}
 
 
