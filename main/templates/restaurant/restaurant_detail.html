@@ -3,22 +3,29 @@
 
 <h1>Restaurant Detail</h1>
 
-  <div class="card">
-        <div class="card-content">
-          <span class="card-title">name: {{ restaurant.name }}</span>
-          <span class="card-title">address: {{ restaurant.address }}</span>
-          <span class="card-title">phone: {{ restaurant.phone }}</span>
-          <span class="card-title">description: {{ restaurant.description }}</span>
-          <span class="card-title">zip code: {{ restaurant.zipcode }}</span>
-          <span class="card-title">owner: {{ restaurant.user.username }}</span>
-          {% if request.user == restaurant.user %}
-          <button><a href="{% url 'restaurant_update' restaurant.id %}">Edit</a></button>
-          {% endif %}
-        </div>
-  </div>
+<div class="card">
+	<div class="card-content">
+		<span class="card-title">name: {{ restaurant.name }}</span>
+		<span class="card-title">address: {{ restaurant.address }}</span>
+		<span class="card-title">phone: {{ restaurant.phone }}</span>
+		<span class="card-title">description: {{ restaurant.description }}</span>
+		<span class="card-title">zip code: {{ restaurant.zipcode }}</span>
+		<span class="card-title">owner: {{ restaurant.user.username }}</span>
+		<div>
+			<!-- google map -->
+			<iframe width="300" height="225" frameborder="0" style="border:0" 
+			src="{{map}}q={{restaurant.address}}" 
+			allowfullscreen>
+			</iframe>
+		</div>
+		{% if request.user == restaurant.user %}
+		<button><a href="{% url 'restaurant_update' restaurant.id %}">Edit</a></button>
+		{% endif %}
+	</div>
+</div>
 
-  <br>
-  <hr>
+<br>
+<hr>
 
     <div class="card-content">
       <span class="card-title" style="display: inline-block"><h1>Menus</h1></span>
@@ -52,6 +59,5 @@
   </div>
 </a>
 {% endfor %}
-
 
 {% endblock %}

@@ -7,13 +7,16 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse
 from .models import Restaurant, Menu, Category, Food
+from .forms import RestaurantForm
 import uuid
 import boto3
 
 S3_BASE_URL = 'https://s3-us-west-1.amazonaws.com/'
-BUCKET = 'namecollector'
+BUCKET = 'navbar2121'
+API_KEY = 'AIzaSyA5PFcm4YZ1KnBSQDyq-Eon2znBNuul95Q&'
+MAP_BASE_URL='https://www.google.com/maps/embed/v1/place?key='+API_KEY
 
-# Create your views here.
+
 def home(request):
     return render(
         request,
@@ -50,7 +53,6 @@ def signup(request):
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
     
-
 class RestaurantList(ListView):
     model = Restaurant
     template_name = 'restaurant/restaurant_list.html'
@@ -61,14 +63,25 @@ class RestaurantDetail(DetailView):
     context_object_name = 'restaurant'
     template_name = 'restaurant/restaurant_detail.html'
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['map'] = MAP_BASE_URL
+        return context
+    
 class RestaurantCreate(LoginRequiredMixin, CreateView):
     model = Restaurant
-    fields = ['name', 'address', 'phone', 'description', 'zipcode']
+    fields = ['name', 'address', 'phone', 'zipcode', 'description']
     template_name = 'restaurant/restaurant_form.html'
 
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        restaurant_form = RestaurantForm()
+        context = super().get_context_data(**kwargs)
+        context['form'] = restaurant_form
+        return context
 
 class RestaurantUpdate(LoginRequiredMixin, UpdateView):
     model = Restaurant
@@ -102,6 +115,7 @@ class MenuCreate(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         restaurant = Restaurant.objects.get(pk=self.kwargs['pk'])
         return reverse('restaurant_detail', kwargs={'pk': restaurant.id})
+
 
 class MenuDetail(DetailView):
     model = Menu
@@ -161,7 +175,20 @@ class CategoryCreate(LoginRequiredMixin, CreateView):
         menu = Menu.objects.get(pk=self.kwargs['pk'])
         return reverse('menu_detail', kwargs={'pk': menu.id})
 
-class CategoryUpdate(LoginRequiredMixin, UpdateView):
+def add_photo(request, food_id):
+    photo_file = request.FILES.get('photo-file', None)
+    if photo_file:
+        s3 = boto3.client('s3')
+        key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+        try:
+          s3.upload_fileobj(photo_file, BUCKET, key)
+          url = f'{S3_BASE_URL}{BUCKET}/{key}'
+          photo = Photo(url=url, food_id=food_id)
+          photo.save()
+        except:
+          print('An error occurred uploading file to S3')
+    return redirect('menu_detail', food_id=food_id)
+class CategoryUpdate(UpdateView):
     model = Category
     context_object_name = 'category'
     template_name = 'categories/category_form.html'
@@ -241,17 +268,24 @@ def add_menu_photo(request, menu_id, restaurant_id):
             print('An error')
     return redirect(restaurant)
 
-def add_food_photo(request,f_id, menu_id):
+def add_food_photo(request,food_id, menu_id):
     photo_file = request.FILES.get('photo-file', None)
-    food = Food.objects.get(id=f_id)
+    food = Food.objects.get(id=food_id)
     menu = Menu.objects.get(id=menu_id)    
+    print('333333')
     if photo_file:
         s3 = boto3.client('s3')
         key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+        print('222222')
         try:
+            print('1111111')
             s3.upload_fileobj(photo_file, BUCKET, key)
+            print('++++++++++++++++')
             url = f"{S3_BASE_URL}{BUCKET}/{key}"
+            print('============')
+
             food.food_photo = url
+            print('-------------')
             food.save()
         except:
             print('An error')
