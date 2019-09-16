@@ -103,6 +103,7 @@ class MenuCreate(LoginRequiredMixin, CreateView):
         restaurant = Restaurant.objects.get(pk=self.kwargs['pk'])
         return reverse('restaurant_detail', kwargs={'pk': restaurant.id})
 
+
 class MenuDetail(DetailView):
     model = Menu
     context_object_name = 'menu'
@@ -161,7 +162,24 @@ class CategoryCreate(LoginRequiredMixin, CreateView):
         menu = Menu.objects.get(pk=self.kwargs['pk'])
         return reverse('menu_detail', kwargs={'pk': menu.id})
 
+<<<<<<< HEAD
 class CategoryUpdate(LoginRequiredMixin, UpdateView):
+=======
+def add_photo(request, food_id):
+    photo_file = request.FILES.get('photo-file', None)
+    if photo_file:
+        s3 = boto3.client('s3')
+        key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+        try:
+          s3.upload_fileobj(photo_file, BUCKET, key)
+          url = f'{S3_BASE_URL}{BUCKET}/{key}'
+          photo = Photo(url=url, food_id=food_id)
+          photo.save()
+        except:
+          print('An error occurred uploading file to S3')
+    return redirect('menu_detail', food_id=food_id)
+class CategoryUpdate(UpdateView):
+>>>>>>> 0662be288993dd1bb23fa2c59afbaa94e20a1e2b
     model = Category
     context_object_name = 'category'
     template_name = 'categories/category_form.html'
@@ -185,6 +203,7 @@ class CategoryDelete(LoginRequiredMixin, DeleteView):
         context = super().get_context_data(**kwargs)
         context['menu'] = menu
         return context
+<<<<<<< HEAD
 
 class FoodCreate(LoginRequiredMixin, CreateView):
     model = Food 
@@ -290,3 +309,5 @@ def search(request):
     elif option == 'zipcode':
         restaurants = Restaurant.objects.filter(zipcode__exact=content)
     return render(request, 'restaurant/restaurant_list.html', {'error_msg': error_msg,'restaurants': restaurants})
+=======
+>>>>>>> 0662be288993dd1bb23fa2c59afbaa94e20a1e2b
