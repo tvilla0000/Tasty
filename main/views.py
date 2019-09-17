@@ -12,7 +12,7 @@ import uuid
 import boto3
 
 S3_BASE_URL = 'https://s3-us-west-1.amazonaws.com/'
-BUCKET = 'fishcollector'
+BUCKET = 'namecollector'
 API_KEY = 'AIzaSyA5PFcm4YZ1KnBSQDyq-Eon2znBNuul95Q&'
 MAP_BASE_URL='https://www.google.com/maps/embed/v1/place?key='+API_KEY
 

@@ -44,5 +44,6 @@ class Food(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     food_photo = models.CharField(max_length=300, default='https://s3-us-west-1.amazonaws.com/fishcollector/e5abd9.jpg')    
     
+
     def __str__(self):
         return f'food name - {self.name}'
