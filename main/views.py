@@ -131,7 +131,7 @@ class MenuDetail(DetailView):
     def get_context_data(self, **kwargs):
         menu = Menu.objects.get(pk=self.kwargs['pk'])
         restaurant = menu.restaurant
-        menus = Menu.objects.filter(restaurant_id=restaurant.id)
+        menus = Menu.objects.filter(restaurant_id=restaurant.id).order_by('-date')
         context = super().get_context_data(**kwargs)
         context['restaurant'] = restaurant
         context['menus'] = menus
