@@ -12,7 +12,7 @@ import uuid
 import boto3
 
 S3_BASE_URL = 'https://s3-us-west-1.amazonaws.com/'
-BUCKET = 'namecollector'
+BUCKET = 'fishcollector'
 API_KEY = 'AIzaSyA5PFcm4YZ1KnBSQDyq-Eon2znBNuul95Q&'
 MAP_BASE_URL='https://www.google.com/maps/embed/v1/place?key='+API_KEY
 
@@ -30,7 +30,7 @@ class Profile(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         user = User.objects.get(pk=self.kwargs['pk'])
         context = super().get_context_data(**kwargs)
-        restaurants = user.restaurant_set.all()
+        restaurants = user.restaurant_set.all().order_by('-date')
         context['restaurants'] = restaurants
         return context
 
@@ -57,6 +57,12 @@ class RestaurantList(ListView):
     template_name = 'restaurant/restaurant_list.html'
     context_object_name = 'restaurants'
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        restaurants = Restaurant.objects.all().order_by('-date')
+        context['restaurants'] = restaurants
+        return context
+    
 class RestaurantDetail(DetailView):
     model = Restaurant
     context_object_name = 'restaurant'
@@ -64,7 +70,10 @@ class RestaurantDetail(DetailView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        restaurant = Restaurant.objects.get(pk=self.kwargs['pk']) 
+        menus = restaurant.menu_set.all().order_by('-date')     
         context['map'] = MAP_BASE_URL
+        context['menus'] = menus
         return context
     
 class RestaurantCreate(LoginRequiredMixin, CreateView):
@@ -123,7 +132,7 @@ class MenuDetail(DetailView):
     def get_context_data(self, **kwargs):
         menu = Menu.objects.get(pk=self.kwargs['pk'])
         restaurant = menu.restaurant
-        menus = Menu.objects.filter(restaurant_id=restaurant.id)
+        menus = Menu.objects.filter(restaurant_id=restaurant.id).order_by('-date')
         context = super().get_context_data(**kwargs)
         context['restaurant'] = restaurant
         context['menus'] = menus
