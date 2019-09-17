@@ -73,6 +73,7 @@ class RestaurantDetail(DetailView):
         restaurant = Restaurant.objects.get(pk=self.kwargs['pk']) 
         menus = restaurant.menu_set.all().order_by('-date')     
         context['map'] = MAP_BASE_URL
+        context['menus'] = menus
         return context
     
 class RestaurantCreate(LoginRequiredMixin, CreateView):
