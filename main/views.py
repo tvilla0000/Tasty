@@ -12,10 +12,9 @@ import uuid
 import boto3
 
 S3_BASE_URL = 'https://s3-us-west-1.amazonaws.com/'
-BUCKET = 'navbar2121'
+BUCKET = 'namecollector'
 API_KEY = 'AIzaSyA5PFcm4YZ1KnBSQDyq-Eon2znBNuul95Q&'
 MAP_BASE_URL='https://www.google.com/maps/embed/v1/place?key='+API_KEY
-
 
 def home(request):
     return render(
@@ -116,7 +115,6 @@ class MenuCreate(LoginRequiredMixin, CreateView):
         restaurant = Restaurant.objects.get(pk=self.kwargs['pk'])
         return reverse('restaurant_detail', kwargs={'pk': restaurant.id})
 
-
 class MenuDetail(DetailView):
     model = Menu
     context_object_name = 'menu'
@@ -175,20 +173,7 @@ class CategoryCreate(LoginRequiredMixin, CreateView):
         menu = Menu.objects.get(pk=self.kwargs['pk'])
         return reverse('menu_detail', kwargs={'pk': menu.id})
 
-def add_photo(request, food_id):
-    photo_file = request.FILES.get('photo-file', None)
-    if photo_file:
-        s3 = boto3.client('s3')
-        key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
-        try:
-          s3.upload_fileobj(photo_file, BUCKET, key)
-          url = f'{S3_BASE_URL}{BUCKET}/{key}'
-          photo = Photo(url=url, food_id=food_id)
-          photo.save()
-        except:
-          print('An error occurred uploading file to S3')
-    return redirect('menu_detail', food_id=food_id)
-class CategoryUpdate(UpdateView):
+class CategoryUpdate(LoginRequiredMixin, UpdateView):
     model = Category
     context_object_name = 'category'
     template_name = 'categories/category_form.html'
@@ -268,24 +253,17 @@ def add_menu_photo(request, menu_id, restaurant_id):
             print('An error')
     return redirect(restaurant)
 
-def add_food_photo(request,food_id, menu_id):
+def add_food_photo(request,f_id, menu_id):
     photo_file = request.FILES.get('photo-file', None)
-    food = Food.objects.get(id=food_id)
+    food = Food.objects.get(id=f_id)
     menu = Menu.objects.get(id=menu_id)    
-    print('333333')
     if photo_file:
         s3 = boto3.client('s3')
         key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
-        print('222222')
         try:
-            print('1111111')
             s3.upload_fileobj(photo_file, BUCKET, key)
-            print('++++++++++++++++')
             url = f"{S3_BASE_URL}{BUCKET}/{key}"
-            print('============')
-
             food.food_photo = url
-            print('-------------')
             food.save()
         except:
             print('An error')
@@ -317,3 +295,4 @@ def search(request):
     elif option == 'zipcode':
         restaurants = Restaurant.objects.filter(zipcode__exact=content)
     return render(request, 'restaurant/restaurant_list.html', {'error_msg': error_msg,'restaurants': restaurants})
+
