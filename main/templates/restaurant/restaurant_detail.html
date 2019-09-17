@@ -34,7 +34,7 @@
       {% endif %}
     </div><br>
     
-    {% for menu in restaurant.menu_set.all %}
+    {% for menu in menus %}
     <a href="{% url 'menu_detail' menu.id %}">
       <div class="card" style="border: 4px solid black">
         <div class="card-content" style="background-color: gray">

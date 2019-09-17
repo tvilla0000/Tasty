@@ -30,7 +30,7 @@ class Profile(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         user = User.objects.get(pk=self.kwargs['pk'])
         context = super().get_context_data(**kwargs)
-        restaurants = user.restaurant_set.all()
+        restaurants = user.restaurant_set.all().order_by('-date')
         context['restaurants'] = restaurants
         return context
 
@@ -57,6 +57,12 @@ class RestaurantList(ListView):
     template_name = 'restaurant/restaurant_list.html'
     context_object_name = 'restaurants'
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        restaurants = Restaurant.objects.all().order_by('-date')
+        context['restaurants'] = restaurants
+        return context
+    
 class RestaurantDetail(DetailView):
     model = Restaurant
     context_object_name = 'restaurant'
@@ -64,6 +70,8 @@ class RestaurantDetail(DetailView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        restaurant = Restaurant.objects.get(pk=self.kwargs['pk']) 
+        menus = restaurant.menu_set.all().order_by('-date')     
         context['map'] = MAP_BASE_URL
         return context
     
