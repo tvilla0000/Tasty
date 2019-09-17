@@ -262,9 +262,9 @@ def add_menu_photo(request, menu_id, restaurant_id):
             print('An error')
     return redirect(restaurant)
 
-def add_food_photo(request,f_id, menu_id):
+def add_food_photo(request,food_id, menu_id):
     photo_file = request.FILES.get('photo-file', None)
-    food = Food.objects.get(id=f_id)
+    food = Food.objects.get(id=food_id)
     menu = Menu.objects.get(id=menu_id)    
     if photo_file:
         s3 = boto3.client('s3')
