@@ -295,4 +295,3 @@ def search(request):
     elif option == 'zipcode':
         restaurants = Restaurant.objects.filter(zipcode__exact=content)
     return render(request, 'restaurant/restaurant_list.html', {'error_msg': error_msg,'restaurants': restaurants})
-
