@@ -29,6 +29,7 @@
           <button><a href="{% url 'category_delete' category.id menu.id %}">Delete Category</a></button>
           <button><a href="{% url 'food_create' category.id menu.id %}">Add Food</a></button>
           {% endif %}
+
 {% for food in category.food_set.all %}
           <div class="card">
             <div class="card-content">

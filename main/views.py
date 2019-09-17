@@ -7,13 +7,15 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse
 from .models import Restaurant, Menu, Category, Food
+from .forms import RestaurantForm
 import uuid
 import boto3
 
 S3_BASE_URL = 'https://s3-us-west-1.amazonaws.com/'
-BUCKET = 'fishcollector'
+BUCKET = 'namecollector'
+API_KEY = 'AIzaSyA5PFcm4YZ1KnBSQDyq-Eon2znBNuul95Q&'
+MAP_BASE_URL='https://www.google.com/maps/embed/v1/place?key='+API_KEY
 
-# Create your views here.
 def home(request):
     return render(
         request,
@@ -50,7 +52,6 @@ def signup(request):
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
     
-
 class RestaurantList(ListView):
     model = Restaurant
     template_name = 'restaurant/restaurant_list.html'
@@ -61,14 +62,25 @@ class RestaurantDetail(DetailView):
     context_object_name = 'restaurant'
     template_name = 'restaurant/restaurant_detail.html'
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['map'] = MAP_BASE_URL
+        return context
+    
 class RestaurantCreate(LoginRequiredMixin, CreateView):
     model = Restaurant
-    fields = ['name', 'address', 'phone', 'description', 'zipcode']
+    fields = ['name', 'address', 'phone', 'zipcode', 'description']
     template_name = 'restaurant/restaurant_form.html'
 
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        restaurant_form = RestaurantForm()
+        context = super().get_context_data(**kwargs)
+        context['form'] = restaurant_form
+        return context
 
 class RestaurantUpdate(LoginRequiredMixin, UpdateView):
     model = Restaurant
@@ -282,5 +294,5 @@ def search(request):
         restaurants = Restaurant.objects.filter(name__icontains=content)
     elif option == 'zipcode':
         restaurants = Restaurant.objects.filter(zipcode__exact=content)
-    return render(request, 'restaurant/restaurant_list.html', {'error_msg': error_msg,
-                                               'restaurants': restaurants})
+    return render(request, 'restaurant/restaurant_list.html', {'error_msg': error_msg,'restaurants': restaurants})
+
