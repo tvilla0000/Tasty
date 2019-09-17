@@ -5,6 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.views import LoginView
 from django.urls import reverse
 from .models import Restaurant, Menu, Category, Food
 from .forms import RestaurantForm
@@ -33,6 +34,11 @@ class Profile(LoginRequiredMixin, DetailView):
         restaurants = user.restaurant_set.all().order_by('-date')
         context['restaurants'] = restaurants
         return context
+
+class MyLoginView(LoginView):
+    def get_success_url(self):
+        user = self.request.user
+        return reverse('profile', kwargs={'pk': user.id})        
 
 def signup(request):
     error_message = ''
