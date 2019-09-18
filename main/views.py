@@ -11,11 +11,7 @@ from .models import Restaurant, Menu, Category, Food
 from .forms import RestaurantForm
 import uuid
 import boto3
-
-S3_BASE_URL = 'https://s3-us-west-1.amazonaws.com/'
-BUCKET = 'fishcollector'
-API_KEY = 'AIzaSyA5PFcm4YZ1KnBSQDyq-Eon2znBNuul95Q&'
-MAP_BASE_URL='https://www.google.com/maps/embed/v1/place?key='+API_KEY
+import os
 
 def home(request):
     return render(
@@ -77,7 +73,9 @@ class RestaurantDetail(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         restaurant = Restaurant.objects.get(pk=self.kwargs['pk']) 
-        menus = restaurant.menu_set.all().order_by('-date')     
+        menus = restaurant.menu_set.all().order_by('-date')  
+        API_KEY = os.environ['SECRET_KEY']
+        MAP_BASE_URL='https://www.google.com/maps/embed/v1/place?key='+API_KEY 
         context['map'] = MAP_BASE_URL
         context['menus'] = menus
         return context
@@ -260,6 +258,8 @@ def add_menu_photo(request, menu_id, restaurant_id):
         s3 = boto3.client('s3')
         key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
         try:
+            BUCKET = os.environ['BUCKET'] 
+            S3_BASE_URL = os.environ['S3_BASE_URL']       
             s3.upload_fileobj(photo_file, BUCKET, key)
             url = f"{S3_BASE_URL}{BUCKET}/{key}"
             menu.menu_photo = url
@@ -276,6 +276,8 @@ def add_food_photo(request,food_id, menu_id):
         s3 = boto3.client('s3')
         key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
         try:
+            BUCKET = os.environ['BUCKET']    
+            S3_BASE_URL = os.environ['S3_BASE_URL']  
             s3.upload_fileobj(photo_file, BUCKET, key)
             url = f"{S3_BASE_URL}{BUCKET}/{key}"
             food.food_photo = url
