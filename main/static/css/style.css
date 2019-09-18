@@ -6,6 +6,10 @@ h1 {
 body {
     color: white;
 }
+#id_username, #id_password {
+    color: white;
+}
 
-
-
+input, textarea {
+    color: white !important;
+}
