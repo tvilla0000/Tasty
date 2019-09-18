@@ -5,16 +5,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.views import LoginView
 from django.urls import reverse
 from .models import Restaurant, Menu, Category, Food
 from .forms import RestaurantForm
 import uuid
 import boto3
-
-S3_BASE_URL = 'https://s3-us-west-1.amazonaws.com/'
-BUCKET = 'namecollector'
-API_KEY = 'AIzaSyA5PFcm4YZ1KnBSQDyq-Eon2znBNuul95Q&'
-MAP_BASE_URL='https://www.google.com/maps/embed/v1/place?key='+API_KEY
+import os
 
 def home(request):
     return render(
@@ -33,6 +30,11 @@ class Profile(LoginRequiredMixin, DetailView):
         restaurants = user.restaurant_set.all().order_by('-date')
         context['restaurants'] = restaurants
         return context
+
+class MyLoginView(LoginView):
+    def get_success_url(self):
+        user = self.request.user
+        return reverse('profile', kwargs={'pk': user.id})        
 
 def signup(request):
     error_message = ''
@@ -71,7 +73,9 @@ class RestaurantDetail(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         restaurant = Restaurant.objects.get(pk=self.kwargs['pk']) 
-        menus = restaurant.menu_set.all().order_by('-date')     
+        menus = restaurant.menu_set.all().order_by('-date')  
+        API_KEY = os.environ['SECRET_KEY']
+        MAP_BASE_URL='https://www.google.com/maps/embed/v1/place?key='+API_KEY 
         context['map'] = MAP_BASE_URL
         context['menus'] = menus
         return context
@@ -254,6 +258,8 @@ def add_menu_photo(request, menu_id, restaurant_id):
         s3 = boto3.client('s3')
         key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
         try:
+            BUCKET = os.environ['BUCKET'] 
+            S3_BASE_URL = os.environ['S3_BASE_URL']       
             s3.upload_fileobj(photo_file, BUCKET, key)
             url = f"{S3_BASE_URL}{BUCKET}/{key}"
             menu.menu_photo = url
@@ -263,20 +269,22 @@ def add_menu_photo(request, menu_id, restaurant_id):
     return redirect(restaurant)
 
 def add_food_photo(request,food_id, menu_id):
-  photo_file = request.FILES.get('photo-file', None)
-  food = Food.objects.get(id=food_id)
-  menu = Menu.objects.get(id=menu_id)
-  if photo_file:
-      s3 = boto3.client('s3')
-      key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
-      try:
-        s3.upload_fileobj(photo_file, BUCKET, key)
-        url = f"{S3_BASE_URL}{BUCKET}/{key}"
-        food.food_photo = url
-        food.save()
-      except:
-        print('An error')
-  return redirect(menu)
+    photo_file = request.FILES.get('photo-file', None)
+    food = Food.objects.get(id=food_id)
+    menu = Menu.objects.get(id=menu_id)    
+    if photo_file:
+        s3 = boto3.client('s3')
+        key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+        try:
+            BUCKET = os.environ['BUCKET']    
+            S3_BASE_URL = os.environ['S3_BASE_URL']  
+            s3.upload_fileobj(photo_file, BUCKET, key)
+            url = f"{S3_BASE_URL}{BUCKET}/{key}"
+            food.food_photo = url
+            food.save()
+        except:
+            print('An error')
+    return redirect(menu)
 
 def delete_menu_photo(request, menu_id, restaurant_id):
     menu = Menu.objects.get(id=menu_id)
