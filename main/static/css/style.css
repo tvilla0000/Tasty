@@ -2,14 +2,12 @@ h1 {
     font-size: 55px;
     color: white;
 }
-
 body {
     color: white;
 }
 #id_username, #id_password {
     color: white;
 }
-
 input, textarea {
     color: white !important;
 }
