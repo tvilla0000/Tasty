@@ -25,9 +25,9 @@
         </ul>
         
         <ul class="right">
-            <li><form method="get" action="{% url 'search' %}" id="search-form" style="">
+            <li><form method="get" action="{% url 'search' %}" id="search-form">
                 {% csrf_token %}
-              <input type="search" name="content" placeholder="Search here..." required style="color: white;">
+              <input type="search" name="content" placeholder="Search by restaurant name..." required style="color: white;">
             </form></li>
             <li><a href="{% url 'restaurant_list' %}">Restaurant List</a></li>
             {% if user.is_authenticated %}
