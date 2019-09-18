@@ -5,20 +5,20 @@
 
 <!-- user info -->
 <div>
-    <h2 style="color: teal">@{{ user.username }}</h2>
+    <h2 style="color: #d53c3c">@{{ user.username }}</h2>
 </div>
 
 <!-- user restaurants list -->
 
 
 {% for r in restaurants %}
-<div class="card" style="background-color: gray">
+<div class="card" style="background: linear-gradient(#8d2d56, #0d050e);border:3px solid gray;border-radius: 5px;">
     <div class="card-content">
       
       <a href="{% url 'restaurant_detail' r.id %}">
-        <h4 style="color: rgb(255, 255, 255)">{{ r.name }} </h4>
-        <button ><a href="{% url 'restaurant_update' r.id %}" style="color: black">Edit</a></button>
-        <button><a href="{% url 'restaurant_delete' r.id %}" style="color: black">Delete</a></button>
+        <h4 style="color: rgb(255, 255, 255)"><i>{{ r.name }}</i> </h4>
+        <button style="background: linear-gradient(#0d050e, #8d2d56); height: 35px; width: 170px;border: 2px solid white;color: white;text-shadow: .5px -.5px gray;padding: 2px"><a href="{% url 'restaurant_update' r.id %}" style="color: white">Edit</a></button>
+        <button style="background: linear-gradient(#0d050e, #8d2d56); height: 35px; width: 170px;border: 2px solid white;color: white;text-shadow: .5px -.5px gray;padding: 2px"><a href="{% url 'restaurant_delete' r.id %}" style="color: white">Delete</a></button>
         <br>
       </a>
       
@@ -28,5 +28,5 @@
   <span>No Restaurants yet!!</span>
   {% endfor %}
   
-  <button><a href="{% url 'restaurant_create' %}">Add A Restaurant</a></button><br><br>
+  <button style="background: linear-gradient(#0d050e, #8d2d56); height: 35px; width: 170px;border: 2px solid white;color: white;text-shadow: .5px -.5px gray;padding: 2px"><a href="{% url 'restaurant_create' %}" style="color: white">Add A Restaurant</a></button><br><br>
 {% endblock %}

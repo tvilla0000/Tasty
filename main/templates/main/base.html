@@ -7,9 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Tasty</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'main/css/style.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"> 
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.css"> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 
 
 
@@ -23,7 +23,12 @@
         <ul>
             <li><a href="{% url 'home' %}" class="left brand-logo" id="brand-logo">&nbsp;&nbsp;<i style="font-size: 55px; color: white;text-shadow: 2.5px -1.5px gray">Tasty🔥</i>&nbsp;&nbsp;</a></li>
         </ul>
+        
         <ul class="right">
+            <li><form method="get" action="{% url 'search' %}" id="search-form" style="">
+                {% csrf_token %}
+              <input type="search" name="content" placeholder="Search here..." required style="color: white;">
+            </form></li>
             <li><a href="{% url 'restaurant_list' %}">Restaurant List</a></li>
             {% if user.is_authenticated %}
             <li><a href="{% url 'profile' user.id %}">Profile</a></li>
@@ -36,7 +41,7 @@
             </div>
         </nav>
     </header>
-    <main class="container" style="width:100%">
+    <main class="container">
         {% block content %}
         {% endblock %}
     </main>

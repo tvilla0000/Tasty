@@ -262,21 +262,21 @@ def add_menu_photo(request, menu_id, restaurant_id):
             print('An error')
     return redirect(restaurant)
 
-def add_food_photo(request,f_id, menu_id):
-    photo_file = request.FILES.get('photo-file', None)
-    food = Food.objects.get(id=f_id)
-    menu = Menu.objects.get(id=menu_id)    
-    if photo_file:
-        s3 = boto3.client('s3')
-        key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
-        try:
-            s3.upload_fileobj(photo_file, BUCKET, key)
-            url = f"{S3_BASE_URL}{BUCKET}/{key}"
-            food.food_photo = url
-            food.save()
-        except:
-            print('An error')
-    return redirect(menu)
+def add_food_photo(request,food_id, menu_id):
+  photo_file = request.FILES.get('photo-file', None)
+  food = Food.objects.get(id=food_id)
+  menu = Menu.objects.get(id=menu_id)
+  if photo_file:
+      s3 = boto3.client('s3')
+      key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+      try:
+        s3.upload_fileobj(photo_file, BUCKET, key)
+        url = f"{S3_BASE_URL}{BUCKET}/{key}"
+        food.food_photo = url
+        food.save()
+      except:
+        print('An error')
+  return redirect(menu)
 
 def delete_menu_photo(request, menu_id, restaurant_id):
     menu = Menu.objects.get(id=menu_id)
@@ -294,7 +294,6 @@ def delete_food_photo(request, food_id, menu_id):
 
 def search(request):
     content = request.GET.get('content')
-    option = request.GET.get('option')
     error_msg = ''
     if not content:
         error_msg = 'Please type in search content'
