@@ -11,3 +11,11 @@ body {
 input, textarea {
     color: white !important;
 }
+
+/* profile page */
+.profile-font {
+    color: white;
+}
+.profile-font > span {
+    color: red;
+}

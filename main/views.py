@@ -53,6 +53,15 @@ def signup(request):
     form = UserCreationForm()
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
+
+class EditProfile(LoginRequiredMixin, UpdateView):
+    model = User
+    fields = ['first_name', 'last_name', 'email']
+    template_name = 'registration/singup.html'
+    
+    def get_success_url(self):
+        user = User.objects.get(pk=self.kwargs['pk'])
+        return reverse('profile', kwargs={'pk': user.id})
     
 class RestaurantList(ListView):
     model = Restaurant
