@@ -2,10 +2,36 @@ h1 {
     font-size: 55px;
     color: white;
 }
-
 body {
     color: white;
 }
+#id_username, #id_password {
+    color: white;
+}
+input, textarea {
+    color: white !important;
+}
 
 
+.nav-wrapper {
+    background: linear-gradient(#0d050e, #8d2d56);
+    border-bottom: none;
+}
 
+@media only screen
+and (min-device-width: 375px)
+and (max-device-width: 812px)
+and (-webkit-min-device-pixel-ratio: 3) {
+.carousel-img {
+height: 45vh !important;
+width: 90vw !important;
+    }
+.carousel {
+height: 40vh !important;
+width: 90vw !important;
+margin-top: 50px !important;
+}
+#home-title {
+    font-size: 30px !important;
+}
+}
