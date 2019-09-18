@@ -1,17 +1,17 @@
 {% extends 'main/base.html' %}
-
+{% load static %}
 {% block content %}
 {% if object %}
-  <h1>Edit <span class="teal-text">{{object.name}}</span></h1>
+  <h1>Edit <span style="color:#a3445d">{{object.name}}</span></h1>
 {% else %}
   <h1>Add Restaurant</h1>
 {% endif %}
 
   <form action="" method="post">
     {% csrf_token %}
-    <table>
+    <table style="background-color:rgba(71, 70, 70, 0.5);border:4px solid #8d2d56;border-radius: 5px;">
       {{ form.as_table }}
-    </table>
-    <input type="submit" value="Submit!" class="btn">
+    </table><br><br>
+    <input type="submit" value="Submit!" class="btn" style="background: linear-gradient(#0d050e, #8d2d56); height: 35px; width: 170px;border: 2px solid white;color: white;text-shadow: .5px -.5px gray;padding: 2px">
   </form>
 {% endblock %}

@@ -1,5 +1,22 @@
 {% extends 'main/base.html' %}
+{% load static %}
 
 {% block content %}
-    <h1>Home Page</h1>
+
+  
+  
+  <h1 style=" color: white;margin:75px 0 0 0;font-size: 50px;text-align: center">Welcome to <i style="font-size: 65px;text-shadow: 2.5px -1.5px gray">Tasty🔥</i></h1>
+    
+  
+    <div class="carousel carousel-slider">
+        <a class="carousel-item" href="#one!"><img src="{% static 'images/plate.jpeg' %}"></a>
+        <a class="carousel-item" href="#two!"><img src=""></a>
+        <a class="carousel-item" href="#three!"><img src=""></a>
+        <a class="carousel-item" href="#four!"><img src=""></a>
+      </div>
+
+
+
+  
+
 {% endblock %}

@@ -5,12 +5,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.views import LoginView
 from django.urls import reverse
-from .models import Restaurant, Menu
+from .models import Restaurant, Menu, Category, Food
+from .forms import RestaurantForm
+import uuid
+import boto3
+import os
 
-
-
-# Create your views here.
 def home(request):
     return render(
         request,
@@ -25,9 +27,14 @@ class Profile(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         user = User.objects.get(pk=self.kwargs['pk'])
         context = super().get_context_data(**kwargs)
-        restaurants = user.restaurant_set.all()
+        restaurants = user.restaurant_set.all().order_by('-date')
         context['restaurants'] = restaurants
         return context
+
+class MyLoginView(LoginView):
+    def get_success_url(self):
+        user = self.request.user
+        return reverse('profile', kwargs={'pk': user.id})        
 
 def signup(request):
     error_message = ''
@@ -47,25 +54,46 @@ def signup(request):
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
     
-
 class RestaurantList(ListView):
     model = Restaurant
     template_name = 'restaurant/restaurant_list.html'
     context_object_name = 'restaurants'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        restaurants = Restaurant.objects.all().order_by('-date')
+        context['restaurants'] = restaurants
+        return context
     
 class RestaurantDetail(DetailView):
     model = Restaurant
     context_object_name = 'restaurant'
     template_name = 'restaurant/restaurant_detail.html'
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        restaurant = Restaurant.objects.get(pk=self.kwargs['pk']) 
+        menus = restaurant.menu_set.all().order_by('-date')  
+        API_KEY = os.environ['SECRET_KEY']
+        MAP_BASE_URL='https://www.google.com/maps/embed/v1/place?key='+API_KEY 
+        context['map'] = MAP_BASE_URL
+        context['menus'] = menus
+        return context
+    
 class RestaurantCreate(LoginRequiredMixin, CreateView):
     model = Restaurant
-    fields = ['name', 'address', 'phone', 'description', 'zipcode']
+    fields = ['name', 'address', 'phone', 'zipcode', 'description']
     template_name = 'restaurant/restaurant_form.html'
 
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        restaurant_form = RestaurantForm()
+        context = super().get_context_data(**kwargs)
+        context['form'] = restaurant_form
+        return context
 
 class RestaurantUpdate(LoginRequiredMixin, UpdateView):
     model = Restaurant
@@ -86,11 +114,6 @@ class RestaurantDelete(LoginRequiredMixin, DeleteView):
         user = restaurant.user
         return reverse('profile', kwargs={'pk': user.id})
     
-# class MenuList(ListView):
-#     model = Restaurant
-#     template_name = 'restaurant/restaurant_list.html'
-#     context_object_name = 'restaurants'
-    
 class MenuCreate(LoginRequiredMixin, CreateView):
     model = Menu
     fields = ['name', 'description']
@@ -105,10 +128,19 @@ class MenuCreate(LoginRequiredMixin, CreateView):
         restaurant = Restaurant.objects.get(pk=self.kwargs['pk'])
         return reverse('restaurant_detail', kwargs={'pk': restaurant.id})
 
-class MenuDetail(LoginRequiredMixin, DetailView):
+class MenuDetail(DetailView):
     model = Menu
     context_object_name = 'menu'
     template_name = 'menu/menu_detail.html'
+    
+    def get_context_data(self, **kwargs):
+        menu = Menu.objects.get(pk=self.kwargs['pk'])
+        restaurant = menu.restaurant
+        menus = Menu.objects.filter(restaurant_id=restaurant.id).order_by('-date')
+        context = super().get_context_data(**kwargs)
+        context['restaurant'] = restaurant
+        context['menus'] = menus
+        return context
 
 
 class MenuUpdate(LoginRequiredMixin, UpdateView):
@@ -119,8 +151,160 @@ class MenuUpdate(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         menu = Menu.objects.get(pk=self.kwargs['pk'])
-        restaurant = Menu.restaurant 
-        user = restaurant.user
-        return reverse('profile', kwargs={'pk': user.id})
+        restaurant = menu.restaurant
+        return reverse('restaurant_detail', kwargs={'pk': restaurant.id})
 
 
+class MenuDelete(LoginRequiredMixin, DeleteView):
+    model = Menu
+    context_object_name = 'menu'
+    template_name = "menu/menu_confirm_delete.html"
+
+    def get_success_url(self):
+        menu = Menu.objects.get(pk=self.kwargs['pk'])
+        restaurant = menu.restaurant
+        return reverse('restaurant_detail', kwargs={'pk': restaurant.id})
+
+    def get_context_data(self, **kwargs):
+        menu = Menu.objects.get(pk=self.kwargs['pk'])
+        restaurant = menu.restaurant
+        context = super().get_context_data(**kwargs)
+        context['restaurant'] = restaurant
+        return context
+
+class CategoryCreate(LoginRequiredMixin, CreateView):
+    model = Category 
+    fields = ['name']
+    template_name = 'categories/category_form.html'
+
+    def form_valid(self, form):
+        menu = Menu.objects.get(pk=self.kwargs['pk'])        
+        form.instance.menu = menu 
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+        menu = Menu.objects.get(pk=self.kwargs['pk'])
+        return reverse('menu_detail', kwargs={'pk': menu.id})
+
+class CategoryUpdate(LoginRequiredMixin, UpdateView):
+    model = Category
+    context_object_name = 'category'
+    template_name = 'categories/category_form.html'
+    fields = ['name']
+
+    def get_success_url(self):
+        menu = Menu.objects.get(pk=self.kwargs['fk'])
+        return reverse('menu_detail', kwargs={'pk': menu.id})
+
+class CategoryDelete(LoginRequiredMixin, DeleteView):
+    model = Category
+    context_object_name = 'category'
+    template_name = 'categories/category_confirm_delete.html'
+
+    def get_success_url(self):
+        menu = Menu.objects.get(pk=self.kwargs['fk'])
+        return reverse('menu_detail', kwargs={'pk': menu.id})
+
+    def get_context_data(self, **kwargs):
+        menu = Menu.objects.get(pk=self.kwargs['fk'])
+        context = super().get_context_data(**kwargs)
+        context['menu'] = menu
+        return context
+
+class FoodCreate(LoginRequiredMixin, CreateView):
+    model = Food 
+    fields = ['name', 'price', 'description']
+    template_name = 'food/food_form.html'
+
+    def form_valid(self, form):
+        category = Category.objects.get(pk=self.kwargs['pk'])        
+        form.instance.category = category 
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+        menu = Menu.objects.get(pk=self.kwargs['fk'])
+        return reverse('menu_detail', kwargs={'pk': menu.id})
+    
+class FoodUpdate(LoginRequiredMixin, UpdateView):
+    model = Food
+    context_object_name = 'food'
+    template_name = 'food/food_form.html'
+    fields = ['name', 'price', 'description']
+
+    def get_success_url(self):
+        menu = Menu.objects.get(pk=self.kwargs['fk'])
+        return reverse('menu_detail', kwargs={'pk': menu.id})
+    
+class FoodDelete(LoginRequiredMixin, DeleteView):
+    model = Food
+    context_object_name = 'food'
+    template_name = 'food/food_confirm_delete.html'
+
+    def get_success_url(self):
+        menu = Menu.objects.get(pk=self.kwargs['fk'])
+        return reverse('menu_detail', kwargs={'pk': menu.id})
+
+    def get_context_data(self, **kwargs):
+        menu = Menu.objects.get(pk=self.kwargs['fk'])
+        context = super().get_context_data(**kwargs)
+        context['menu'] = menu
+        return context
+    
+def add_menu_photo(request, menu_id, restaurant_id):
+    photo_file = request.FILES.get('photo-file', None)
+    menu = Menu.objects.get(id=menu_id)    
+    restaurant = Restaurant.objects.get(id=restaurant_id)    
+    if photo_file:
+        s3 = boto3.client('s3')
+        key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+        try:
+            BUCKET = os.environ['BUCKET'] 
+            S3_BASE_URL = os.environ['S3_BASE_URL']       
+            s3.upload_fileobj(photo_file, BUCKET, key)
+            url = f"{S3_BASE_URL}{BUCKET}/{key}"
+            menu.menu_photo = url
+            menu.save()
+        except:
+            print('An error')
+    return redirect(restaurant)
+
+def add_food_photo(request,food_id, menu_id):
+    photo_file = request.FILES.get('photo-file', None)
+    food = Food.objects.get(id=food_id)
+    menu = Menu.objects.get(id=menu_id)    
+    if photo_file:
+        s3 = boto3.client('s3')
+        key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+        try:
+            BUCKET = os.environ['BUCKET']    
+            S3_BASE_URL = os.environ['S3_BASE_URL']  
+            s3.upload_fileobj(photo_file, BUCKET, key)
+            url = f"{S3_BASE_URL}{BUCKET}/{key}"
+            food.food_photo = url
+            food.save()
+        except:
+            print('An error')
+    return redirect(menu)
+
+def delete_menu_photo(request, menu_id, restaurant_id):
+    menu = Menu.objects.get(id=menu_id)
+    restaurant = Restaurant.objects.get(id=restaurant_id)
+    menu.menu_photo ='https://s3-us-west-1.amazonaws.com/fishcollector/e5abd9.jpg'
+    menu.save()
+    return redirect(restaurant)
+
+def delete_food_photo(request, food_id, menu_id):
+    menu = Menu.objects.get(id=menu_id)
+    food = Food.objects.get(id=food_id)
+    food.food_photo ='https://s3-us-west-1.amazonaws.com/fishcollector/e5abd9.jpg'
+    food.save()
+    return redirect(menu)
+
+def search(request):
+    content = request.GET.get('content')
+    error_msg = ''
+    if not content:
+        error_msg = 'Please type in search content'
+        return render(request, 'main/home.html', {'error_msg': error_msg})
+    restaurants = Restaurant.objects.filter(name__icontains=content)
+    return render(request, 'restaurant/restaurant_list.html', {'error_msg': error_msg,'restaurants': restaurants})
