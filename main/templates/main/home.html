@@ -3,20 +3,19 @@
 
 {% block content %}
 
-  
-  
-  <h1 style=" color: white;margin:75px 0 0 0;font-size: 50px;text-align: center">Welcome to <i style="font-size: 65px;text-shadow: 2.5px -1.5px gray">Tasty🔥</i></h1>
-    
-  
-    <div class="carousel carousel-slider">
-        <a class="carousel-item" href="#one!"><img src="{% static 'images/plate.jpeg' %}"></a>
-        <a class="carousel-item" href="#two!"><img src=""></a>
-        <a class="carousel-item" href="#three!"><img src=""></a>
-        <a class="carousel-item" href="#four!"><img src=""></a>
-      </div>
-
-
-
-  
+<div>
+  <nav>
+    <div class="nav-wrapper">
+      <form method="get" action="{% url 'search' %}" id="search-form">
+        {% csrf_token %}
+        <div class="input-field">
+          <input type="search" id="search" name="content" placeholder="Search by restaurant name..." required>
+          <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+          <i class="material-icons">close</i>
+        </div>
+      </form>
+    </div>
+  </nav>
+</div>
 
 {% endblock %}
