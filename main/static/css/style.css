@@ -140,3 +140,11 @@ width: 75vw !important;
 .p-details {
     font-size: 20px;
 }
+
+/* menu-food */
+.food-font {
+    color: black !important;
+}
+.food-btn {
+    color: blue !important;
+}
