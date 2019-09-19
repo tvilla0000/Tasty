@@ -7,16 +7,38 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import LoginView
 from django.urls import reverse
+from django.db.models import Max
 from .models import Restaurant, Menu, Category, Food
 from .forms import RestaurantForm
 import uuid
 import boto3
 import os
+import random
+
+# def home(request):
+#     return render(
+#         request,
+#         'main/home.html',
+#     )
 
 def home(request):
+    max_id = Food.objects.all().aggregate(Max('id'))
+    food_list = []
+    id_list = []
+    if max_id['id__max'] > 9:
+        while len(id_list) < 10:
+            id_list.append(random.randint(1, max_id['id__max']))
+            if len(id_list) > 2:
+               id_list = list(set(id_list))
+        for food_id in id_list:
+            food = Food.objects.get(id=food_id)
+            print(food.food_photo)
+            food_list.append(food)
+    print(food_list)
     return render(
         request,
         'main/home.html',
+        {'food_list': food_list}
     )
     
 class Profile(LoginRequiredMixin, DetailView):
