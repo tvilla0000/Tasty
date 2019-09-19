@@ -35,3 +35,12 @@ margin-top: 50px !important;
     font-size: 30px !important;
 }
 }
+
+.tab {
+    font-size: 55px !important;
+}
+
+#tab {
+    width: 50vh !important;
+    background-color: blue !important;
+}
