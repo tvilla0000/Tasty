@@ -23,10 +23,10 @@
         <nav>
             <div class="nav-wrapper">
                 <a href="{% url 'home' %}" class="brand-logo" id="brand-logo"><i
-                        style="color: white;text-shadow: 2.5px -1.5px gray">Tasty🔥</i>&nbsp;&nbsp;</a>
+                        style="color: white;text-shadow: 2.5px -1.5px gray;float: right;font-size: 40px">Tasty🔥</i>&nbsp;&nbsp;</a>
                 <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                 <ul class="right hide-on-med-and-down">
-                    <li><a href="{% url 'restaurant_list' %}">Restaurant List</a></li>
+                    <li><a href="{% url 'restaurant_list' %}">Restaurants</a></li>
                     {% if user.is_authenticated %}
                     <li><a href="{% url 'profile' user.id %}">{{user.username}}</a></li>
                     <li><a href="{% url 'logout' %}">Log Out</a></li>

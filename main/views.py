@@ -264,7 +264,7 @@ def add_restaurant_photo(request, restaurant_id):
             restaurant.restaurant_photo = url
             restaurant.save()
         except:
-            print('An error')
+            return
     return redirect(restaurant)
 
 def add_menu_photo(request, menu_id, restaurant_id):
