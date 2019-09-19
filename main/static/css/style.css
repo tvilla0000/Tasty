@@ -121,11 +121,17 @@ width: 75vw !important;
     justify-content: space-between;
 }
 
+#content2 {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+
 #details {
     width: 40vw;
     text-align: left;
     padding: 10px;
-    display: flex;
+    display: inline-block;
     
 }
 
@@ -133,10 +139,30 @@ width: 75vw !important;
     height: 5vh;
 }
 
-#span-title-name {
-    font-size: 40px;
+#p-title-name {
+    font-size: 45px;
 }
 
 .p-details {
+    font-size: 25px;
+}
+
+#p-details-desc {
     font-size: 20px;
+}
+
+#detail-div {
+    margin: 0 0 0 30px;
+}
+
+#map {
+    height: 45vh;
+    width: 20vw;
+    border: 4px solid gray;
+    border-radius: 5px;
+}
+
+#detail-btns {
+    display: flex;
+    justify-content: baseline;
 }
