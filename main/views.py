@@ -53,15 +53,6 @@ def signup(request):
     form = UserCreationForm()
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
-
-class EditProfile(LoginRequiredMixin, UpdateView):
-    model = User
-    fields = ['first_name', 'last_name', 'email']
-    template_name = 'registration/singup.html'
-    
-    def get_success_url(self):
-        user = User.objects.get(pk=self.kwargs['pk'])
-        return reverse('profile', kwargs={'pk': user.id})
     
 class RestaurantList(ListView):
     model = Restaurant
@@ -259,6 +250,23 @@ class FoodDelete(LoginRequiredMixin, DeleteView):
         context['menu'] = menu
         return context
     
+def add_restaurant_photo(request, restaurant_id):
+    photo_file = request.FILES.get('photo-file', None)
+    restaurant = Restaurant.objects.get(id=restaurant_id)    
+    if photo_file:
+        s3 = boto3.client('s3')
+        key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+        try:
+            BUCKET = os.environ['BUCKET'] 
+            S3_BASE_URL = os.environ['S3_BASE_URL']       
+            s3.upload_fileobj(photo_file, BUCKET, key)
+            url = f"{S3_BASE_URL}{BUCKET}/{key}"
+            restaurant.restaurant_photo = url
+            restaurant.save()
+        except:
+            print('An error')
+    return redirect(restaurant)
+
 def add_menu_photo(request, menu_id, restaurant_id):
     photo_file = request.FILES.get('photo-file', None)
     menu = Menu.objects.get(id=menu_id)    
