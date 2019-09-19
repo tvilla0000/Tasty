@@ -10,7 +10,8 @@
 <div class="row">
 	<h1>Menu: {{ menu.name }}</h1>
 	<!-- Dropdown Trigger -->
-	<a class='dropdown-trigger btn' href='#' data-target='dropdown1'>Other Menus</a>
+	<a class='dropdown-trigger btn' href='#' data-target='dropdown1'
+		style="background: linear-gradient(#0d050e, #8d2d56);">Other Menus</a>
 	<!-- Dropdown Structure -->
 	<ul id='dropdown1' class='dropdown-content'>
 		{% for menu in menus %}
@@ -18,42 +19,58 @@
 		<li class="divider" tabindex="-1"></li>
 		{% endfor %}
 	</ul>
-	<div class="col s3">
+	<div class="col s4">
 		<!-- Grey navigation panel -->
 		{% if request.user == restaurant.user %}
 		<button style="background: linear-gradient(#0d050e, #8d2d56);border: 2px solid white;"><a
 				href="{% url 'category_create' menu.id %}" style="color: white">Add Category</a></button>
 		{% endif %}
 		<ul>
-			{% for category in menu.category_set.all %}
-			<li>
-				<a class="btn" href="#{{category.name}}">{{category.name}}</a>
-				{% if request.user == restaurant.user %}
-				<a data-target="modal{{category.id}}" class="btn modal-trigger">setting</a>
-				<div id="modal{{category.id}}" class="modal" style="background: linear-gradient(#0d050e, #8d2d53)">
-					<div class="modal-content">
-						<h4>Category settings</h4>
-						<button style="background: linear-gradient(#0d050e, #8d2d56);border: 2px solid white;"><a
-								href="{% url 'category_update' category.id menu.id %}" style="color: white">Edit
-								Category</a></button>
-						<button style="background: linear-gradient(#0d050e, #8d2d56);border: 2px solid white;"><a
-								href="{% url 'category_delete' category.id menu.id %}" style="color: white">Delete
-								Category</a></button>
-						<button style="background: linear-gradient(#0d050e, #8d2d56);border: 2px solid white;"><a
-								href="{% url 'food_create' category.id menu.id %}" style="color: white">Add
-								Food</a></button>
+			<div>
+				{% for category in menu.category_set.all %}
+				<li>
+					<div class="col s8">
+
+						<button class="category-btn"><a href="#{{category.name}}"
+								style="background: linear-gradient(#0d050e, #8d2d56);">{{category.name}}</a>
+						</button>
 					</div>
-					<div class="modal-footer">
-						<a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
+					<div class="col s4">
+						{% if request.user == restaurant.user %}
+						<a data-target="modal{{category.id}}" class="modal-trigger"
+							style="background: linear-gradient(#0d050e, #8d2d56); cursor: pointer;">setting</a>
+						<div id="modal{{category.id}}" class="modal"
+							style="background: linear-gradient(#0d050e, #8d2d53)">
+							<div class="modal-content">
+								<h4>Category settings</h4>
+								<button
+									style="background: linear-gradient(#0d050e, #8d2d56);border: 2px solid white;"><a
+										href="{% url 'category_update' category.id menu.id %}" style="color: white">Edit
+										Category</a></button>
+								<button
+									style="background: linear-gradient(#0d050e, #8d2d56);border: 2px solid white;"><a
+										href="{% url 'category_delete' category.id menu.id %}"
+										style="color: white">Delete
+										Category</a></button>
+								<button
+									style="background: linear-gradient(#0d050e, #8d2d56);border: 2px solid white;"><a
+										href="{% url 'food_create' category.id menu.id %}" style="color: white">Add
+										Food</a></button>
+							</div>
+							<div class="modal-footer">
+								<a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
+							</div>
+						</div>
+						{% endif %}
 					</div>
-				</div>
-				{% endif %}
-			</li>
-			{% endfor %}
+
+				</li>
+				{% endfor %}
+
 		</ul>
 	</div>
 
-	<div class="col s9">
+	<div class="col s8">
 		<!-- Teal page content  -->
 		{% for category in menu.category_set.all %}
 		<div class="col s12">

@@ -148,3 +148,7 @@ width: 75vw !important;
 .food-btn {
     color: blue !important;
 }
+.category-btn {
+    margin-bottom: 30px !important;
+    cursor: pointer !important;
+}
