@@ -323,5 +323,12 @@ def search(request):
     if not content:
         error_msg = 'Please type in search content'
         return render(request, 'main/home.html', {'error_msg': error_msg})
-    restaurants = Restaurant.objects.filter(name__icontains=content)
+    result_name = list(Restaurant.objects.filter(name__icontains=content))
+    result_address = list(Restaurant.objects.filter(address__icontains=content))
+    result_phone = list(Restaurant.objects.filter(phone__icontains=content))
+    result_description = list(Restaurant.objects.filter(description__icontains=content))
+    result_zipcode = list(Restaurant.objects.filter(zipcode__icontains=content))
+    result = result_name + result_address + result_phone + result_description + result_zipcode
+    restaurants = set(result)
+    
     return render(request, 'restaurant/restaurant_list.html', {'error_msg': error_msg,'restaurants': restaurants})
