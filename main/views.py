@@ -67,6 +67,8 @@ class RestaurantList(ListView):
         context = super().get_context_data(**kwargs)
         restaurants = Restaurant.objects.all().order_by('-date')
         context['restaurants'] = restaurants
+        MAP_BASE_URL='https://www.google.com/maps/embed/v1/place?key='+SECRET_KEY     
+        context['map'] = MAP_BASE_URL
         return context
     
 class RestaurantDetail(DetailView):

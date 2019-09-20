@@ -180,3 +180,6 @@ width: 75vw !important;
     justify-content: baseline;
 }
 
+.list-content {
+    padding-left: 50px !important;
+}
