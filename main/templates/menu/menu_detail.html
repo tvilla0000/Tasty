@@ -30,9 +30,9 @@
 					</div>
 					<div class="col s4">
 						{% if request.user == restaurant.user %}
-						<a data-target="modal{{category.id}}" class="modal-trigger"
+						<a data-target="category{{category.id}}" class="modal-trigger"
 							style="background: linear-gradient(#0d050e, #8d2d56); cursor: pointer;">setting</a>
-						<div id="modal{{category.id}}" class="modal"
+						<div id="category{{category.id}}" class="modal"
 							style="background: linear-gradient(#0d050e, #8d2d53)">
 							<div class="modal-content">
 								<h4>Category settings</h4>
@@ -75,7 +75,7 @@
 								class="material-icons right">more_vert</i></span>
 						<p class="food-font">$ {{food.price}}</p>
 						{% if request.user == restaurant.user %}
-						<p><a data-target="modal{{food.id}}" class="modal-trigger food-btn">settings</a></p>
+						<p><a data-target="food{{category.name}}{{food.id}}" class="modal-trigger food-btn">settings</a></p>
 						{% endif %}
 					</div>
 					<div class="card-reveal">
@@ -84,7 +84,7 @@
 						<p class="food-font">{{food.description}}</p>
 					</div>
 				</div>
-				<div id="modal{{food.id}}" class="modal" style="background: linear-gradient(#0d050e, #8d2d53)">
+				<div id="food{{category.name}}{{food.id}}" class="modal" style="background: linear-gradient(#0d050e, #8d2d53)">
 					<div class="modal-content">
 						<button style="background: linear-gradient(#0d050e, #8d2d56);border: 2px solid white;"><a
 								href="{% url 'food_update' food.id menu.id %}" style="color: white">Edit
