@@ -1,1 +1,1 @@
-web: gunicorn navbar.wsgi
+web: gunicorn tasty.wsgi
