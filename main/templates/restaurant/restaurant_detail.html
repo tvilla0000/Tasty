@@ -34,14 +34,13 @@
           <p id="p-title-name"> {{ restaurant.name }}</p><hr>
           <p class="p-details">{{restaurant.address}}</p><br>
           <p class="p-details">{{restaurant.phone}}</p><br>
-        </div>
-      </div>
-      
-      <div>
+    </div>
+  </div>
+<div>
         
         <div id="content2">
           <div>
-            <iframe id="map" width="300" height="225" frameborder="0" style="border:3px solid gray"
+            <iframe id="map" frameborder="0" style="border:3px solid gray"
             src="{{map}}q={{restaurant.address}}" allowfullscreen>
           </iframe><br><br>
           </div>
@@ -55,7 +54,7 @@
   <div id="detail-btns">
   {% if request.user == restaurant.user %}
   <button style="height: 36px;"><a href="{% url 'restaurant_update' restaurant.id %}">Edit</a></button>
-  <button data-target="modal{{restaurant.id}}" class="btn modal-trigger" style="border: 2px solid white;margin: -5px 10px;">Add Photo</button>
+  <button data-target="modal{{restaurant.id}}" class="btn modal-trigger" id="restaurant-photo-btn">Add Photo</button>
   {% endif %}
   </div>
 
@@ -65,7 +64,7 @@
 <br>
 <hr>
 
-<div class="card-content">
+<div class="card-content" style="text-align: center">
   <span class="card-title" style="display: inline-block; color: white">
     <h1 style="color: #d53c3c;text-shadow:2.5px -1.5px black">Menus</h1>
   </span><br>
@@ -87,15 +86,15 @@
       {% if request.user == restaurant.user %}
       <button
         style="background: linear-gradient(#0d050e, #8d2d56); height: 35px; width: 170px;border: 2px solid white;color: white;text-shadow: .5px -.5px gray;padding: 10px"><a
-          href="{% url 'menu_update' menu.id %}" style="color: white">Edit Menu</a></button>
+          href="{% url 'menu_update' menu.id %}" style="color: white">Edit Menu</a></button><br><br>
       <button
         style="background: linear-gradient(#0d050e, #8d2d56); height: 35px; width: 170px;border: 2px solid white;color: white;text-shadow: .5px -.5px black; padding: 10px"><a
-          href="{% url 'menu_delete' menu.id %}" style="color: white">Delete Menu</a></button>
+          href="{% url 'menu_delete' menu.id %}" style="color: white">Delete Menu</a></button><br><br>
       <button
         style="background: linear-gradient(#0d050e, #8d2d56); height: 35px; width: 170px;border: 2px solid white;color: white;text-shadow: .5px -.5px black;padding: 10px"><a
-          href="{% url 'delete_menu_photo' menu.id restaurant.id %}" style="color: white">Delete picture</a></button>
+          href="{% url 'delete_menu_photo' menu.id restaurant.id %}" style="color: white">Delete picture</a></button><br><br>
       <!-- Modal Trigger -->
-      <button data-target="modal{{menu.id}}" class="btn modal-trigger">Modal</button>
+      <button data-target="modal{{menu.id}}" class="btn modal-trigger" style="border: 2px solid white;">Add Photo </button>
       <!-- Modal Structure -->
       <div id="modal{{menu.id}}" class="modal">
         <div class="modal-content">

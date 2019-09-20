@@ -4,15 +4,10 @@
 
 {% block content %}
 
-
-
-<!-- Page Layout here -->
 <div class="row">
-	<h1>Menu: {{ menu.name }}</h1>
-	<!-- Dropdown Trigger -->
+	<h1>{{ menu.name }}</h1>
 	<a class='dropdown-trigger btn' href='#' data-target='dropdown1'
 		style="background: linear-gradient(#0d050e, #8d2d56);">Other Menus</a>
-	<!-- Dropdown Structure -->
 	<ul id='dropdown1' class='dropdown-content'>
 		{% for menu in menus %}
 		<li><a href="{% url 'menu_detail' menu.id %}">{{ menu.name }}</a></li>
@@ -20,7 +15,6 @@
 		{% endfor %}
 	</ul>
 	<div class="col s4">
-		<!-- Grey navigation panel -->
 		{% if request.user == restaurant.user %}
 		<button style="background: linear-gradient(#0d050e, #8d2d56);border: 2px solid white;"><a
 				href="{% url 'category_create' menu.id %}" style="color: white">Add Category</a></button>
@@ -30,16 +24,15 @@
 				{% for category in menu.category_set.all %}
 				<li>
 					<div class="col s8">
-
 						<button class="category-btn"><a href="#{{category.name}}"
-								style="background: linear-gradient(#0d050e, #8d2d56);">{{category.name}}</a>
+								>{{category.name}}</a>
 						</button>
 					</div>
 					<div class="col s4">
 						{% if request.user == restaurant.user %}
-						<a data-target="modal{{category.id}}" class="modal-trigger"
-							style="background: linear-gradient(#0d050e, #8d2d56); cursor: pointer;">setting</a>
-						<div id="modal{{category.id}}" class="modal"
+						<button style="margin: -4px 0 0 -15px; width: 70px"><a data-target="category{{category.id}}" class="modal-trigger"
+							style=" cursor: pointer;">setting</a></button>
+						<div id="category{{category.id}}" class="modal"
 							style="background: linear-gradient(#0d050e, #8d2d53)">
 							<div class="modal-content">
 								<h4>Category settings</h4>
@@ -63,32 +56,26 @@
 						</div>
 						{% endif %}
 					</div>
-
 				</li>
 				{% endfor %}
-
 		</ul>
 	</div>
-
 	<div class="col s8">
-		<!-- Teal page content  -->
 		{% for category in menu.category_set.all %}
 		<div class="col s12">
-
 			<h2 id="{{category.name}}">{{ category.name }}</h2>
-
 			{% for food in category.food_set.all %}
 			<div class="col s4">
-				<div class="card">
+				<div class="card" style="width: 14vw">
 					<div class="card-image waves-effect waves-block waves-light">
-						<img class="activator" src="{{food.food_photo}}" style="width: 100px">
+						<img class="activator" src="{{food.food_photo}}" style="width: 15vw; height: 25vh">
 					</div>
 					<div class="card-content">
 						<span class="card-title activator grey-text text-darken-4">{{food.name}}<i
 								class="material-icons right">more_vert</i></span>
 						<p class="food-font">$ {{food.price}}</p>
 						{% if request.user == restaurant.user %}
-						<p><a data-target="modal{{food.id}}" class="modal-trigger food-btn">settings</a></p>
+						<p><a data-target="food{{category.name}}{{food.id}}" class="modal-trigger food-btn">settings</a></p>
 						{% endif %}
 					</div>
 					<div class="card-reveal">
@@ -97,9 +84,7 @@
 						<p class="food-font">{{food.description}}</p>
 					</div>
 				</div>
-
-				<!-- Modal Structure -->
-				<div id="modal{{food.id}}" class="modal" style="background: linear-gradient(#0d050e, #8d2d53)">
+				<div id="food{{category.name}}{{food.id}}" class="modal" style="background: linear-gradient(#0d050e, #8d2d53)">
 					<div class="modal-content">
 						<button style="background: linear-gradient(#0d050e, #8d2d56);border: 2px solid white;"><a
 								href="{% url 'food_update' food.id menu.id %}" style="color: white">Edit
@@ -107,8 +92,6 @@
 						<button style="background: linear-gradient(#0d050e, #8d2d56);border: 2px solid white;"><a
 								href="{% url 'food_delete' food.id menu.id %}" style="color: white">Delete
 								Food</a></button><br><br>
-
-
 						<form action="{% url 'add_food_photo' food.id menu.id %}" enctype="multipart/form-data"
 							method="POST" style="padding:24px 0">
 							{% csrf_token %}
@@ -124,22 +107,17 @@
 					</div>
 				</div>
 			</div>
-
 			{% empty %}
+			{% if request.user == restaurant.user %}
 			<button style="background: linear-gradient(#0d050e, #8d2d56);border: 2px solid white;"><a
 					href="{% url 'food_create' category.id menu.id %}" style="color: white">Add
 					Food</a></button>
+			{% endif %}
 			{% endfor %}
-
 		</div>
 		{% endfor %}
-
 	</div>
 </div>
-
-
-
-
 
 <script>
 	$(document).ready(function () {
