@@ -29,7 +29,14 @@
         <a class="carousel-item" href="#four!"><img class="carousel-img" src="http://21rort23bf272tyb7t3lndnq.wpengine.netdna-cdn.com/wp-content/uploads/2016/06/Pan-with-slice-out-of-it-for-website.jpg" style="height: 75vh"></a>
         <a class="carousel-item" href="#five!"><img class="carousel-img" src="https://live.staticflickr.com/4710/25390728907_d2dc21f9e3_b.jpg" style="height: 75vh"></a>
         <a class="carousel-item" href="#five!"><img class="carousel-img" src="http://yesofcorsa.com/wp-content/uploads/2018/05/Tres-Leches-Photo.jpg" style="height: 75vh"></a>
-      </div><br><br>
-      
-
+    </div><br><br>
+    <div class="container">
+      <div class="row">  
+      {% for food in food_list %}
+        <div class="col s4">
+          <img src="{{food.food_photo}}" alt="foods" class="materialboxed" width="200" height="200" style='margin:10px; border: 4px solid #8d2d53'>
+        </div>
+      {% endfor %}
+      </div>
+    </div>
 {% endblock %}
