@@ -108,9 +108,11 @@
 				</div>
 			</div>
 			{% empty %}
+			{% if request.user == restaurant.user %}
 			<button style="background: linear-gradient(#0d050e, #8d2d56);border: 2px solid white;"><a
 					href="{% url 'food_create' category.id menu.id %}" style="color: white">Add
 					Food</a></button>
+			{% endif %}
 			{% endfor %}
 		</div>
 		{% endfor %}
