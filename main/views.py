@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import LoginView
+from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from .models import Restaurant, Menu, Category, Food
 from .forms import RestaurantForm
@@ -253,6 +254,7 @@ class FoodDelete(LoginRequiredMixin, DeleteView):
         context['menu'] = menu
         return context
     
+@login_required
 def add_restaurant_photo(request, restaurant_id):
     photo_file = request.FILES.get('photo-file', None)
     restaurant = Restaurant.objects.get(id=restaurant_id)    
@@ -270,6 +272,7 @@ def add_restaurant_photo(request, restaurant_id):
             return
     return redirect(restaurant)
 
+@login_required
 def add_menu_photo(request, menu_id, restaurant_id):
     photo_file = request.FILES.get('photo-file', None)
     menu = Menu.objects.get(id=menu_id)    
@@ -288,6 +291,7 @@ def add_menu_photo(request, menu_id, restaurant_id):
             print('An error')
     return redirect(restaurant)
 
+@login_required
 def add_food_photo(request,food_id, menu_id):
     photo_file = request.FILES.get('photo-file', None)
     food = Food.objects.get(id=food_id)
@@ -306,6 +310,7 @@ def add_food_photo(request,food_id, menu_id):
             print('An error')
     return redirect(menu)
 
+@login_required
 def delete_menu_photo(request, menu_id, restaurant_id):
     menu = Menu.objects.get(id=menu_id)
     restaurant = Restaurant.objects.get(id=restaurant_id)
@@ -313,6 +318,7 @@ def delete_menu_photo(request, menu_id, restaurant_id):
     menu.save()
     return redirect(restaurant)
 
+@login_required
 def delete_food_photo(request, food_id, menu_id):
     menu = Menu.objects.get(id=menu_id)
     food = Food.objects.get(id=food_id)
