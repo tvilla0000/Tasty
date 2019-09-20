@@ -14,7 +14,6 @@ urlpatterns = [
     path('restaurant/<int:pk>/delete/', views.RestaurantDelete.as_view(), name='restaurant_delete'),
     path('restaurant/<int:restaurant_id>/add_restaurant_photo/', views.add_restaurant_photo, name='add_restaurant_photo'),
     
-    
     path('menu/<int:pk>/', views.MenuDetail.as_view(), name="menu_detail"),
     path('menu/<int:pk>/create/', views.MenuCreate.as_view(), name='menu_create'),      
     path('menu/<int:pk>/update', views.MenuUpdate.as_view(), name="menu_update"),
@@ -31,5 +30,6 @@ urlpatterns = [
     path('food/<int:pk>/delete/<int:fk>/', views.FoodDelete.as_view(), name='food_delete'),      
     path('food/<int:food_id>/add_food_photo/<int:menu_id>/', views.add_food_photo, name='add_food_photo'),
     path('food/<int:food_id>/delete_food_photo/<int:menu_id>/', views.delete_food_photo, name='delete_food_photo'),
+    
     path('search/', views.search, name='search'),
 ]

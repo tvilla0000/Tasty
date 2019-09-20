@@ -142,7 +142,6 @@ class MenuDetail(DetailView):
         context['menus'] = menus
         return context
 
-
 class MenuUpdate(LoginRequiredMixin, UpdateView):
     model = Menu
     context_object_name = 'menu'
@@ -153,7 +152,6 @@ class MenuUpdate(LoginRequiredMixin, UpdateView):
         menu = Menu.objects.get(pk=self.kwargs['pk'])
         restaurant = menu.restaurant
         return reverse('restaurant_detail', kwargs={'pk': restaurant.id})
-
 
 class MenuDelete(LoginRequiredMixin, DeleteView):
     model = Menu
