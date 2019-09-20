@@ -20,7 +20,10 @@ S3_BASE_URL='https://s3-us-west-1.amazonaws.com/'
 BUCKET='fishcollector'
 
 def home(request):
-    return render(request, 'main/home.html')
+    return render(
+        request,
+        'main/home.html',
+    )
     
 class Profile(LoginRequiredMixin, DetailView):
     model = User
