@@ -74,8 +74,8 @@ class RestaurantDetail(DetailView):
         context = super().get_context_data(**kwargs)
         restaurant = Restaurant.objects.get(pk=self.kwargs['pk']) 
         menus = restaurant.menu_set.all().order_by('-date')  
-        API_KEY = os.environ['SECRET_KEY']
-        MAP_BASE_URL='https://www.google.com/maps/embed/v1/place?key='+API_KEY 
+        SECRET_KEY = os.environ['SECRET_KEY']
+        MAP_BASE_URL='https://www.google.com/maps/embed/v1/place?key='+SECRET_KEY 
         context['map'] = MAP_BASE_URL
         context['menus'] = menus
         return context
