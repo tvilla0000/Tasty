@@ -13,6 +13,10 @@ import uuid
 import boto3
 import os
 
+SECRET_KEY='AIzaSyA5PFcm4YZ1KnBSQDyq-Eon2znBNuul95Q&'
+S3_BASE_URL='https://s3-us-west-1.amazonaws.com/'
+BUCKET='fishcollector'
+
 def home(request):
     return render(
         request,
@@ -74,7 +78,7 @@ class RestaurantDetail(DetailView):
         context = super().get_context_data(**kwargs)
         restaurant = Restaurant.objects.get(pk=self.kwargs['pk']) 
         menus = restaurant.menu_set.all().order_by('-date')  
-        API_KEY = os.environ['SECRET_KEY']
+        API_KEY = SECRET_KEY
         MAP_BASE_URL='https://www.google.com/maps/embed/v1/place?key='+API_KEY 
         context['map'] = MAP_BASE_URL
         context['menus'] = menus
@@ -255,8 +259,6 @@ def add_restaurant_photo(request, restaurant_id):
         s3 = boto3.client('s3')
         key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
         try:
-            BUCKET = os.environ['BUCKET'] 
-            S3_BASE_URL = os.environ['S3_BASE_URL']       
             s3.upload_fileobj(photo_file, BUCKET, key)
             url = f"{S3_BASE_URL}{BUCKET}/{key}"
             restaurant.restaurant_photo = url
@@ -273,8 +275,6 @@ def add_menu_photo(request, menu_id, restaurant_id):
         s3 = boto3.client('s3')
         key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
         try:
-            BUCKET = os.environ['BUCKET'] 
-            S3_BASE_URL = os.environ['S3_BASE_URL']       
             s3.upload_fileobj(photo_file, BUCKET, key)
             url = f"{S3_BASE_URL}{BUCKET}/{key}"
             menu.menu_photo = url
@@ -291,8 +291,6 @@ def add_food_photo(request,food_id, menu_id):
         s3 = boto3.client('s3')
         key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
         try:
-            BUCKET = os.environ['BUCKET']    
-            S3_BASE_URL = os.environ['S3_BASE_URL']  
             s3.upload_fileobj(photo_file, BUCKET, key)
             url = f"{S3_BASE_URL}{BUCKET}/{key}"
             food.food_photo = url
