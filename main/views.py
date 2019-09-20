@@ -20,8 +20,7 @@ S3_BASE_URL='https://s3-us-west-1.amazonaws.com/'
 BUCKET='fishcollector'
 
 def home(request):
-    food_list = Food.objects.all().order_by('-id')[:6:1]
-    return render(request, 'main/home.html', {'food_list': food_list})
+    return render(request, 'main/home.html')
     
 class Profile(LoginRequiredMixin, DetailView):
     model = User
