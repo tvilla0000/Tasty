@@ -8,31 +8,22 @@
 	<div class="card-content" id="card-content">
 		<br>
 		<div id="content">
-			<img class="food-img" id="detail-img" src="{{restaurant.restaurant_photo}}"><br>
+			<img class="restaurant-img" id="detail-img" src="{{restaurant.restaurant_photo}}"><br>
 			<div id="details">
 				<p id="p-title-name"> {{ restaurant.name }}</p>
 				<hr>
 				<p class="p-details">{{restaurant.address}}</p><br>
 				<p class="p-details">{{restaurant.phone}}</p><br>
-			</div>
-		</div>
-		<div>
-			<div id="content2">
-				<div>
-					<iframe id="map" width="300" height="225" frameborder="0" style="border:3px solid gray"
-						src="{{map}}q={{restaurant.address}}" allowfullscreen>
-					</iframe><br><br>
-				</div>
-				<div style="display: flex; align-items:center">
-					<p id="p-details-desc">{{restaurant.description}}</p>
-				</div>
+				<p id="p-details-desc">{{restaurant.description}}</p>
 			</div>
 		</div>
 		<div id="detail-btns">
 			{% if request.user == restaurant.user %}
-			<button style="height: 36px;"><a href="{% url 'restaurant_update' restaurant.id %}">Edit</a></button>
-			<button data-target="restaurant{{restaurant.name}}{{restaurant.id}}" class="btn modal-trigger"
-				style="border: 2px solid white;margin: -5px 10px;">Add Photo</button>
+			<div class="restaurant-btn">
+				<button style="height: 36px;"><a href="{% url 'restaurant_update' restaurant.id %}">Edit</a></button>
+				<button data-target="restaurant{{restaurant.name}}{{restaurant.id}}" class="btn modal-trigger"
+					style="border: 2px solid white;margin-top:20px;">Add Photo</button>
+			</div>
 			<div id="restaurant{{restaurant.name}}{{restaurant.id}}" class="modal">
 				<div class="modal-content">
 					<form action="{% url 'add_restaurant_photo' restaurant.id %}" enctype="multipart/form-data"
@@ -54,8 +45,16 @@
 		</div>
 	</div>
 </div>
-<br>
+
+<div class="container restaurant-map">
+	<iframe width="800" height="200" frameborder="0" style="border:3px solid gray"
+		src="{{map}}q={{restaurant.address}}" allowfullscreen>
+	</iframe><br><br>
+</div>
+
+
 <hr>
+
 <div class="card-content">
 	<span class="card-title" style="display: inline-block; color: white">
 		<h1 style="color: #d53c3c;text-shadow:2.5px -1.5px black">Menus</h1>
