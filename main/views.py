@@ -333,5 +333,7 @@ def search(request):
     result_zipcode = list(Restaurant.objects.filter(zipcode__icontains=content))
     result = result_name + result_address + result_phone + result_description + result_zipcode
     restaurants = set(result)
+    MAP_BASE_URL='https://www.google.com/maps/embed/v1/place?key='+SECRET_KEY     
+    restaurant_map = MAP_BASE_URL
     
-    return render(request, 'restaurant/restaurant_list.html', {'error_msg': error_msg,'restaurants': restaurants})
+    return render(request, 'restaurant/restaurant_list.html', {'error_msg': error_msg, 'restaurants': restaurants, 'map': restaurant_map})
