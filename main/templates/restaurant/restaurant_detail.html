@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 
-<h1 style="color: #d53c3c;text-shadow:2.5px -1.5px black">Restaurant Detail</h1>
+<h1 style="color: #d53c3c;text-shadow:2.5px -1.5px black;text-align: center">{{restaurant.name}}</h1>
 <!-- Modal Trigger -->
 <!-- Modal Structure -->
 <div id="modal{{restaurant.id}}" class="modal">
@@ -25,8 +25,8 @@
 </div>
 </div>
 
-<div class="card" id="card">
-  <div class="card-content" id="card-content">
+<div class="card" id="detail-card">
+  <div class="card-content" id="detail-card-content">
   <br>
   <div id="content">
     <img class="food-img" id="detail-img" src="{{restaurant.restaurant_photo}}"><br>
@@ -50,7 +50,7 @@
           <p id="p-details-desc">{{restaurant.description}}</p>
         </div>
       </div>
-    </div>
+  </div>
   
   <div id="detail-btns">
   {% if request.user == restaurant.user %}
@@ -78,9 +78,9 @@
 
 {% for menu in menus %}
 <a href="{% url 'menu_detail' menu.id %}">
-  <div class="card" style="border: 4px solid gray">
+  <div class="menu-card">
     <div class="card-content" style="background: linear-gradient(#8d2d56, #0d050e)">
-      <img style="height: 350px;width: 350px;border: 4px solid gray;border-radius: 5px;" src="{{menu.menu_photo}}"><br>
+      <img class="food-img" src="{{menu.menu_photo}}"><br>
       <span class="dropdown" style="display: inline-block">
         <h2 style="color: white">{{ menu.name }}</h2>
       </span><br>
@@ -103,8 +103,7 @@
             <form action="{% url 'add_menu_photo' menu.id restaurant.id %}" enctype="multipart/form-data" method="POST"
               class="card-content" style="padding:24px 0">
               {% csrf_token %}
-              <br><input type="file" name="photo-file"
-                style="background: linear-gradient(#0d050e, #8d2d56);color: white">
+              <br><input type="file" name="photo-file" style="background: linear-gradient(#0d050e, #8d2d56);color: white">
               <br><br>
               <input type="submit" class="btn" value="Upload Photo"
                 style="background: linear-gradient(#0d050e, #8d2d56);border: 2px solid white;">

@@ -65,21 +65,33 @@ width: 75vw !important;
 .card-title {
     font-size: 15px;
 }
-#card-content {
+#detail-card-content {
     width: 90vw !important;
 }
-#card {
+#detail-card {
     margin: 2.5px !important;
 }
 #content {
     flex-direction: column;
 }
+#details {
+    width: 80vw !important;
+    text-align: left;
+    padding: 0;
+    display: inline-block;
+}
+#content2 {
+    flex-direction: column;
+}
+#map {
+    height: 40vh !important;
+    width: 75vw !important;
+}
+#detail-page-name {
+    font-size: 30px;
+}
 }
 
-#card {
-    width: 60vw;
-    margin: 0 auto;
-}
 
 .modal {
     border: 3px solid gray;
@@ -99,19 +111,42 @@ width: 75vw !important;
     color: white;
 }
 
+.modal-footer input {
+    color: white;
+}
+
 .food-img {
     height: 45vh;
     width: 20vw;
     border: 4px solid gray;
     border-radius: 5px;
-
 }
 
-#card-content {
+#detail-card {
+    width: 60vw;
+    margin: 0 auto;
+}
+
+#menu-card {
+    width: 60vw;
+    margin: 0 auto;
+}
+
+#detail-card-content {
     background:linear-gradient(#8d2d56, #0d050e);
     color:white;
     border: 4px solid gray;
-    border-radius: 2px;text-align: center;
+    border-radius: 2px;
+    text-align: center;
+    width:60vw;
+}
+
+#menu-card-content {
+    background:linear-gradient(#8d2d56, #0d050e);
+    color:white;
+    border: 4px solid gray;
+    border-radius: 2px;
+    text-align: center;
     width:60vw;
 }
 
