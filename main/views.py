@@ -15,31 +15,9 @@ import boto3
 import os
 import random
 
-# def home(request):
-#     return render(
-#         request,
-#         'main/home.html',
-#     )
-
 def home(request):
-    max_id = Food.objects.all().aggregate(Max('id'))
-    food_list = []
-    id_list = []
-    if max_id['id__max'] > 9:
-        while len(id_list) < 10:
-            id_list.append(random.randint(1, max_id['id__max']))
-            if len(id_list) > 2:
-               id_list = list(set(id_list))
-        for food_id in id_list:
-            food = Food.objects.get(id=food_id)
-            print(food.food_photo)
-            food_list.append(food)
-    print(food_list)
-    return render(
-        request,
-        'main/home.html',
-        {'food_list': food_list}
-    )
+    food_list = Food.objects.all().order_by('-id')[:6:1]
+    return render(request, 'main/home.html', {'food_list': food_list})
     
 class Profile(LoginRequiredMixin, DetailView):
     model = User
@@ -293,7 +271,7 @@ def add_menu_photo(request, menu_id, restaurant_id):
 def add_food_photo(request,food_id, menu_id):
     photo_file = request.FILES.get('photo-file', None)
     food = Food.objects.get(id=food_id)
-    menu = Menu.objects.get(id=menu_id)    
+    menu = Menu.objects.get(id=menu_id)
     if photo_file:
         s3 = boto3.client('s3')
         key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
