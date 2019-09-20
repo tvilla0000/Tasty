@@ -77,11 +77,12 @@
 				
 				<div class="menu-btn">
 								<h4 style="color: white">{{ menu.name }}</h4>
-					{% if request.user == restaurant.user %}
-					<div>
 						<button class="btn"><a href="{% url 'menu_detail' menu.id %}">Detail</a></button>
+
+					{% if request.user == restaurant.user %}
+					
 						<button data-target="menu{{menu.name}}{{menu.id}}" class="btn modal-trigger">Settings</button>
-					</div>
+					
 					<div id="menu{{menu.name}}{{menu.id}}" class="modal">
 						<div class="modal-content">
 							<button
