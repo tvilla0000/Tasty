@@ -1,4 +1,4 @@
-#WELCOME TO TASTY 🔥
+# WELCOME TO TASTY 🔥
 ---
 Built for the restuarant industry, TASTY gives owners a simple way to provide customers online information about today's menus and specials along with prices and photos.
 ​
@@ -6,23 +6,23 @@ With TASTY, customers get to experience a restaurant and make an educated decisi
 ​
 With Tasty, we bring the flavors to you!  
 ___
-###SCREENSHOTS:
+### SCREENSHOTS:
 ​
-#####Home Page
+##### Home Page
 ​
 ![Home Page](https://i.imgur.com/uWiSupf.png)
 ​
-#####Restaurant Form
+##### Restaurant Form
 ​
 ![Form to Add Restaurant](https://i.imgur.com/VtGyLa3.png)
 ​
-#####Food Form
+##### Food Form
 ​
 ![Food Page with Edit & Delete](https://i.imgur.com/3pp6l4x.png)
 ​
 ---
 ​
-###TEAM:
+### TEAM:
 ​
 TASTY was a GA - Project 3 built in collaboration by students:
 ​
@@ -44,7 +44,7 @@ TASTY IS A FULL STACK DJANGO APP THAT:
 ​
 ---
 ​
-###TECHNOLOGIES & TOOLS USED:
+### TECHNOLOGIES & TOOLS USED:
 ​
 1. HTML
 2. CSS
@@ -58,13 +58,13 @@ TASTY IS A FULL STACK DJANGO APP THAT:
 10. READING LOTS OF DOCUMENTATION
 10. COFFEE
 ​
-#####API'S USED:
+##### API'S USED:
 ​
 1. GOOGLE MAPS
 ​
 ---
 ​
-###LINKS:
+### LINKS:
 ​
 #####[PITCH DECK](https://create.piktochart.com/output/40798764-tasty)
 ​
@@ -74,7 +74,7 @@ TASTY IS A FULL STACK DJANGO APP THAT:
 ​
 ---
 ​
-###FUTURE ENHANCEMENTS:
+### FUTURE ENHANCEMENTS:
 ​
 1. CSS REFINEMENT
 2. CONTACT PAGE
@@ -85,13 +85,13 @@ TASTY IS A FULL STACK DJANGO APP THAT:
 ​
 ---
 ​
-###BIGGEST CHALLENGES:
+### BIGGEST CHALLENGES:
 ​
 1. MASTERING GIT AND GITHUB
 2. CONFIGURING NEW CSS FRAMEWORKS WITH PROJECT
 3. IMPLEMENTING CLASS BASED VIEWS 
 ​
-###TAKEAWAYS:
+### TAKEAWAYS:
 ​
 1. OVERALL EXPERIENCE WORKING WITH HEROKU
 2. EXPANDING KNOWLEDGE WITH CSS
