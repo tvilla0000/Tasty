@@ -68,7 +68,13 @@ width: 75vw !important;
 #detail-card-content {
     width: 90vw !important;
 }
+#menus-card-content {
+    width: 90vw !important;
+}
 #detail-card {
+    margin: 2.5px !important;
+}
+#menu-card {
     margin: 2.5px !important;
 }
 #content {

@@ -78,9 +78,9 @@
 
 {% for menu in menus %}
 <a href="{% url 'menu_detail' menu.id %}">
-  <div class="menu-card">
-    <div class="card-content" style="background: linear-gradient(#8d2d56, #0d050e)">
-      <img class="food-img" src="{{menu.menu_photo}}"><br>
+  <div class="card" id="menu-card">
+    <div class="card-content" id="menu-card-content">
+      <img class="food-img" id="menu-img  " src="{{menu.menu_photo}}"><br>
       <span class="dropdown" style="display: inline-block">
         <h2 style="color: white">{{ menu.name }}</h2>
       </span><br>
