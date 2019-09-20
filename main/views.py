@@ -13,10 +13,6 @@ import uuid
 import boto3
 import os
 
-SECRET_KEY=AIzaSyA5PFcm4YZ1KnBSQDyq-Eon2znBNuul95Q&
-S3_BASE_URL=https://s3-us-west-1.amazonaws.com/
-BUCKET=fishcollector
-
 def home(request):
     return render(
         request,
