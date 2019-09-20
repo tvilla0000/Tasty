@@ -151,6 +151,19 @@ width: 75vw !important;
     font-size: 20px;
 }
 
+
+/* menu-food */
+.food-font {
+    color: black !important;
+}
+.food-btn {
+    color: blue !important;
+}
+.category-btn {
+    margin-bottom: 30px !important;
+    cursor: pointer !important;
+}
+
 #detail-div {
     margin: 0 0 0 30px;
 }
@@ -166,3 +179,4 @@ width: 75vw !important;
     display: flex;
     justify-content: baseline;
 }
+
