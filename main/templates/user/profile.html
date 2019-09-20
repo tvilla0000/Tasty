@@ -28,7 +28,10 @@
 							href="{% url 'restaurant_delete' r.id %}" style="color: white">Delete</a></button>
 					<br>
 				</a>
-
+			</div>
+			<div>
+				<iframe id="map" width="300" height="225" frameborder="0" style="border:3px solid gray" src="{{map}}q={{r.address}}" allowfullscreen>
+				</iframe>
 			</div>
 		</div>
 	</div>

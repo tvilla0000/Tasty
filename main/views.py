@@ -30,7 +30,9 @@ class Profile(LoginRequiredMixin, DetailView):
         user = User.objects.get(pk=self.kwargs['pk'])
         context = super().get_context_data(**kwargs)
         restaurants = user.restaurant_set.all().order_by('-date')
+        MAP_BASE_URL='https://www.google.com/maps/embed/v1/place?key='+SECRET_KEY     
         context['restaurants'] = restaurants
+        context['map'] = MAP_BASE_URL
         return context
 
 class MyLoginView(LoginView):
