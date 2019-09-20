@@ -13,6 +13,8 @@ import uuid
 import boto3
 import os
 
+SECRET_KEY='AIzaSyA5PFcm4YZ1KnBSQDyq-Eon2znBNuul95Q&'
+
 def home(request):
     return render(
         request,
@@ -74,7 +76,6 @@ class RestaurantDetail(DetailView):
         context = super().get_context_data(**kwargs)
         restaurant = Restaurant.objects.get(pk=self.kwargs['pk']) 
         menus = restaurant.menu_set.all().order_by('-date')  
-        SECRET_KEY = os.environ['SECRET_KEY']
         MAP_BASE_URL='https://www.google.com/maps/embed/v1/place?key='+SECRET_KEY 
         context['map'] = MAP_BASE_URL
         context['menus'] = menus
