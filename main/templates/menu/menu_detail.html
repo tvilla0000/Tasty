@@ -66,9 +66,9 @@
 			<h2 id="{{category.name}}">{{ category.name }}</h2>
 			{% for food in category.food_set.all %}
 			<div class="col s4">
-				<div class="card">
+				<div class="card food-card">
 					<div class="card-image waves-effect waves-block waves-light">
-						<img class="activator" src="{{food.food_photo}}" style="width: 100px">
+						<img class="activator" src="{{food.food_photo}}" style="width: 10vw; height: 15vh;">
 					</div>
 					<div class="card-content">
 						<span class="card-title activator grey-text text-darken-4">{{food.name}}<i
