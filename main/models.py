@@ -10,6 +10,7 @@ class Restaurant(models.Model):
     description = models.TextField(max_length=500, blank=True, default='')
     zipcode = models.IntegerField(blank=False)
     date = models.DateTimeField(auto_now_add=True)
+    restaurant_photo = models.CharField(max_length=300, default='https://s3-us-west-1.amazonaws.com/fishcollector/e5abd9.jpg')
     
     def __str__(self):
         return f'restaurant name - {self.name}'

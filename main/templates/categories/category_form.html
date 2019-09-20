@@ -6,7 +6,7 @@
 {% else %}
 <h1>Add Category</h1>
 {% endif %}
-<form action="" method="post">
+<form action="" method="post" class="container">
 {% csrf_token %}
 <table>
   {{ form.as_table }}
