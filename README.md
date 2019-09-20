@@ -66,11 +66,11 @@ TASTY IS A FULL STACK DJANGO APP THAT:
 ​
 ### LINKS:
 ​
-#####[PITCH DECK](https://create.piktochart.com/output/40798764-tasty)
+##### [PITCH DECK](https://create.piktochart.com/output/40798764-tasty)
 ​
-#####[TRELLO BOARD](https://trello.com/b/PjRlStrU/project3)
+##### [TRELLO BOARD](https://trello.com/b/PjRlStrU/project3)
 ​
-#####[DEPLOYED APP ON HEROKU](http://menunav.herokuapp.com/)
+##### [DEPLOYED APP ON HEROKU](http://menunav.herokuapp.com/)
 ​
 ---
 ​
