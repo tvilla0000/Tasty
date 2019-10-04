@@ -7,12 +7,23 @@ def api(request):
     menu = list(Menu.objects.values());
     category = list(Category.objects.values());
     food = list(Food.objects.values());
-
+    
+    for r in restaurant:
+        r['menus'] = []        
+        for m in menu:
+            m['categories'] = []
+            for c in category:
+                c['foods'] = []
+                for f in food:
+                    if f['category_id'] == c['id']:
+                        c['foods'].append(f)
+                if c['menu_id'] == m['id']:
+                    m['categories'].append(c)
+            if m['restaurant_id'] == r['id']:
+                r['menus'].append(m)
+        
     data = {
-        'restaurant': restaurant,
-        'menu': menu,
-        'category': category,
-        'food': food,
+        'result': restaurant
     }
     return JsonResponse(data);
     
