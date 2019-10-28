@@ -1,32 +1,41 @@
 {% extends 'main/base.html' %}
 {% block content %}
 
-<div class="row">
-	<h1 class="profile-font">@{{ user.username }} Profile</h1>
-	<h4 class="profile-font"><span>Email: </span>{{ user.email }}</h4>
-	<h4 class="profile-font"><span>First Name: </span>{{ user.first_name }}</h4>
-	<h4 class="profile-font"><span>Last Name: </span>{{ user.last_name }}</h4>
-	<button
-		style="background: linear-gradient(#0d050e, #8d2d56); height: 35px; width: 170px;border: 2px solid white;color: white;text-shadow: .5px -.5px gray;padding: 2px"><a
-			href="{% url 'restaurant_create' %}" style="color: white">Add A Restaurant</a></button><br><br>
-
+<div>
+	<h1>@{{ user.username }} Profile</h1>
+	<h4><span>Email: </span>{{ user.email }}</h4>
+	<h4><span>First Name: </span>{{ user.first_name }}</h4>
+	<h4><span>Last Name: </span>{{ user.last_name }}</h4>
+	<a href="{% url 'restaurant_create' %}" class="btn btn-primary btn-lg" role="button" aria-pressed="true">Add
+		Restaurant</a>
 </div>
 
 <div class="row">
 	{% for r in restaurants %}
-	<div class="col s6">
+	<div class="card" style="width: 18rem; margin: 1rem;">
+		<iframe class="card-img-top" frameborder="0" src="{{map}}q={{r.address}}" allowfullscreen></iframe>
+		<div class="card-body">
+			<h5 class="card-title">{{ r.name }}</h5>
+			<a href="{% url 'restaurant_detail' r.id %}" class="btn btn-primary">Detail</a>
+			<a href="{% url 'restaurant_update' r.id %}" class="btn btn-info">Edit</a>
+			<a href="{% url 'restaurant_delete' r.id %}" class="btn btn-danger">Delete</a>
+		</div>
+	</div>
+
+	<!-- <div class="col s6">
 		<div class="card horizontal"
 			style="background: linear-gradient(#8d2d56, #0d050e);border:3px solid gray;border-radius: 5px;">
 			<div>
-				<iframe width="200" height="200" frameborder="0" style="border:3px solid gray" src="{{map}}q={{r.address}}" allowfullscreen>
+				<iframe width="200" height="200" frameborder="0" style="border:3px solid gray"
+					src="{{map}}q={{r.address}}" allowfullscreen>
 				</iframe>
 			</div>
 			<div class="card-content">
 				<a href="{% url 'restaurant_detail' r.id %}">
 					<h4 style="color: rgb(255, 255, 255)"><i>{{ r.name }}</i> </h4>
 					<button
-					style="margin-top: 10px; background: linear-gradient(#0d050e, #8d2d56); height: 35px; width: 70px;border: 2px solid white;color: white;text-shadow: .5px -.5px gray;padding: 2px"><a
-						href="{% url 'restaurant_detail' r.id %}" style="color: white">Detail</a></button>
+						style="margin-top: 10px; background: linear-gradient(#0d050e, #8d2d56); height: 35px; width: 70px;border: 2px solid white;color: white;text-shadow: .5px -.5px gray;padding: 2px"><a
+							href="{% url 'restaurant_detail' r.id %}" style="color: white">Detail</a></button>
 					<button
 						style="background: linear-gradient(#0d050e, #8d2d56); height: 35px; width: 70px;border: 2px solid white;color: white;text-shadow: .5px -.5px gray;padding: 2px"><a
 							href="{% url 'restaurant_update' r.id %}" style="color: white">Edit</a></button>
@@ -37,7 +46,7 @@
 				</a>
 			</div>
 		</div>
-	</div>
+	</div> -->
 	{% empty %}
 	<h1>No Restaurants yet!!</h1>
 	{% endfor %}
