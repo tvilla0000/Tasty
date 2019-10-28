@@ -41,23 +41,24 @@
 </div>
 {% endif %}
 
-<div class="res-list">
+<div class="res-detail">
 	<div>
 		<img class="card-img res-img" src="{{restaurant.restaurant_photo}}">
 	</div>
-
-	<p>
-		<span>Address</span> <span>{{restaurant.address}}</span>
-	</p>
-	<p>
-		<span>Phone</span> <span>{{restaurant.phone}}</span>
-	</p>
-	<p>{{restaurant.description}}</p>
-
-	<div>
-		<iframe frameborder="0" src="{{map}}q={{restaurant.address}}" allowfullscreen>
-		</iframe>
+	<div class="res-info">
+		<p>
+			<span>Address</span> <span>{{restaurant.address}}</span>
+		</p>
+		<p>
+			<span>Phone</span> <span>{{restaurant.phone}}</span>
+		</p>
+		<p><span>Description</span> {{restaurant.description}}</p>
 	</div>
+</div>
+
+<div class="res-list">
+	<iframe frameborder="0" src="{{map}}q={{restaurant.address}}" allowfullscreen>
+	</iframe>
 </div>
 
 <div class="res-list">

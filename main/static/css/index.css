@@ -22,15 +22,22 @@ body {
 
 .res-list {
     text-align: center;
+    margin: 1rem;
 }
 
 .res {
     display: inline-block;
 }
+.res-detail {
+    display: flex;
+    justify-content: space-around;
+    margin: 2rem;
+}
 
 .res-img {
     max-width: 20rem;
 }
+
 
 .login {
     text-align: center;
