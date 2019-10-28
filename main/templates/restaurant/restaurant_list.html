@@ -4,19 +4,19 @@
 
 <div class="res-list">
 	<h1>Restaurants</h1>
-		{% for r in restaurants %}
-		<div class="card res" style="width: 21rem; margin: 1rem;">
-			<iframe class="card-img-top" frameborder="0" src="{{map}}q={{r.address}}" allowfullscreen></iframe>
-			<div class="card-body">
-				<h5 class="card-title">{{ r.name }}</h5>
-				<p class="card-text">{{ r.phone }}</p>
-				<p class="card-text">{{ r.address }}</p>
-				<a href="{% url 'restaurant_detail' r.id %}" class="btn btn-primary">Detail</a>
-			</div>
+	{% for r in restaurants %}
+	<div class="card res" style="width: 21rem; margin: 1rem;">
+		<iframe class="card-img-top" frameborder="0" src="{{map}}q={{r.address}}" allowfullscreen></iframe>
+		<div class="card-body">
+			<h5 class="card-title">{{ r.name }}</h5>
+			<p class="card-text">{{ r.phone }}</p>
+			<p class="card-text">{{ r.address }}</p>
+			<a href="{% url 'restaurant_detail' r.id %}" class="btn btn-primary">Detail</a>
 		</div>
-		{% empty %}
-		<p>No Restaurant Yet!</p>
-		{% endfor %}
+	</div>
+	{% empty %}
+	<p>No Restaurant Yet!</p>
+	{% endfor %}
 </div>
 
 {% endblock %}

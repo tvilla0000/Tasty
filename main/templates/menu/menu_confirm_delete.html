@@ -4,9 +4,7 @@
 <div class="login">
 
 	<h1>Delete Menu</h1>
-
 	<h4>Are you sure you want to delete {{ object.name }}?</h4>
-
 	<form action="" method="POST" class="container">
 		{% csrf_token %}
 		<button type="submit" class="btn btn-danger">Delete</button>
