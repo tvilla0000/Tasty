@@ -1,6 +1,10 @@
 {% extends 'main/base.html' %}
 
 {% block content %}
+
+<div class="login">
+
+
 <h1>Delete Restaurant</h1>
 
 <h4>Are you sure you want to delete <span class="teal-text">{{ object.name }}</span>?</h4>
@@ -10,4 +14,7 @@
 	<button type="submit" class="btn btn-danger">Delete</button>
 	<a href="{% url 'profile' restaurant.user.id %}" class="btn btn-secondary">Cancel</a>
 </form>
+
+</div>
+
 {% endblock %}

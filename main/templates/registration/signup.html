@@ -1,36 +1,32 @@
 {% extends 'main/base.html' %}
 {% block content %}
 
-{% if error_message %}
-<p class="red-text">
-    {{ error_message }}
-</p>
-{% endif %}
+<div>
+    {% if error_message %}
+    <p class="red-text">
+        {{ error_message }}
+    </p>
+    {% endif %}
 
-<!-- <form method="post" action="{% url 'signup' %}" class="container">
-    {% csrf_token %}
-    {{ form.as_p }} -->
-<!-- first name: <input type="text" name="first_name">
-last name: <input type="text" name="last_name">
-email: <input type="email" name="email">
-<input type="submit" class="btn" value="signup"> -->
-<!-- </form> -->
+    <form method="post" action="{% url 'signup' %}" class="container">
+        {% csrf_token %}
+        <table>
+            {{ form.as_table }}
+        </table>
+        <div class="form-group">
+            <label for="inputFirstNmae">First Name</label>
+            <input type="text" class="form-control" id="inputFirstNmae" placeholder="First Name" name="first_name">
+        </div>
+        <div class="form-group">
+            <label for="inputLastName">Last Name</label>
+            <input type="text" class="form-control" id="inputLastName" placeholder="Last Name" name="last_name">
+        </div>
+        <div class="form-group">
+            <label for="inputEmail">Email</label>
+            <input type="email" class="form-control" id="inputEmail" placeholder="Email" name="email">
+        </div>
+        <button type="submit" class="btn btn-primary">Sign in</button>
+    </form>
 
-<form method="post" action="{% url 'signup' %}" class="container">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <div class="form-group">
-        <label for="inputFirstNmae">First Name</label>
-        <input type="text" class="form-control" id="inputFirstNmae" placeholder="First Name" name="first_name">
-    </div>
-    <div class="form-group">
-        <label for="inputLastName">Last Name</label>
-        <input type="text" class="form-control" id="inputLastName" placeholder="Last Name" name="last_name">
-    </div>
-    <div class="form-group">
-        <label for="inputEmail">Email</label>
-        <input type="email" class="form-control" id="inputEmail" placeholder="Email" name="email">
-    </div>
-    <button type="submit" class="btn btn-primary">Sign in</button>
-</form>
+</div>
 {% endblock %}

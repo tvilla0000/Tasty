@@ -1,15 +1,22 @@
 {% extends 'main/base.html' %}
 {% load static %}
 {% block content %}
+
+
 {% if object %}
 <h1>Edit <span>{{object.name}}</span></h1>
 {% else %}
 <h1>Add Restaurant</h1>
 {% endif %}
 
-<form action="" method="post" class="contianer">
-	{% csrf_token %}
-	{{ form.as_p }}
-	<button type="submit" class="btn btn-primary">Submit</button>
-</form>
+<div class="res-form">
+	<form action="" method="post" class="contianer">
+		{% csrf_token %}
+		<table>
+			{{ form.as_table }}
+		</table>
+		<button type="submit" class="btn btn-primary">Submit</button>
+	</form>
+</div>
+
 {% endblock %}

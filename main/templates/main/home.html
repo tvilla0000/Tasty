@@ -3,54 +3,19 @@
 
 {% block content %}
 
-<!-- <script defer src="{% static 'js/main.js' %}"></script> -->
-<!-- 
-<h1>Welcome to <i>Tasty 🔥</i></h1><br>
-<div>
-	<nav>
-		<div class="nav-wrapper" style="background-color: rgb(180, 42, 72);">
-			<form method="get" action="{% url 'search' %}" id="search-form">
-				{% csrf_token %}
-				<div class="input-field">
-					<input type="search" id="search" name="content" placeholder="Search by restaurant name..."
-						style="background-color: rgb(3, 3, 3);border:2px solid white;border-radius: 5px;" required>
-					<label class="label-icon" for="search"><i class="material-icons">🔍</i></label>
-					<i class="material-icons">close</i>
-				</div>
-			</form>
-		</div>
-	</nav>
-</div><br> -->
-<!-- <div class="carousel carousel-slider" style="height: 75vh;border: 4px solid #8d2d53">
-	<a class="carousel-item" href="#one!" style="visibility: visible;"><img class="carousel-img"
-			src="https://www.yelpreservations.com/wp-content/uploads/2017/04/Screenshot-2017-04-03-15.44.55-1024x664.png"
-			style="height: 75vh"></a>
-	<a class="carousel-item" href="#two!" style="visibility: visible;"><img class="carousel-img"
-			src="https://cdn-ep19.pressidium.com/wp-content/uploads/2019/04/burger-photography-tips-styling.jpg"
-			style="height: 75vh"></a>
-	<a class="carousel-item" href="#three!"><img class="carousel-img"
-			src="http://www.paoloformica.com/wp-content/uploads/2016/05/img-20160516-wa0020.jpg"
-			style="height: 75vh"></a>
-	<a class="carousel-item" href="#four!"><img class="carousel-img"
-			src="http://21rort23bf272tyb7t3lndnq.wpengine.netdna-cdn.com/wp-content/uploads/2016/06/Pan-with-slice-out-of-it-for-website.jpg"
-			style="height: 75vh"></a>
-	<a class="carousel-item" href="#five!"><img class="carousel-img"
-			src="https://live.staticflickr.com/4710/25390728907_d2dc21f9e3_b.jpg" style="height: 75vh"></a>
-	<a class="carousel-item" href="#five!"><img class="carousel-img"
-			src="http://yesofcorsa.com/wp-content/uploads/2018/05/Tres-Leches-Photo.jpg" style="height: 75vh"></a>
-</div> -->
-
-
-<div id="carouselExampleInterval" class="carousel slide" data-ride="carousel">
+<div id="carouselExampleInterval" class="carousel slide home" data-ride="carousel">
 	<div class="carousel-inner">
 		<div class="carousel-item active" data-interval="1000">
-			<img src="https://www.yelpreservations.com/wp-content/uploads/2017/04/Screenshot-2017-04-03-15.44.55-1024x664.png" class="d-block w-100" alt="...">
+			<img src="https://www.yelpreservations.com/wp-content/uploads/2017/04/Screenshot-2017-04-03-15.44.55-1024x664.png"
+				class="d-block w-100" alt="...">
 		</div>
 		<div class="carousel-item" data-interval="1000">
-			<img src="https://cdn-ep19.pressidium.com/wp-content/uploads/2019/04/burger-photography-tips-styling.jpg" class="d-block w-100" alt="...">
+			<img src="https://cdn-ep19.pressidium.com/wp-content/uploads/2019/04/burger-photography-tips-styling.jpg"
+				class="d-block w-100" alt="...">
 		</div>
 		<div class="carousel-item">
-			<img src="http://www.paoloformica.com/wp-content/uploads/2016/05/img-20160516-wa0020.jpg" class="d-block w-100" alt="...">
+			<img src="http://www.paoloformica.com/wp-content/uploads/2016/05/img-20160516-wa0020.jpg"
+				class="d-block w-100" alt="...">
 		</div>
 	</div>
 	<a class="carousel-control-prev" href="#carouselExampleInterval" role="button" data-slide="prev">

@@ -7,10 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Tasty</title>
-    <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.js"></script> -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -22,64 +18,19 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-    <!-- <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"> -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
 </head>
-
-<!-- <body style="background-color: rgba(0, 0, 0, 0.897)"> -->
 
 <body class="container">
     <header>
-        <!-- <nav>
-            <div class="nav-wrapper">
-                <a href="{% url 'home' %}" class="brand-logo" id="brand-logo"><i
-                        style="color: white;text-shadow: 2.5px -1.5px gray;float: right;font-size: 40px">Tasty🔥</i>&nbsp;&nbsp;</a>
-                <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-                <ul class="right hide-on-med-and-down">
-
-                    <li><a href="{% url 'restaurant_list' %}">Restaurants</a></li>
-                    {% if user.is_authenticated %}
-                    <li><a href="{% url 'profile' user.id %}">{{user.username}}</a></li>
-                    <li><a href="{% url 'logout' %}">Log Out</a></li>
-                    {% else %}
-                    <li><a href="{% url 'signup' %}">Sign Up</a></li>
-                    <li><a href="{% url 'login' %}">Log In</a></li>
-                    {% endif %}
-
-
-                </ul>
-            </div>
-        </nav>
-
-        <ul class="sidenav" id="mobile-demo">
-            <li><a href="{% url 'restaurant_list' %}">Restaurant List</a></li>
-            {% if user.is_authenticated %}
-            <li><a href="{% url 'profile' user.id %}">Profile</a></li>
-            <li><a href="{% url 'logout' %}">Log Out</a></li>
-            {% else %}
-            <li><a href="{% url 'signup' %}">Sign Up</a></li>
-            <li><a href="{% url 'login' %}">Log In</a></li>
-            {% endif %}
-        </ul> -->
-
-
-        <!-- <script>
-        $(document).ready(function () {
-            $('.sidenav').sidenav();
-        });
-    </script> -->
-
-
-
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
                 aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <a class="navbar-brand" href="{% url 'home' %}">Tasty</a>
-
             <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'restaurant_list' %}">Restaurants</a>
                     </li>
@@ -98,41 +49,20 @@
                         <a class="nav-link" href="{% url 'login' %}">Log In</a>
                     </li>
                     {% endif %}
-                    <!-- <li><a href="">Restaurants</a></li> -->
-                    <!-- {% if user.is_authenticated %} -->
-                    <!-- <li><a href=""></a></li> -->
-                    <!-- <li><a href="">Log Out</a></li> -->
-                    <!-- {% else %} -->
-                    <!-- <li><a href="">Sign Up</a></li> -->
-                    <!-- <li><a href="{% url 'login' %}">Log In</a></li> -->
-                    <!-- {% endif %} -->
                 </ul>
-                <!-- <form class="form-inline my-2 my-lg-0"> -->
-                    <form method="get" action="{% url 'search' %}" id="search-form" class="form-inline my-2 my-lg-0">
-                            {% csrf_token %}
-
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search by restaurant info" aria-label="Search" name="content" required>
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                    </form>
-
-                    <!-- <form method="get" action="{% url 'search' %}" id="search-form"> -->
-                            <!-- {% csrf_token %} -->
-                            <!-- <div class="input-field"> -->
-                                <!-- <input type="search" id="search" name="content" placeholder="Search by restaurant name..."
-                                    style="background-color: rgb(3, 3, 3);border:2px solid white;border-radius: 5px;" required>
-                                <label class="label-icon" for="search"><i class="material-icons">🔍</i></label>
-                                <i class="material-icons">close</i> -->
-                            <!-- </div> -->
-                        <!-- </form> -->
+                <form method="get" action="{% url 'search' %}" id="search-form" class="form-inline my-2 my-lg-0">
+                    {% csrf_token %}
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search by restaurant info"
+                        aria-label="Search" name="content" required>
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
             </div>
         </nav>
-
     </header>
-    <!-- <main> -->
+    <main>
         {% block content %}
         {% endblock %}
-    <!-- </main> -->
-
+    </main>
 </body>
 
 </html>
