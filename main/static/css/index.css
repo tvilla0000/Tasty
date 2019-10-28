@@ -25,7 +25,8 @@ body {
     margin: 1rem;
 }
 
-.res {
+.res,
+.food {
     display: inline-block;
 }
 .res-detail {
@@ -42,4 +43,16 @@ body {
 .login {
     text-align: center;
     margin-top: 5rem;
+}
+
+.menu-header {
+    margin: 2rem 0;
+}
+
+.category-list {
+    margin-bottom: 2rem;
+}
+
+.food-list {
+    margin-bottom: 5rem;
 }
