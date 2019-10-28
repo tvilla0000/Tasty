@@ -22,12 +22,12 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <!-- <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"> -->
 </head>
 
 <!-- <body style="background-color: rgba(0, 0, 0, 0.897)"> -->
 
-<body>
+<body class="container">
     <header>
         <!-- <nav>
             <div class="nav-wrapper">
@@ -128,7 +128,7 @@
         </nav>
 
     </header>
-    <main class="container">
+    <main>
         {% block content %}
         {% endblock %}
     </main>
