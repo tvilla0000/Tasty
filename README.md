@@ -10,15 +10,15 @@ ___
 ​
 ##### Home Page
 ​
-(https://i.imgur.com/QAE7ger.png)
+![home page](https://i.imgur.com/QAE7ger.png)
 ​
 ##### Restaurant List
 ​
-(https://i.imgur.com/GicnRZg.png)
+![restaurant list](https://i.imgur.com/GicnRZg.png)
 ​
 ##### Menu Detail
 ​
-(https://i.imgur.com/q3CnpYn.png)
+![menu detail](https://i.imgur.com/q3CnpYn.png)
 ​
 ---
 ​
