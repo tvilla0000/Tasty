@@ -7,7 +7,7 @@
 <ul class="nav nav-pills menu-header">
 	{% for menu in menus %}
 	<li class="nav-item">
-		<a class="nav-link active" href="{% url 'menu_detail' menu.id %}">{{ menu.name }}</a>
+		<a class="nav-link active mr-3" href="{% url 'menu_detail' menu.id %}">{{ menu.name }}</a>
 	</li>
 	{% endfor %}
 </ul>
