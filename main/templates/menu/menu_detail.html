@@ -24,6 +24,7 @@
 			<div class="category-list">
 				<a class="nav-link btn-outline-primary btn-lg" id="v-pills-home-tab" href="#{{category.name}}"
 					aria-controls="v-pills-home" aria-selected="true">{{category.name}}</a>
+				{% if request.user == restaurant.user %}
 				<a href="#" data-toggle="modal" data-target="#category{{category.id}}" class="btn btn-outline-secondary"
 					role="button" aria-pressed="true">setting</a>
 				<div class="modal fade" id="category{{category.id}}" tabindex="-1" role="dialog"
@@ -50,6 +51,7 @@
 						</div>
 					</div>
 				</div>
+				{% endif %}
 			</div>
 			{% endfor %}
 		</div>
