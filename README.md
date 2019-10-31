@@ -10,15 +10,15 @@ ___
 ​
 ##### Home Page
 ​
-![Home Page](https://i.imgur.com/uWiSupf.png)
+(https://i.imgur.com/QAE7ger.png)
 ​
-##### Restaurant Form
+##### Restaurant List
 ​
-![Form to Add Restaurant](https://i.imgur.com/VtGyLa3.png)
+(https://i.imgur.com/GicnRZg.png)
 ​
-##### Food Form
+##### Menu Detail
 ​
-![Food Page with Edit & Delete](https://i.imgur.com/3pp6l4x.png)
+(https://i.imgur.com/q3CnpYn.png)
 ​
 ---
 ​
@@ -65,17 +65,13 @@ TASTY IS A FULL STACK DJANGO APP THAT:
 ---
 ​
 ### LINKS:
-​
 ##### [PITCH DECK](https://create.piktochart.com/output/40798764-tasty)
-​
-##### [TRELLO BOARD](https://trello.com/b/PjRlStrU/project3)
 ​
 ##### [DEPLOYED APP ON HEROKU](http://menunav.herokuapp.com/)
 ​
 ---
 ​
 ### FUTURE ENHANCEMENTS:
-​
 1. CSS REFINEMENT
 2. CONTACT PAGE
 3. ENHANCE SEARCH NAVIGATION
