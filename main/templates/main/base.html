@@ -21,7 +21,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
 </head>
 
-<body class="container">
+<body>
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
@@ -59,7 +59,7 @@
             </div>
         </nav>
     </header>
-    <main>
+    <main class="container">
         {% block content %}
         {% endblock %}
     </main>
