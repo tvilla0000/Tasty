@@ -9,18 +9,15 @@ With Tasty, we bring the flavors to you!
 ---
 
 ### SCREENSHOTS:
-
 ##### Home Page
+![home page](https://i.imgur.com/QAE7ger.png)
 
-![Home Page](https://i.imgur.com/uWiSupf.png)
+##### Restaurant List
+![restaurant list](https://i.imgur.com/GicnRZg.png
+https://i.imgur.com/GicnRZg.png)
 
-##### Restaurant Form
-
-![Form to Add Restaurant](https://i.imgur.com/VtGyLa3.png)
-
-##### Food Form
-
-## ![Food Page with Edit & Delete](https://i.imgur.com/3pp6l4x.png)
+##### Menu Detail
+![menu detail](https://i.imgur.com/q3CnpYn.png)
 
 ### TEAM:
 
