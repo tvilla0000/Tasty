@@ -1,26 +1,19 @@
-{% extends 'main/base.html' %}
-
-{% block content %}
-{% if object %}
+{% extends 'main/base.html' %} {% block content %} {% if object %}
 <h1>Edit <span class="teal-text">{{object.name}}</span></h1>
 {% else %}
 <h1>Add Category</h1>
 {% endif %}
 
 <form action="" method="post" class="container">
-<<<<<<< HEAD
-	{% csrf_token %}
-	<table>
-		{{ form.as_table }}
-	</table>
-	<input type="submit" value="Submit!" class="btn btn-primary">
-=======
-{% csrf_token %}
-<table>
-  {{ form.as_table }}
-</table>
-<input type="submit" value="Submit" style="background: linear-gradient(#0d050e, #8d2d56);border: 2px solid white;padding: 5px;">
->>>>>>> af6f912ce69f046c9449ee3f794a169fc9fe1ada
+  {% csrf_token %}
+  <table>
+    {{ form.as_table }}
+  </table>
+  <input
+    type="submit"
+    value="Submit"
+    style="background: linear-gradient(#0d050e, #8d2d56);border: 2px solid white;padding: 5px;"
+  />
 </form>
 
 {% endblock %}
