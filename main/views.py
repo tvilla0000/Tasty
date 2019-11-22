@@ -6,12 +6,15 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import LoginView
+from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from .models import Restaurant, Menu, Category, Food
 from .forms import RestaurantForm
 import uuid
 import boto3
 import os
+
+SECRET_KEY='AIzaSyA5PFcm4YZ1KnBSQDyq-Eon2znBNuul95Q&'
 
 def home(request):
     return render(
@@ -28,7 +31,9 @@ class Profile(LoginRequiredMixin, DetailView):
         user = User.objects.get(pk=self.kwargs['pk'])
         context = super().get_context_data(**kwargs)
         restaurants = user.restaurant_set.all().order_by('-date')
+        MAP_BASE_URL='https://www.google.com/maps/embed/v1/place?key='+SECRET_KEY     
         context['restaurants'] = restaurants
+        context['map'] = MAP_BASE_URL
         return context
 
 class MyLoginView(LoginView):
@@ -63,6 +68,8 @@ class RestaurantList(ListView):
         context = super().get_context_data(**kwargs)
         restaurants = Restaurant.objects.all().order_by('-date')
         context['restaurants'] = restaurants
+        MAP_BASE_URL='https://www.google.com/maps/embed/v1/place?key='+SECRET_KEY     
+        context['map'] = MAP_BASE_URL
         return context
     
 class RestaurantDetail(DetailView):
@@ -74,8 +81,7 @@ class RestaurantDetail(DetailView):
         context = super().get_context_data(**kwargs)
         restaurant = Restaurant.objects.get(pk=self.kwargs['pk']) 
         menus = restaurant.menu_set.all().order_by('-date')  
-        API_KEY = os.environ['SECRET_KEY']
-        MAP_BASE_URL='https://www.google.com/maps/embed/v1/place?key='+API_KEY 
+        MAP_BASE_URL='https://www.google.com/maps/embed/v1/place?key='+SECRET_KEY 
         context['map'] = MAP_BASE_URL
         context['menus'] = menus
         return context
@@ -142,7 +148,6 @@ class MenuDetail(DetailView):
         context['menus'] = menus
         return context
 
-
 class MenuUpdate(LoginRequiredMixin, UpdateView):
     model = Menu
     context_object_name = 'menu'
@@ -153,7 +158,6 @@ class MenuUpdate(LoginRequiredMixin, UpdateView):
         menu = Menu.objects.get(pk=self.kwargs['pk'])
         restaurant = menu.restaurant
         return reverse('restaurant_detail', kwargs={'pk': restaurant.id})
-
 
 class MenuDelete(LoginRequiredMixin, DeleteView):
     model = Menu
@@ -250,6 +254,25 @@ class FoodDelete(LoginRequiredMixin, DeleteView):
         context['menu'] = menu
         return context
     
+@login_required
+def add_restaurant_photo(request, restaurant_id):
+    photo_file = request.FILES.get('photo-file', None)
+    restaurant = Restaurant.objects.get(id=restaurant_id)    
+    if photo_file:
+        s3 = boto3.client('s3')
+        key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+        try:
+            BUCKET = os.environ['BUCKET']
+            S3_BASE_URL = os.environ['S3_BASE_URL']
+            s3.upload_fileobj(photo_file, BUCKET, key)
+            url = f"{S3_BASE_URL}{BUCKET}/{key}"
+            restaurant.restaurant_photo = url
+            restaurant.save()
+        except:
+            return
+    return redirect(restaurant)
+
+@login_required
 def add_menu_photo(request, menu_id, restaurant_id):
     photo_file = request.FILES.get('photo-file', None)
     menu = Menu.objects.get(id=menu_id)    
@@ -258,8 +281,8 @@ def add_menu_photo(request, menu_id, restaurant_id):
         s3 = boto3.client('s3')
         key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
         try:
-            BUCKET = os.environ['BUCKET'] 
-            S3_BASE_URL = os.environ['S3_BASE_URL']       
+            BUCKET = os.environ['BUCKET']
+            S3_BASE_URL = os.environ['S3_BASE_URL']
             s3.upload_fileobj(photo_file, BUCKET, key)
             url = f"{S3_BASE_URL}{BUCKET}/{key}"
             menu.menu_photo = url
@@ -268,16 +291,17 @@ def add_menu_photo(request, menu_id, restaurant_id):
             print('An error')
     return redirect(restaurant)
 
+@login_required
 def add_food_photo(request,food_id, menu_id):
     photo_file = request.FILES.get('photo-file', None)
     food = Food.objects.get(id=food_id)
-    menu = Menu.objects.get(id=menu_id)    
+    menu = Menu.objects.get(id=menu_id)
     if photo_file:
         s3 = boto3.client('s3')
         key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
         try:
-            BUCKET = os.environ['BUCKET']    
-            S3_BASE_URL = os.environ['S3_BASE_URL']  
+            BUCKET = os.environ['BUCKET']
+            S3_BASE_URL = os.environ['S3_BASE_URL']
             s3.upload_fileobj(photo_file, BUCKET, key)
             url = f"{S3_BASE_URL}{BUCKET}/{key}"
             food.food_photo = url
@@ -286,6 +310,7 @@ def add_food_photo(request,food_id, menu_id):
             print('An error')
     return redirect(menu)
 
+@login_required
 def delete_menu_photo(request, menu_id, restaurant_id):
     menu = Menu.objects.get(id=menu_id)
     restaurant = Restaurant.objects.get(id=restaurant_id)
@@ -293,6 +318,7 @@ def delete_menu_photo(request, menu_id, restaurant_id):
     menu.save()
     return redirect(restaurant)
 
+@login_required
 def delete_food_photo(request, food_id, menu_id):
     menu = Menu.objects.get(id=menu_id)
     food = Food.objects.get(id=food_id)
@@ -306,5 +332,14 @@ def search(request):
     if not content:
         error_msg = 'Please type in search content'
         return render(request, 'main/home.html', {'error_msg': error_msg})
-    restaurants = Restaurant.objects.filter(name__icontains=content)
-    return render(request, 'restaurant/restaurant_list.html', {'error_msg': error_msg,'restaurants': restaurants})
+    result_name = list(Restaurant.objects.filter(name__icontains=content))
+    result_address = list(Restaurant.objects.filter(address__icontains=content))
+    result_phone = list(Restaurant.objects.filter(phone__icontains=content))
+    result_description = list(Restaurant.objects.filter(description__icontains=content))
+    result_zipcode = list(Restaurant.objects.filter(zipcode__icontains=content))
+    result = result_name + result_address + result_phone + result_description + result_zipcode
+    restaurants = set(result)
+    MAP_BASE_URL='https://www.google.com/maps/embed/v1/place?key='+SECRET_KEY     
+    restaurant_map = MAP_BASE_URL
+    
+    return render(request, 'restaurant/restaurant_list.html', {'error_msg': error_msg, 'restaurants': restaurants, 'map': restaurant_map})
