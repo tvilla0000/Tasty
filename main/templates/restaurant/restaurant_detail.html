@@ -2,37 +2,23 @@
 {% load static %}
 {% block content %}
 
-<h5>{{restaurant.name}}</h5>
-{% if request.user == restaurant.user %}
-<a href="{% url 'restaurant_update' restaurant.id %}" class="btn btn-outline-info" role="button"
-	aria-pressed="true">Edit</a>
-<a href="{% url 'menu_create' restaurant.id %}" class="btn btn-outline-primary" role="button" aria-pressed="true">Add
-	Menu</a>
-<!-- Button trigger modal -->
-<a href="#" data-toggle="modal" data-target="#restaurant{{restaurant.name}}{{restaurant.id}}"
-	class="btn btn-outline-primary" role="button" aria-pressed="true">Add Photo</a>
-<!-- Modal -->
-<div class="modal fade" id="restaurant{{restaurant.name}}{{restaurant.id}}" tabindex="-1" role="dialog"
-	aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalCenterTitle">Image Upload</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<form action="{% url 'add_restaurant_photo' restaurant.id %}" enctype="multipart/form-data"
-					method="POST">
-					{% csrf_token %}
-					<div class="form-group">
-						<label for="exampleFormControlFile1">Choose Image</label>
-						<input type="file" class="form-control-file" id="exampleFormControlFile1" name="photo-file">
-					</div>
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					<button type="submit" class="btn btn-primary">Upload</button>
-				</form>
+<h1 style="color: #d53c3c;text-shadow:2.5px -1.5px black;text-align: center">{{restaurant.name}}</h1>
+<!-- Modal Trigger -->
+<!-- Modal Structure -->
+<div id="modal{{restaurant.id}}" class="modal">
+  <div class="modal-content">
+    
+    
+    <form action="{% url 'add_restaurant_photo' restaurant.id %}" enctype="multipart/form-data" method="POST"
+    class="card-content" style="padding:24px 0">
+    {% csrf_token %}
+    <br><input type="file" name="photo-file"
+    style="background: linear-gradient(#0d050e, #8d2d56);color: white">
+    <br><br>
+    <input type="submit" class="btn" value="Upload Photo"
+    style="background: linear-gradient(#0d050e, #8d2d56);border: 2px solid white;">
+  </form>
+</div>
 
 			</div>
 		</div>
@@ -40,20 +26,102 @@
 </div>
 {% endif %}
 
-<div class="res-detail">
-	<div>
-		<img class="card-img res-img" src="{{restaurant.restaurant_photo}}">
-	</div>
-	<div class="res-info">
-		<p>
-			<span>Address</span> <span>{{restaurant.address}}</span>
-		</p>
-		<p>
-			<span>Phone</span> <span>{{restaurant.phone}}</span>
-		</p>
-		<p><span>Description</span> {{restaurant.description}}</p>
-	</div>
+<div class="card" id="detail-card">
+  <div class="card-content" id="detail-card-content">
+  <br>
+  <div id="content">
+    <img class="food-img" id="detail-img" src="{{restaurant.restaurant_photo}}"><br>
+    <div id="details">
+          <p id="p-title-name"> {{ restaurant.name }}</p><hr>
+          <p class="p-details">{{restaurant.address}}</p><br>
+          <p class="p-details">{{restaurant.phone}}</p><br>
+    </div>
+  </div>
+<div>
+        
+        <div id="content2">
+          <div>
+            <iframe id="map" frameborder="0" style="border:3px solid gray"
+            src="{{map}}q={{restaurant.address}}" allowfullscreen>
+          </iframe><br><br>
+          </div>
+
+        <div style="display: flex; align-items:center">
+          <p id="p-details-desc">{{restaurant.description}}</p>
+        </div>
+      </div>
+  </div>
+  
+  <div id="detail-btns">
+  {% if request.user == restaurant.user %}
+  <button style="height: 36px;"><a href="{% url 'restaurant_update' restaurant.id %}">Edit</a></button>
+  <button data-target="modal{{restaurant.id}}" class="btn modal-trigger" id="restaurant-photo-btn">Add Photo</button>
+  {% endif %}
+  </div>
+
 </div>
+</div>
+
+<br>
+<hr>
+
+<div class="card-content" style="text-align: center">
+  <span class="card-title" style="display: inline-block; color: white">
+    <h1 style="color: #d53c3c;text-shadow:2.5px -1.5px black">Menus</h1>
+  </span><br>
+  {% if request.user == restaurant.user %}
+  <button
+    style="margin: 0px 10px;background: linear-gradient(#0d050e, #8d2d56); height: 35px; width: 170px;border: 2px solid gray;color: white;text-shadow: .5px -.5px gray;padding: 10px"><a
+      href="{% url 'menu_create' restaurant.id %}" style="color: WHITE">Add A Menu</a></button>
+  {% endif %}
+</div><br>
+
+{% for menu in menus %}
+<a href="{% url 'menu_detail' menu.id %}">
+  <div class="card" id="menu-card">
+    <div class="card-content" id="menu-card-content">
+      <img class="food-img" id="menu-img  " src="{{menu.menu_photo}}"><br>
+      <span class="dropdown" style="display: inline-block">
+        <h2 style="color: white">{{ menu.name }}</h2>
+      </span><br>
+      {% if request.user == restaurant.user %}
+      <button
+        style="background: linear-gradient(#0d050e, #8d2d56); height: 35px; width: 170px;border: 2px solid white;color: white;text-shadow: .5px -.5px gray;padding: 10px"><a
+          href="{% url 'menu_update' menu.id %}" style="color: white">Edit Menu</a></button><br><br>
+      <button
+        style="background: linear-gradient(#0d050e, #8d2d56); height: 35px; width: 170px;border: 2px solid white;color: white;text-shadow: .5px -.5px black; padding: 10px"><a
+          href="{% url 'menu_delete' menu.id %}" style="color: white">Delete Menu</a></button><br><br>
+      <button
+        style="background: linear-gradient(#0d050e, #8d2d56); height: 35px; width: 170px;border: 2px solid white;color: white;text-shadow: .5px -.5px black;padding: 10px"><a
+          href="{% url 'delete_menu_photo' menu.id restaurant.id %}" style="color: white">Delete picture</a></button><br><br>
+      <!-- Modal Trigger -->
+      <button data-target="modal{{menu.id}}" class="btn modal-trigger" style="border: 2px solid white;">Add Photo </button>
+      <!-- Modal Structure -->
+      <div id="modal{{menu.id}}" class="modal">
+        <div class="modal-content">
+          
+            <form action="{% url 'add_menu_photo' menu.id restaurant.id %}" enctype="multipart/form-data" method="POST"
+              class="card-content" style="padding:24px 0">
+              {% csrf_token %}
+              <br><input type="file" name="photo-file" style="background: linear-gradient(#0d050e, #8d2d56);color: white">
+              <br><br>
+              <input type="submit" class="btn" value="Upload Photo"
+                style="background: linear-gradient(#0d050e, #8d2d56);border: 2px solid white;">
+            </form>
+            <div class="modal-footer">
+              <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
+            </div>
+        </div>
+
+      </div>
+      {% endif %}
+
+
+    </div>
+  </div>
+</a>
+{% endfor %}
+
 
 <div class="res-list">
 	<iframe frameborder="0" src="{{map}}q={{restaurant.address}}" allowfullscreen>
