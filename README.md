@@ -13,8 +13,7 @@ With Tasty, we bring the flavors to you!
 ![home page](https://i.imgur.com/QAE7ger.png)
 
 ##### Restaurant List
-![restaurant list](https://i.imgur.com/GicnRZg.png
-https://i.imgur.com/GicnRZg.png)
+![restaurant list](https://i.imgur.com/GicnRZg.png)
 
 ##### Menu Detail
 ![menu detail](https://i.imgur.com/q3CnpYn.png)
