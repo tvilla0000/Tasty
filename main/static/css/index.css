@@ -1,0 +1,74 @@
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+html {
+    box-sizing: border-box;
+    font-size: 92.5%; 
+    /* 10px/16px = 62.5% -> 1rem = 10px */
+}
+
+body {
+    font-weight: 300;
+}
+
+.home {
+    height: 100vh;
+}
+
+.res-list {
+    text-align: center;
+    margin: 1rem;
+}
+
+.res,
+.food {
+    display: inline-block;
+}
+.res-detail {
+    display: flex;
+    justify-content: space-around;
+    margin: 2rem;
+}
+@media only screen and (max-width: 768px) {
+    .res-detail {
+        flex-direction: column;
+        align-items: center;
+    }       
+}
+
+.res-img {
+    max-width: 20rem;
+    max-height: 20rem;
+}
+
+.signup {
+    padding: 2rem 15rem;
+}
+
+@media only screen and (max-width: 992px) {
+    .signup {
+        padding: 1.5rem 3rem;
+    }       
+}
+
+.login {
+    text-align: center;
+    margin-top: 5rem;
+}
+
+.menu-header {
+    margin: 2rem 0;
+}
+
+.category-list {
+    margin-bottom: 2rem;
+}
+
+.food-list {
+    margin-bottom: 5rem;
+}

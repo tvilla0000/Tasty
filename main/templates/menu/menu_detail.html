@@ -4,95 +4,118 @@
 
 {% block content %}
 
-<div>
-  we also have these menus available:
-  {% for menu in menus %}
-    <a href="{% url 'menu_detail' menu.id %}">{{ menu.name }}</a>|
-  {% endfor %}
+<ul class="nav nav-pills menu-header">
+	{% for menu in menus %}
+	<li class="nav-item">
+		<a class="nav-link active mr-3" href="{% url 'menu_detail' menu.id %}">{{ menu.name }}</a>
+	</li>
+	{% endfor %}
+</ul>
+
+<div class="row">
+	<div class="col-2">
+		<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+			{% if request.user == restaurant.user %}
+			<a href="{% url 'category_create' menu.id %}" class="btn btn-outline-primary category-list" role="button"
+				aria-pressed="true">Add
+				Category</a>
+			{% endif %}
+			{% for category in menu.category_set.all %}
+			<div class="category-list">
+				<a class="nav-link btn-outline-primary btn-lg" id="v-pills-home-tab" href="#{{category.name}}"
+					aria-controls="v-pills-home" aria-selected="true">{{category.name}}</a>
+				{% if request.user == restaurant.user %}
+				<a href="#" data-toggle="modal" data-target="#category{{category.id}}" class="btn btn-outline-secondary"
+					role="button" aria-pressed="true">setting</a>
+				<div class="modal fade" id="category{{category.id}}" tabindex="-1" role="dialog"
+					aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalCenterTitle">{{category.name}}</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<a href="{% url 'category_update' category.id menu.id %}" class="btn btn-info btn-lg"
+									role="button" aria-pressed="true">Edit Category</a>
+								<a href="{% url 'category_delete' category.id menu.id %}" class="btn btn-danger btn-lg"
+									role="button" aria-pressed="true">Delete Category</a>
+								<a href="{% url 'food_create' category.id menu.id %}" class="btn btn-primary btn-lg"
+									role="button" aria-pressed="true">Add Food</a>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				{% endif %}
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+
+	<div class="col-10">
+		{% for category in menu.category_set.all %}
+		<div class="food-list">
+			<h2 id="{{category.name}}">{{ category.name }}</h2>
+			{% for food in category.food_set.all %}
+			<div class="card food" style="width: 18rem; margin: 1rem;">
+				<img src="{{food.food_photo}}" class="card-img-top" style="max-height: 13rem;">
+				<div class="card-body">
+					<h5 class="card-title">{{food.name}}</h5>
+					<p class="card-text">{{food.description}}</p>
+				</div>
+				<ul class="list-group list-group-flush">
+					<li class="list-group-item">$ {{food.price}}</li>
+				</ul>
+				{% if request.user == restaurant.user %}
+				<div class="card-body">
+					<a href="{% url 'food_update' food.id menu.id %}" class="card-link">Edit</a>
+					<a href="{% url 'food_delete' food.id menu.id %}" class="card-link">Delete</a>
+					<a href="#" data-toggle="modal" data-target="#food{{category.name}}{{food.id}}" class="card-link"
+						role="button" aria-pressed="true">Add Photo</a>
+					<!-- Modal -->
+					<div class="modal fade" id="food{{category.name}}{{food.id}}" tabindex="-1" role="dialog"
+						aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+						<div class="modal-dialog modal-dialog-centered" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalCenterTitle">Image Upload</h5>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									<form action="{% url 'add_food_photo' food.id menu.id %}"
+										enctype="multipart/form-data" method="POST">
+										{% csrf_token %}
+										<div class="form-group">
+											<label for="exampleFormControlFile1">Choose Image</label>
+											<input type="file" class="form-control-file" id="exampleFormControlFile1"
+												name="photo-file">
+										</div>
+										<button type="button" class="btn btn-secondary"
+											data-dismiss="modal">Close</button>
+										<button type="submit" class="btn btn-primary">Upload</button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				{% endif %}
+			</div>
+			{% empty %}
+			{% if request.user == restaurant.user %}
+			<a href="{% url 'food_create' category.id menu.id %}" class="btn btn-outline-info" tabindex="-1"
+				role="button" aria-disabled="true">Add Food</a>
+			{% endif %}
+			{% endfor %}
+		</div>
+		{% endfor %}
+	</div>
 </div>
-
-<h1>{{ menu.name }}</h1>  
-
-
-{% if request.user == restaurant.user %}
-<h5><a href=" {% url 'category_create' menu.id %}">Add Category</a></h5>
-{% endif %}
-
-{% for category in menu.category_set.all %}
-  
-      <div class="card">
-        <div class="card-content" style="background: linear-gradient(#8d2d56, #0d050e)">
-          <span class="card-title" style="display: inline-block" ><h3>{{ category.name }}</h3></span><br>
-          {% if request.user == restaurant.user %}
-          <button style="background: linear-gradient(#0d050e, #8d2d56);border: 2px solid white;"><a href="{% url 'category_update' category.id menu.id %}" style="color: white">Edit Category</a></button>
-          <button style="background: linear-gradient(#0d050e, #8d2d56);border: 2px solid white;"><a href="{% url 'category_delete' category.id menu.id %}" style="color: white">Delete Category</a></button>
-          <button style="background: linear-gradient(#0d050e, #8d2d56);border: 2px solid white;"><a href="{% url 'food_create' category.id menu.id %}" style="color: white">Add Food</a></button>
-          {% endif %}
-
-{% for food in category.food_set.all %}
-<div class="card" style="border: 4px solid gray;width: 757px">
-    <div class="card-content" style="background: linear-gradient(#8d2d56, #0d050e);text-align: center;width: 750px;">
-          <!-- <img src="{{food.food_photo}}" style="border: 4px solid gray;border-radius:5px;"><br>
-              <span class="card-title" style="display: inline-block"><h3> {{ food.name }}</h3></span>
-              <span class="card-title" style="float: right; margin: -240px 0 0 0"><h3>${{ food.price }}</h3></span><br>
-              <span class="card-title" style="display: inline-block"><h3> {{ food.description }}</h3></span><br> -->
-              {% if request.user == restaurant.user %}
-              <button style="background: linear-gradient(#0d050e, #8d2d56);border: 2px solid white;"><a href="{% url 'food_update' food.id menu.id %}" style="color: white">Edit Food</a></button>              
-              <button style="background: linear-gradient(#0d050e, #8d2d56);border: 2px solid white;"><a href="{% url 'food_delete' food.id menu.id %}" style="color: white">Delete Food</a></button><br><br>
-              <div> 
-                <div class="row">
-                    <div class="row">
-                        <div class="col s12 m6">
-                          <div class="card" style="border: 3px solid gray;width:350px;">
-                            <div class="card-image">
-                              <img src="{{food.food_photo}}" style="width: 344px;">
-                              <div class="card-title" style="color: black;width:100%;background-color:rgba(8, 8, 8, 0.555);color:white;text-align: left;margin:0 -10px 0 0">{{ food.name }}</div>
-                              
-                            </div>
-                            <div class="card-content" style="background: linear-gradient(#0d050e, #8d2d58)">
-                              <p style="color: white;text-align: left">{{ food.description }}</p>
-                              <span><p style="text-align: right;margin:-20px 0 0 0">${{food.price}}</p></span>
-                            </div>
-                          </div>    
-
-                          <!-- Modal Trigger -->
-      <button data-target="modal{{food.id}}" class="btn modal-trigger">Modal</button>
-      <!-- Modal Structure -->
-      <div id="modal{{food.id}}" class="modal">
-        <div class="modal-content">
-          <h4>Modal Header</h4>
-          <h4>{{food.di}}</h4>
-            <form action="{% url 'add_food_photo' food.id menu.id %}" enctype="multipart/form-data" method="POST"  style="padding:24px 0">
-              {% csrf_token %}
-              <br><input type="file" name="photo-file" style="background: linear-gradient(#0d050e, #8d2d56);color: white">
-              <br><br>
-              <input type="submit" class="btn" value="Upload Photo" style="background: linear-gradient(#0d050e, #8d2d56);border: 2px solid white;">
-            </form>
-        </div>
-
-        <div class="modal-footer">
-          <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
-        </div>
-      </div>
-                          <br>
-                        </div>
-                      </div>
-                    </div>
-              {% endif %}
-              </div>
-            </div>
-                        
-
-                
-
-
-{% endfor %}
-
-{% endfor %}
-
-<script>
-    $(document).ready(function () {
-      $('.modal').modal();
-    });
-  </script>
 {% endblock %}

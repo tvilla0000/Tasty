@@ -1,119 +1,116 @@
 {% extends 'main/base.html' %}
+{% load static %}
 {% block content %}
 
-<h1 style="color:white;text-shadow:2.5px -1.5px gray">Restaurant Detail</h1>
+<h5>{{restaurant.name}}</h5>
+{% if request.user == restaurant.user %}
+<a href="{% url 'restaurant_update' restaurant.id %}" class="btn btn-outline-info" role="button"
+	aria-pressed="true">Edit</a>
+<a href="{% url 'menu_create' restaurant.id %}" class="btn btn-outline-primary" role="button" aria-pressed="true">Add
+	Menu</a>
+<!-- Button trigger modal -->
+<a href="#" data-toggle="modal" data-target="#restaurant{{restaurant.name}}{{restaurant.id}}"
+	class="btn btn-outline-primary" role="button" aria-pressed="true">Add Photo</a>
+<!-- Modal -->
+<div class="modal fade" id="restaurant{{restaurant.name}}{{restaurant.id}}" tabindex="-1" role="dialog"
+	aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalCenterTitle">Image Upload</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<form action="{% url 'add_restaurant_photo' restaurant.id %}" enctype="multipart/form-data"
+					method="POST">
+					{% csrf_token %}
+					<div class="form-group">
+						<label for="exampleFormControlFile1">Choose Image</label>
+						<input type="file" class="form-control-file" id="exampleFormControlFile1" name="photo-file">
+					</div>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary">Upload</button>
+				</form>
 
-<div class="card">
-  <div class="card-content"
-    style="background:linear-gradient(#8d2d56, #0d050e);color:white; border: 4px solid gray;border-radius: 2px;">
-    <label
-      style="font-size: 25px; color:white;text-shadow:1.5px -.5px black; padding: 5px;border: 3px solid gray;background-color: black;border-radius: 5px;"><i>Name:</i></label><br><br><br><span
-      class="card-title" style="font-size: 50px"> {{ restaurant.name }}</span><br>
-    <hr><br>
-    <label
-      style="font-size: 25px; color:white;text-shadow:1.5px -.5px black; padding: 5px;border: 3px solid gray;background-color: black;border-radius: 5px;"><i>Address:</i></label><br><br><br><span
-      class="card-title" style="font-size: 50px">{{ restaurant.address }}</span><br>
-    <hr><br>
-    <label
-      style="font-size: 25px; color:white;text-shadow:1.5px -.5px black; padding: 5px;border: 3px solid gray;background-color: black;border-radius: 5px;"><i>Contact
-        Info</i></label><br><br><br><span class="card-title" style="font-size: 50px"> {{ restaurant.phone }}</span><br>
-    <hr><br>
-    <label
-      style="font-size: 25px; color:white;text-shadow:1.5px -.5px black; padding: 5px;border: 3px solid gray;background-color: black;border-radius: 5px;"><i>Description:</i></label><br><br><br><span
-      class="card-title" style="font-size: 35px">
-      <p>{{ restaurant.description }}</p>
-    </span><br>
-    <hr><br>
-    <label
-      style="font-size: 25px; color:white;text-shadow:1.5px -.5px black; padding: 5px;border: 3px solid gray;background-color: black;border-radius: 5px;"><i>Zipcode:</i></label><br><br><br><span
-      class="card-title" style="font-size: 50px"> {{ restaurant.zipcode }}</span><br>
-    <hr><br>
-    <label
-      style="font-size: 25px; color:white;text-shadow:1.5px -.5px black; padding: 5px;border: 3px solid gray;background-color: black;border-radius: 5px;"><i>Owner:</i></label><br><br><br><span
-      class="card-title" style="font-size: 50px"> @{{ restaurant.user.username }}</span><br>
-    <hr><br>
-    <div>
-      <!-- google map -->
-      <iframe width="300" height="225" frameborder="0" style="border:3px solid gray"
-        src="{{map}}q={{restaurant.address}}" allowfullscreen>
-      </iframe>
-    </div>
-    {% if request.user == restaurant.user %}
-    <button
-      style="background: linear-gradient(#0d050e, #8d2d56); height: 35px; width: 170px;border: 2px solid white;color: white;text-shadow: .5px -.5px gray;padding: 2px"><a
-        href="{% url 'restaurant_update' restaurant.id %}" style="font-size: 20px;color:white;">Edit</a></button>
-    {% endif %}
-  </div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endif %}
+
+<div class="res-detail">
+	<div>
+		<img class="card-img res-img" src="{{restaurant.restaurant_photo}}">
+	</div>
+	<div class="res-info">
+		<p>
+			<span>Address</span> <span>{{restaurant.address}}</span>
+		</p>
+		<p>
+			<span>Phone</span> <span>{{restaurant.phone}}</span>
+		</p>
+		<p><span>Description</span> {{restaurant.description}}</p>
+	</div>
 </div>
 
-<br>
-<hr>
+<div class="res-list">
+	<iframe frameborder="0" src="{{map}}q={{restaurant.address}}" allowfullscreen>
+	</iframe>
+</div>
 
-<div class="card-content">
-  <span class="card-title" style="display: inline-block; color: white">
-    <h1>Menus</h1>
-  </span><br>
-  {% if request.user == restaurant.user %}
-  <button
-    style="margin: 0px 10px;background: linear-gradient(#0d050e, #8d2d56); height: 35px; width: 170px;border: 2px solid gray;color: white;text-shadow: .5px -.5px gray;padding: 10px"><a
-      href="{% url 'menu_create' restaurant.id %}" style="color: WHITE">Add A Menu</a></button>
-  {% endif %}
-</div><br>
+<div class="res-list">
+	{% for menu in menus %}
+	<div class="card res" style="width: 18rem; margin: 1rem;">
+		<img src="{{menu.menu_photo}}" class="card-img-top" style="max-height: 13rem;">
+		<div class="card-body">
+			<h5 class="card-title">{{ menu.name }}</h5>
+			<p>
+				<a href="{% url 'menu_detail' menu.id %}" class="btn btn-primary">Detail</a>
+			</p>
+			{% if request.user == restaurant.user %}
+			<p>
+				<a href="{% url 'menu_update' menu.id %}" class="btn btn-outline-info">Edit</a>
+				<a href="{% url 'menu_delete' menu.id %}" class="btn btn-outline-danger">Delete</a>
+			</p>
+			<p>
+				<!-- Button trigger modal -->
+				<a href="#" class="btn btn-outline-primary" data-toggle="modal"
+					data-target="#menu{{menu.name}}{{menu.id}}">Add Photo</a>
+				<a href="{% url 'delete_menu_photo' menu.id restaurant.id %}" class="btn btn-outline-danger">Delete
+					Photo</a>
+			</p>
+			<!-- Modal -->
+			<div class="modal fade" id="menu{{menu.name}}{{menu.id}}" tabindex="-1" role="dialog"
+				aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalCenterTitle">Menu Image Upload</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<form action="{% url 'add_menu_photo' menu.id restaurant.id %}"
+								enctype="multipart/form-data" method="POST" class="card-content">
+								{% csrf_token %}
+								<div class="form-group">
+									<label for="menuImage">Choose Image</label>
+									<input type="file" class="form-control-file" id="menuImage" name="photo-file">
+								</div>
+								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+								<button type="submit" class="btn btn-primary">Upload</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+	{% endfor %}
+</div>
 
-{% for menu in menus %}
-<a href="{% url 'menu_detail' menu.id %}">
-  <div class="card" style="border: 4px solid gray">
-    <div class="card-content" style="background: linear-gradient(#8d2d56, #0d050e)">
-      <img style="height: 350px;width: 350px;border: 4px solid gray;border-radius: 5px;" src="{{menu.menu_photo}}"><br>
-      <span class="dropdown" style="display: inline-block">
-        <h2 style="color: white">{{ menu.name }}</h2>
-      </span><br>
-      {% if request.user == restaurant.user %}
-      <button
-        style="background: linear-gradient(#0d050e, #8d2d56); height: 35px; width: 170px;border: 2px solid white;color: white;text-shadow: .5px -.5px gray;padding: 10px"><a
-          href="{% url 'menu_update' menu.id %}" style="color: white">Edit Menu</a></button>
-      <button
-        style="background: linear-gradient(#0d050e, #8d2d56); height: 35px; width: 170px;border: 2px solid white;color: white;text-shadow: .5px -.5px black; padding: 10px"><a
-          href="{% url 'menu_delete' menu.id %}" style="color: white">Delete Menu</a></button>
-      <button
-        style="background: linear-gradient(#0d050e, #8d2d56); height: 35px; width: 170px;border: 2px solid white;color: white;text-shadow: .5px -.5px black;padding: 10px"><a
-          href="{% url 'delete_menu_photo' menu.id restaurant.id %}" style="color: white">Delete picture</a></button>
-      <!-- Modal Trigger -->
-      <button data-target="modal{{menu.id}}" class="btn modal-trigger">Modal</button>
-      <!-- Modal Structure -->
-      <div id="modal{{menu.id}}" class="modal">
-        <div class="modal-content">
-          <h4>Modal Header</h4>
-          <h4>{{menu.di}}</h4>
-            <form action="{% url 'add_menu_photo' menu.id restaurant.id %}" enctype="multipart/form-data" method="POST"
-              class="card-content" style="padding:24px 0">
-              {% csrf_token %}
-              <br><input type="file" name="photo-file"
-                style="background: linear-gradient(#0d050e, #8d2d56);color: white">
-              <br><br>
-              <input type="submit" class="btn" value="Upload Photo"
-                style="background: linear-gradient(#0d050e, #8d2d56);border: 2px solid white;">
-            </form>
-        </div>
-
-        <div class="modal-footer">
-          <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
-        </div>
-      </div>
-      {% endif %}
-
-
-    </div>
-  </div>
-</a>
-{% endfor %}
-
-
-
-
-<script>
-  $(document).ready(function () {
-    $('.modal').modal();
-  });
-</script>
 {% endblock %}
