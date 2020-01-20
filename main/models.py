@@ -4,10 +4,10 @@ from django.contrib.auth.models import User
 
 class Restaurant(models.Model):
     name = models.CharField(max_length=200, blank=False)
-    address = models.TextField(blank=False)
-    phone = models.TextField(blank=False)
+    address = models.CharField(max_length=100, blank=False)
+    phone = models.CharField(max_length=100, blank=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    description = models.TextField(max_length=500, blank=True, default='')
+    description = models.TextField(max_length=300, blank=True, default='')
     zipcode = models.IntegerField(blank=False)
     date = models.DateTimeField(auto_now_add=True)
     restaurant_photo = models.CharField(max_length=300, default='https://s3-us-west-1.amazonaws.com/fishcollector/e5abd9.jpg')

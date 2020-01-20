@@ -14,33 +14,24 @@
   >
 </div>
 
-<!-- user restaurants list -->
-<div class="row">
+<div class="res-list">
   {% for r in restaurants %}
-
-  <div class="col s6">
-    <div
-      class="card"
-      style="background: linear-gradient(#8d2d56, #0d050e);border:3px solid gray;border-radius: 5px;height: 30vh"
-    >
-      <div class="card-content">
-        <a href="{% url 'restaurant_detail' r.id %}">
-          <h4 style="color: rgb(255, 255, 255)" id="profile-restaurant-title">
-            <i>{{ r.name }}</i>
-          </h4>
-          <button class="profile-btn">
-            <a href="{% url 'restaurant_update' r.id %}" style="color: white"
-              >Edit</a
-            >
-          </button>
-          <button class="profile-btn">
-            <a href="{% url 'restaurant_delete' r.id %}" style="color: white"
-              >Delete</a
-            >
-          </button>
-          <br />
-        </a>
-      </div>
+  <div class="card res" style="width: 18rem; margin: 1rem;">
+    <iframe
+      class="card-img-top"
+      frameborder="0"
+      src="{{map}}q={{r.address}}"
+      allowfullscreen
+    ></iframe>
+    <div class="card-body">
+      <h5 class="card-title">{{ r.name }}</h5>
+      <a href="{% url 'restaurant_detail' r.id %}" class="btn btn-primary"
+        >Detail</a
+      >
+      <a href="{% url 'restaurant_update' r.id %}" class="btn btn-info">Edit</a>
+      <a href="{% url 'restaurant_delete' r.id %}" class="btn btn-danger"
+        >Delete</a
+      >
     </div>
   </div>
   {% empty %}
